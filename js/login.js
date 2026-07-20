@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const be_a_worker = document.querySelector("#be_a_worker");
     const be_a_customer = document.querySelector("#be_a_customer");
     const SliderElement = document.querySelector("#login_image");
-    const driverLoginContainer = document.querySelector("#driverLogin");
+    const workerSignupContainer = document.querySelector("#workerLogin");
     const customeLoginContainer = document.querySelector("#customeLogin");
     const customerLoginBtn = document.querySelector("#customerLoginBtn");
     const customerNextBtn = document.querySelector("#customerNextBtn");
@@ -50,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
         SliderElement.classList.remove("move_left")
         SliderElement.classList.add("move_right")
         customeLoginContainer.classList.add("hidden")
-        driverLoginContainer.classList.remove("hidden")
+        workerSignupContainer.classList.remove("hidden")
         current = -1;
         last = 0;
         makeVisible(current)
@@ -60,6 +60,6 @@ window.addEventListener("DOMContentLoaded", () => {
         SliderElement.classList.remove("move_left")
         SliderElement.classList.add("move_right")
         customeLoginContainer.classList.remove("hidden")
-        driverLoginContainer.classList.add("hidden")
+        workerSignupContainer.classList.add("hidden")
     });
 });

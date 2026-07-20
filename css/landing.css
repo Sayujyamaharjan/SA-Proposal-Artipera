@@ -174,6 +174,9 @@ h1{
   height: 850px;
   padding: 100px 130px 100px 130px;
 }
+.hiw_head{
+  padding: 0px 20px;
+}
 .hiw_head_txt{
   font-size: 48px;
   font-weight: 600;
@@ -187,7 +190,7 @@ h1{
 .hiw_two{
   display: flex;
   gap: 40px;
-  padding: 24px 0px;
+  padding: 24px 20px;
 }
 .hiw_left_top{
   display: flex;
@@ -318,7 +321,7 @@ h1{
   font-size: 13px;
 }
 .ver{
-  height: 900px;
+  height: 1000px;
   padding: 100px 130px 100px 130px;
   background-color: #f9f9f9;
 }
@@ -347,12 +350,11 @@ margin-top: 50px;
 display: flex;
 flex-wrap: wrap;
 gap: 20px;
-
+padding: 20px;
 }
 .ver_container_box{
-  width: 600px;
+  width: 580px;
   height: 260px;
-  padding: 20px;
   border: 1px solid #e0e0e0;
   border-radius: 25px;
   padding: 40px;
@@ -415,23 +417,31 @@ gap: 8px;
   border-radius: 50%;
 }
 .abt_container{
-  height: 600px;
+  height: 480px;
   padding: 100px 130px 100px 130px;
   background-color:  #f2f6f8;
 }
+.abt_texts{
+  padding: 0px 20px ;
+}
 .abt_top{
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   color: #888888;
+  letter-spacing: 0.2px;
 }
 .abt_heading{
-  font-size: 48px;
-  font-weight: 600;
+  font-size: 58px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1.08;
 }
 .abt_desc{
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
-  color: #313036;
+  color: #888888;
+  padding: 20px;
+  line-height: 1.75;
 }
 .contact{
   height: 300px;
