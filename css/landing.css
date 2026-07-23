@@ -417,12 +417,20 @@ gap: 8px;
   border-radius: 50%;
 }
 .abt_container{
-  height: 480px;
+  height: 700px;
   padding: 100px 130px 100px 130px;
   background-color:  #f2f6f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .abt_texts{
   padding: 0px 20px ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .abt_top{
   font-size: 14px;
@@ -435,13 +443,27 @@ gap: 8px;
   font-weight: 700;
   letter-spacing: -2px;
   line-height: 1.08;
+  text-align: center;
 }
 .abt_desc{
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 400;
   color: #888888;
   padding: 20px;
   line-height: 1.75;
+}
+.abt_stats{
+  display: flex;
+  padding: 30px;
+  margin-top: 20px;
+  width: 100%;
+  height: 130px;
+  background-color: #0f165a22;
+  border-radius: 20px;
+}
+.abt_stats_contents{
+  border-right: 1px solid black;
+  width: 38%;
 }
 .contact{
   height: 300px;
