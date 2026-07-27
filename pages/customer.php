@@ -1,5 +1,5 @@
 <?php
-include '../components/navbar.php';
+include '../components/customerNavbar.php';
 
 $name = "Sayujya Maharjan";
 $job = "Electrician";
@@ -89,13 +89,13 @@ $users = [
                 <img src="../assets/svg/heart red.svg" alt="" class="stats_logo">
                 <p class="stats_number">02</p>
                 <p class="stats_text">Saved Workers</p>
-                <a href="saved.php" class="stats_status">View all</a>
+                <a href="customerSaved.php" class="stats_status">View all</a>
             </div>
         </div>
         <div class=" right_recomended">
             <div class="recomended_head">
                 <p class="right_heading">Recommended Workers</p>
-                <a href="search.php" class="right_btn">View all</a>
+                <a href="customerSearch.php" class="right_btn">View all</a>
             </div>
             <div class="recomended_workers">
                 <?php
@@ -141,7 +141,7 @@ $users = [
             <div class=" right_container_upcomming">
                 <div class="recomended_head">
                     <p class="right_heading">Upcoming Bookings</p>
-                    <a href="search.php" class="right_btn">View all</a>
+                    <a href="customerBooking.php" class="right_btn">View all</a>
                 </div>
                 <div class="right_contents_detail">
                     <div>
@@ -172,7 +172,7 @@ $users = [
             <div class=" right_container_upcomming" style="width: 100%;">
                 <div class="recomended_head">
                     <p class="right_heading">Saved Workers</p>
-                    <a href="search.php" class="right_btn">View all</a>
+                    <a href="customerSearch.php" class="right_btn">View all</a>
                 </div>
                 <div class="right_contents_detail">
                     <div>

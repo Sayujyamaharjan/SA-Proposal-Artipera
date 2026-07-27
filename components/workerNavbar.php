@@ -29,19 +29,19 @@ function Navbar($active, $name, $role)
             <div class="main_contents">
                 <div class="main_tab <?php echo $active === 'dashboard' ? 'activeNav' : '' ?>">
                     <img src="../assets/svg/home.svg" alt="" class="tab_img">
-                    <a href="customer.php" class="tab_text">Home</a>
+                    <a href="worker.php" class="tab_text">Home</a>
                 </div>
                 <div class="main_tab <?php echo $active === 'search' ? 'activeNav' : '' ?>">
                     <img src="../assets/svg/search.svg" alt="" class="tab_img">
-                    <a href="search.php" class="tab_text">Search</a>
+                    <a href="customerSearch.php" class="tab_text">Search</a>
                 </div>
                 <div class="main_tab <?php echo $active === 'bookings' ? 'activeNav' : '' ?>">
                     <img src="../assets/svg/calendar-week.svg" alt="" class="tab_img">
-                    <a href="bookings.php" class="tab_text">My Bookings</a>
+                    <a href="workerBooking.php" class="tab_text">My Bookings</a>
                 </div>
                 <div class="main_tab <?php echo $active === 'saved' ? 'activeNav' : '' ?>">
                     <img src="../assets/svg/heart.svg" alt="" class="tab_img">
-                    <a href="saved.php" class="tab_text">Saved Workers</a>
+                    <a href="customerSaved.php" class="tab_text">Saved Workers</a>
                 </div>
             </div>
         </div>

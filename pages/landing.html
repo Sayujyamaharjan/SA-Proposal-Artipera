@@ -22,8 +22,8 @@
             <a href="">Contact</a>
         </div>
         <div class="nav_right">
-            <a href="login.html" class="btn_login">Log in</a>
-            <a href="choose.html" class="btn_create">Create account →</a>
+            <a href="login.php" class="btn_login">Log in</a>
+            <a href="login.php" class="btn_create">Create account →</a>
         </div>
     </nav>
     <div id="home"></div><br>
@@ -293,7 +293,7 @@
             </div>
         </div>
     </div>
-    <div class="abt_container">
+    <div class="abt_container" id="about">
         <div class="abt_texts">
             <p class="abt_top">Our Mission</p>
             <h3 class="abt_heading">Connecting people with <br>Trusted workers</h3>
@@ -308,12 +308,21 @@
             Together, we are building a more organized and trustworthy service ecosystem for Nepal.
         </div>
         <div class="abt_stats">
-            <div class="abt_stats_contents">asdfdas</div>
-            <div class="abt_stats_contents">asfsa</div>
-            <div class="abt_stats_contents">asdef</div>
+            <div class="abt_stats_contents">
+                <p class="stats_number">100%</p>
+                <p class="stats_text">Verified identities</p>
+            </div>
+            <div class="abt_stats_contents">
+                <p class="stats_number">0</p>
+                <p class="stats_text">Anonymous profile</p>
+            </div>
+            <div class="abt_stats_contents" style="border-right:none ;">
+                <p class="stats_number">24h</p>
+                <p class="stats_text">Review time</p>
+            </div>
         </div>
     </div>
-    <div class="contact">
+    <div class="contact" id="contact">
         <div class="contact_grid">
             <div class="contact_left">
                 <div class="contact_logo">
@@ -327,19 +336,18 @@
             <div class="contact_right">
                 <div class="contact_right_container">
                     <p class="contact_right_head">For Customer</p>
-                    <a href="" class="contact_link">How it works</a>
-                    <a href="" class="contact_link">Become a Customer</a>
+                    <a href="#howitworks" class="contact_link">How it works</a>
+                    <a href="../pages/login.php" class="contact_link">Become a Customer</a>
                 </div>
                 <div class="contact_right_container">
                     <p class="contact_right_head">For Worker</p>
-                    <a href="" class="contact_link">How it works</a>
-                    <a href="" class="contact_link">Become a Customer</a>
+                    <a href="#howitworks" class="contact_link">How it works</a>
+                    <a href="../pages/login.php" class="contact_link">Become a Customer</a>
                 </div>
                 <div class="contact_right_container">
                     <p class="contact_right_head">Company</p>
-                    <a href="" class="contact_link">About</a>
-                    <a href="" class="contact_link">Contact</a>
-                    <a href="" class="contact_link">About us</a>
+                    <a href="#contact" class="contact_link">Contact</a>
+                    <a href="#about" class="contact_link">About us</a>
                 </div>
 
             </div>

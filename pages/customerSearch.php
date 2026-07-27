@@ -1,0 +1,187 @@
+<?php include '../components/customerNavbar.php';
+$name = "Sayujya Maharjan";
+$users = [
+    [
+        'id' => 1,
+        'name' => 'John Smith',
+        'role' => 'admin',
+        'email' => 'john.admin@company.com'
+    ],
+    [
+        'id' => 2,
+        'name' => 'Sarah Johnson',
+        'role' => 'worker',
+        'job' => 'electrician',
+        'email' => 'sarah.electric@company.com',
+        'services' => ['wiring', 'solar installation', 'lighting', 'panel upgrade'],
+        'price' => 750,
+        'rating' => 4.5
+    ],
+    [
+        'id' => 3,
+        'name' => 'Michael Brown',
+        'role' => 'customer',
+        'email' => 'michael.brown@email.com',
+        'memberSince' => '2023'
+    ],
+    [
+        'id' => 4,
+        'name' => 'Emily Davis',
+        'role' => 'worker',
+        'job' => 'plumber',
+        'email' => 'emily.plumb@company.com',
+        'services' => ['pipe repair', 'drain cleaning', 'water heater', 'bathroom installation'],
+        'price' => 900,
+        'rating' => 4.8
+    ],
+    [
+        'id' => 5,
+        'name' => 'Robert Taylor',
+        'role' => 'worker',
+        'job' => 'carpenter',
+        'email' => 'robert.carp@company.com',
+        'services' => ['furniture making', 'cabinet installation', 'flooring', 'wood repair'],
+        'price' => 1000,
+        'rating' => 4.7
+    ],
+    [
+        'id' => 6,
+        'name' => 'Robert Taylor',
+        'role' => 'worker',
+        'job' => 'carpenter',
+        'email' => 'robert.carp@company.com',
+        'services' => ['furniture making', 'cabinet installation', 'flooring', 'wood repair'],
+        'price' => 1000,
+        'rating' => 4.7
+    ],
+    [
+        'id' => 7,
+        'name' => 'Robert Taylor',
+        'role' => 'worker',
+        'job' => 'carpenter',
+        'email' => 'robert.carp@company.com',
+        'services' => ['furniture making', 'cabinet installation', 'flooring', 'wood repair'],
+        'price' => 1000,
+        'rating' => 4.7
+    ],
+    [
+        'id' => 8,
+        'name' => 'Robert Taylor',
+        'role' => 'worker',
+        'job' => 'carpenter',
+        'email' => 'robert.carp@company.com',
+        'services' => ['furniture making', 'cabinet installation', 'flooring', 'wood repair'],
+        'price' => 1000,
+        'rating' => 4.7
+    ],
+    [
+        'id' => 9,
+        'name' => 'Robert Taylor',
+        'role' => 'worker',
+        'job' => 'carpenter',
+        'email' => 'robert.carp@company.com',
+        'services' => ['furniture making', 'cabinet installation', 'flooring', 'wood repair'],
+        'price' => 1000,
+        'rating' => 4.7
+    ]
+];
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/customer.css">
+</head>
+
+<body>
+    <?php Navbar("search", "sayujya", "customer") ?>
+    <div class="dashboard_right">
+        <p class="greetings">Browse Workers</p>
+        <div class="search_feature_container">
+            <div class="search_contents">
+                <p class="search_text">
+                    Search by Name
+                </p>
+                <input type="search" name="search" id="search" class="search_input input_text" placeholder="Search by name">
+            </div>
+            <div class="search_contents">
+                <p class="search_text">
+                    Skill Category
+                </p>
+                <select name="select" id="select" class="search_input input_text">
+                    <option value="" selected disabled class="category">Categories</option>
+                    <option value="Electrician">Electrician</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Carpenter">Carpenter</option>
+                    <option value="Painter">Painter</option>
+                    <option value="Mechanic">Mechanic</option>
+                </select>
+            </div>
+            <div class="search_contents">
+                <p class="search_text">Availability</p>
+                <select name="select" id="select" class="search_input input_text">
+                    <option value="" selected disabled>Availability</option>
+                    <option value="Available">Available</option>
+                    <option value="Any">Any</option>
+                </select>
+            </div>
+            <div class="search_contents">
+                <p class="search_text">Sort By</p>
+                <select name="select" id="select" class="search_input input_text">
+                    <option value="" selected disabled>Sort</option>
+                    <option value="Rating">Rating(High-Low)</option>
+                    <option value="Rating">Rating(Low-High)</option>
+                    <option value="Price">Price</option>
+                </select>
+            </div>
+            <div class="search_contents">
+                <button class="search_button"><img src="../assets/svg/search.svg" alt="" class="search_button_image"><span class="button_txt">Find</span></button>
+            </div>
+        </div>
+        <div class="search_workers">
+            <?php
+            foreach ($users as $user) {
+                if ($user['role'] == "worker") {
+            ?>
+                    <div class="workerin_customer">
+                        <div class="workerprof">
+                            <div class="worker_profile_logo"></div>
+                            <div class="worker_profile_text">
+                                <p class="worker_profile_name">
+                                    <?php echo $user['name'] ?>
+                                </p>
+                                <p class="job"><?php echo $user['job'] ?></p>
+                            </div>
+                        </div>
+                        <div class="worker_services">
+                            <?php
+                            foreach ($user["services"] as $service) {
+                            ?>
+                                <div class="service">
+                                    <?php echo $service ?>
+                                </div>
+                            <?php
+                            }
+                            $img = '<img src="../assets/logo/star.png" alt="" class="rate">';
+                            ?>
+                        </div>
+                        <br>
+                        <div class="hr_line_right"></div><br>
+                        <div class="booking_bottom">
+                            <span class="price">NPR <?php echo $user['price'] ?>/hr</span>
+                            <span class="rating"><?php echo $img, $user['rating'] ?></span>
+                        </div>
+                    </div>
+            <?php
+                }
+            }
+            ?>
+        </div>
+    </div>
+</body>
+
+</html>
