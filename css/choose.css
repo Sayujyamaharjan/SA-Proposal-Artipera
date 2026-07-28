@@ -1,16 +1,16 @@
- * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-body{
+body {
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   z-index: 3;
 }
-.container_box{
+.container_box {
   margin-top: 70px;
   width: 400px;
   height: 600px;
@@ -18,7 +18,7 @@ body{
   border: 1px solid #000c0c;
   background-color: white;
   border-radius: 25px;
-  }
+}
 .logo {
   display: flex;
   align-items: center;
@@ -45,26 +45,26 @@ body{
   letter-spacing: 0.5px;
   font-size: 15px;
 }
-.login_top{
+.login_top {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-.login_text{
-  margin: 25px 0px 0px 0px ;
+.login_text {
+  margin: 25px 0px 0px 0px;
   font-size: 34px;
 }
-.login_subtext{
+.login_subtext {
   padding: 10px;
   font-weight: 500;
   color: #888888;
 }
-.user_role{
+.user_role {
   height: 40px;
   width: 40px;
 }
-.worker_icon{
+.worker_icon {
   background-color: #000c0c;
   width: 40px;
   height: 40px;
@@ -72,7 +72,7 @@ body{
   align-items: center;
   justify-content: center;
 }
-.worker_role{
+.worker_role {
   z-index: 1;
   width: 40px;
   height: 40px;

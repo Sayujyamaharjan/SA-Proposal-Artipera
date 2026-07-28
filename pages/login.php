@@ -14,74 +14,77 @@
         <div class="image login_image" id="login_image">
             <img src="../assets/img/leftimg.png" alt="" class="">
         </div>
-        <div class="login_content" id="customeLogin">
-            <a href="landing.html" class="logo">
-                <div class="logo_icon">A</div>
-                <span class="logo_text">Artipera</span>
-            </a>
-            <div class="login_top">
-                <h1 class="login_text">Create your account</h1>
-                <p class="login_subtext">Sign in to continue</p>
-            </div>
-            <div class="login_email">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="example@gmail.com" required>
-            </div>
-            <div class="login_password">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="email" placeholder="••••••••" required>
-            </div>
-            <div class="forgot_link">
-                <a href="" class="forgot">Forgot pasword?</a>
-            </div>
-            <button class="login_button" id="customerLoginBtn">Log in</button>
-            <div class="login_bot">
-                <span class="login_bot_text">Don't have an account?</span>
+        <form method="POST">
+            <div class=" login_content" id="customeLogin">
+                <a href="landing.html" class="logo">
+                    <div class="logo_icon">A</div>
+                    <span class="logo_text">Artipera</span>
+                </a>
+                <div class="login_top">
+                    <h1 class="login_text">Create your account</h1>
+                    <p class="login_subtext">Sign in to continue</p>
+                </div>
+                <div class="login_email">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="example@gmail.com" required>
+                </div>
+                <div class="login_password">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="email" placeholder="••••••••" required>
+                </div>
+                <div class="forgot_link">
+                    <a href="" class="forgot">Forgot pasword?</a>
+                </div>
+                <button class="login_button" name="signin_btn_customer" id="customerLoginBtn">Log in</button>
+                <div class="login_bot">
+                    <span class="login_bot_text">Don't have an account?</span>
+                </div>
             </div>
 
-        </div>
-
+        </form>
         <!-- // ! WORKER SIGNUP -->
-        <div class="login_content hidden" id="workerLogin">
-            <div class="login_content_worker">
-                <div id="worker_login_part_1" class="">
-                    <a href="landing.html" class="logo">
-                        <div class="logo_icon">A</div>
-                        <span class="logo_text">Artipera</span>
-                    </a>
-                    <div class="login_top">
-                        <h1 class="login_text">Create your account</h1>
-                        <p class="login_subtext"></p>
+        <form action="">
+
+            <div class="login_content hidden" id="workerLogin">
+                <div class="login_content_worker">
+                    <div id="worker_login_part_1" class="">
+                        <a href="landing.html" class="logo">
+                            <div class="logo_icon">A</div>
+                            <span class="logo_text">Artipera</span>
+                        </a>
+                        <div class="login_top">
+                            <h1 class="login_text">Create your account</h1>
+                            <p class="login_subtext"></p>
+                        </div>
+                        <div class="login_email">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" placeholder="example@gmail.com" required>
+                        </div>
+                        <div class="login_password">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="email" placeholder="••••••••" required>
+                        </div>
                     </div>
-                    <div class="login_email">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" placeholder="example@gmail.com" required>
-                    </div>
-                    <div class="login_password">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="email" placeholder="••••••••" required>
+                    <!-- // ! WORKER SIGNUP PART 2 -->
+                    <div id="worker_login_part_2" class="hidden">
+                        <a href="landing.html" class="logo">
+                            <div class="logo_icon">A</div>
+                            <span class="logo_text">Artipera</span>
+                        </a>
+                        <div class="login_top">
+                            <h1 class="login_text">Welcome back</h1>
+                            <p class="login_subtext">Sign in to continue</p>
+                        </div>
+
+                        <div class="login_password">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="email" placeholder="••••••••" required>
+                        </div>
                     </div>
                 </div>
-
-                <!-- // ! WORKER SIGNUP PART 2 -->
-                <div id="worker_login_part_2" class="hidden">
-                    <a href="landing.html" class="logo">
-                        <div class="logo_icon">A</div>
-                        <span class="logo_text">Artipera</span>
-                    </a>
-                    <div class="login_top">
-                        <h1 class="login_text">Welcome back</h1>
-                        <p class="login_subtext">Sign in to continue</p>
-                    </div>
-
-                    <div class="login_password">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="email" placeholder="••••••••" required>
-                    </div>
-                </div>
+                <button class="login_button" id="customerNextBtn">Next</button>
             </div>
-            <button class="login_button" id="customerNextBtn">Next</button>
-        </div>
+        </form>
         <!--         //! LOGIN PAGE -->
         <div class="login_content">
             <a href="landing.html" class="logo">
