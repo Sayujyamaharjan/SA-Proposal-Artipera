@@ -90,3 +90,48 @@ input[type="submit"] {
   text-decoration: none;
   color: #7bae45;
 }
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 15px 0px 5px 0px;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background: #d9d9d9;
+}
+
+.divider span {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+.buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.sign {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+.sign {
+  width: 100%;
+}
+a {
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+.signcuss {
+  background-color: #f2f7ed;
+}
+.cusssign {
+  color: #a4e063;
+}
+.worksign {
+  color: black;
+}

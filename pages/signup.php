@@ -15,8 +15,8 @@
                 <img src="../assets/logo/logo1.png" alt="" class="logo_img">
             </a>
             <div class="texts">
-                <h2>Become a customer</h2>
-                <p>Create your account and hire trusted worker</p>
+                <h2>Welcome Back</h2>
+                <p>Login to your account to continue</p>
             </div>
             <div class="info_container">
                 <div class="input_boxes">

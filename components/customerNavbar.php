@@ -1,5 +1,5 @@
 <?php
-function Navbar($active, $name, $role)
+function Navbar($active)
 {
 ?>
     <style>
@@ -11,17 +11,16 @@ function Navbar($active, $name, $role)
     <div class="option_bar">
         <div class="web_logo">
             <a href="landing.html" class="logo">
-                <div class="logo_icon">A</div>
-                <span class="logo_text">Artipera</span>
+                <img src="../assets/logo/logo1.png" alt="" class="logo_img">
             </a>
         </div>
         <div class="customerprof">
             <div class="profile_logo"></div>
             <div class="profile_text">
                 <p class="profile_name">
-                    <?php echo $name ?>
+                    <?php echo $_SESSION['name'] ?>
                 </p>
-                <p class="role"><?php echo $role ?></p>
+                <p class="role"><?php echo $_SESSION['role'] ?></p>
             </div>
         </div>
         <div class="hr-line"></div>

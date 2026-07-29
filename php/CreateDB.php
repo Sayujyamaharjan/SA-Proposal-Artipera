@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 createDB();
 
 include 'connect.php';
@@ -9,10 +9,10 @@ if (!$conn) {
     TableUser($conn);
     createCategory($conn);
     createWorker($conn);
-    createUsers($conn);
+    // createUsers($conn);
     createBooking($conn);
     createReview($conn);
-    // }
+    createServices($conn);
 }
 function createDB()
 {
@@ -44,174 +44,10 @@ function TableUser($conn)
     }
 }
 
-// function createAdmin($conn)
-// {
-//     $users = [
-//         [
-//             'name' => 'Admin',
-//             'email' => 'admin@gmail.com',
-//             'password' => '@Admin123',
-//             'address' => 'Kathmandu',
-//             'role' => 'admin',
-//             'phone' => '9841286400',
-//             'profile_image' => 'assets/profiles/admin.png'
-//         ],
-//         [
-//             'name' => 'Sarah Johnson',
-//             'email' => 'sarah@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Kathmandu',
-//             'role' => 'worker',
-//             'phone' => '9800000001',
-//             'profile_image' => 'sarah.jpg'
-//         ],
-//         [
-//             'name' => 'Emily Davis',
-//             'email' => 'emily@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Lalitpur',
-//             'role' => 'worker',
-//             'phone' => '9800000002',
-//             'profile_image' => 'emily.jpg'
-//         ],
-//         [
-//             'name' => 'Robert Taylor',
-//             'email' => 'robert@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Bhaktapur',
-//             'role' => 'worker',
-//             'phone' => '9800000003',
-//             'profile_image' => 'robert.jpg'
-//         ],
-//         [
-//             'name' => 'James Wilson',
-//             'email' => 'james@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Kathmandu',
-//             'role' => 'worker',
-//             'phone' => '9800000004',
-//             'profile_image' => 'james.jpg'
-//         ],
-//         [
-//             'name' => 'Sophia Miller',
-//             'email' => 'sophia@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Pokhara',
-//             'role' => 'worker',
-//             'phone' => '9800000005',
-//             'profile_image' => 'sophia.jpg'
-//         ],
-//         [
-//             'name' => 'Michael Brown',
-//             'email' => 'michael@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Kathmandu',
-//             'role' => 'customer',
-//             'phone' => '9800000006',
-//             'profile_image' => 'michael.jpg'
-//         ],
-//         [
-//             'name' => 'Olivia Martin',
-//             'email' => 'olivia@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Lalitpur',
-//             'role' => 'customer',
-//             'phone' => '9800000007',
-//             'profile_image' => 'olivia.jpg'
-//         ],
-//         [
-//             'name' => 'William Moore',
-//             'email' => 'william@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Bhaktapur',
-//             'role' => 'customer',
-//             'phone' => '9800000008',
-//             'profile_image' => 'william.jpg'
-//         ],
-//         [
-//             'name' => 'Emma Clark',
-//             'email' => 'emma@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Pokhara',
-//             'role' => 'customer',
-//             'phone' => '9800000009',
-//             'profile_image' => 'emma.jpg'
-//         ],
-//         [
-//             'name' => 'David Anderson',
-//             'email' => 'david@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Kathmandu',
-//             'role' => 'worker',
-//             'phone' => '9800000011',
-//             'profile_image' => 'david.jpg'
-//         ],
-//         [
-//             'name' => 'Jessica White',
-//             'email' => 'jessica@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Lalitpur',
-//             'role' => 'worker',
-//             'phone' => '9800000012',
-//             'profile_image' => 'jessica.jpg'
-//         ],
-//         [
-//             'name' => 'Kevin Harris',
-//             'email' => 'kevin@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Bhaktapur',
-//             'role' => 'worker',
-//             'phone' => '9800000013',
-//             'profile_image' => 'kevin.jpg'
-//         ],
-//         [
-//             'name' => 'Linda Thompson',
-//             'email' => 'linda@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Pokhara',
-//             'role' => 'worker',
-//             'phone' => '9800000014',
-//             'profile_image' => 'linda.jpg'
-//         ],
-//         [
-//             'name' => 'Christopher Walker',
-//             'email' => 'chris@gmail.com',
-//             'password' => '123456',
-//             'address' => 'Chitwan',
-//             'role' => 'worker',
-//             'phone' => '9800000015',
-//             'profile_image' => 'chris.jpg'
-//         ]
-//     ];
-
-//     foreach ($users as $user) {
-
-//         $pwh = password_hash($user['password'], PASSWORD_DEFAULT);
-
-//         $sql = "INSERT IGNORE INTO users
-//         (name,email,password,address,role,phone,profile_image)
-//         VALUES
-//         (
-//             '{$user['name']}',
-//             '{$user['email']}',
-//             '$pwh',
-//             '{$user['address']}',
-//             '{$user['role']}',
-//             '{$user['phone']}',
-//             '{$user['profile_image']}'
-//         )";
-
-//         $res = mysqli_query($conn, $sql);
-
-//         if ($res) {
-//             echo "<br>{$user['name']} Created Successfully!";
-//         }
-//     }
-// }
 function createUsers($conn)
 {
     $users = [
-        // ADMIN
+
         [
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
@@ -222,7 +58,6 @@ function createUsers($conn)
             'profile_image' => 'assets/profiles/admin.png'
         ],
 
-        // CUSTOMERS
         [
             'name' => 'Michael Brown',
             'email' => 'michael@gmail.com',
@@ -242,7 +77,6 @@ function createUsers($conn)
             'profile_image' => 'olivia.jpg'
         ],
 
-        // WORKERS
         [
             'name' => 'Sarah Johnson',
             'email' => 'sarah@gmail.com',
@@ -440,7 +274,6 @@ function createUsers($conn)
         if (mysqli_query($conn, $sql)) {
             $user_id = mysqli_insert_id($conn);
 
-            // If worker, insert into worker table too
             if ($user['role'] == 'worker') {
                 $sql2 = "INSERT INTO worker
                         (
@@ -482,7 +315,7 @@ function createWorker($conn)
         user_id INT NOT NULL,
         bio VARCHAR(100) NOT NULL,
         year_of_experience INT NOT NULL,
-
+      
         id_front_photo VARCHAR(255) NOT NULL,
         id_back_photo VARCHAR(255) NOT NULL,
         id_status VARCHAR(255) DEFAULT 'pending', 
@@ -549,7 +382,9 @@ function createReview($conn)
             Rating INT NOT NULL,
             Comment VARCHAR(255) NOT NULL,
             Booking_id INT NOT NULL,
-            FOREIGN KEY (Booking_id) REFERENCES Booking(Booking_id)
+            Worker_id INT NOT NULL,
+            FOREIGN KEY (Booking_id) REFERENCES Booking(Booking_id),
+            FOREIGN KEY (Worker_id) REFERENCES worker(Worker_id)
     )";
 
     $res = mysqli_query($conn, $sql);
@@ -559,4 +394,88 @@ function createReview($conn)
     } else {
         echo "<br>Error: " . mysqli_error($conn);
     }
+}
+function createServices($conn)
+{
+    $sql = "CREATE TABLE if not exists worker_service (
+            service_id INT AUTO_INCREMENT PRIMARY KEY,
+            worker_id INT NOT NULL,
+            service_name VARCHAR(255) NOT NULL,
+            service_price INT NOT NULL,
+
+            FOREIGN KEY(worker_id) REFERENCES worker(worker_id)
+    )";
+
+    $services = [
+
+        [
+            'worker_id' => 1,
+            'services' => [
+                ['name' => 'House Wiring', 'price' => 5000],
+                ['name' => 'Switch Installation', 'price' => 800],
+                ['name' => 'Fan Installation', 'price' => 1200],
+                ['name' => 'Circuit Repair', 'price' => 2500]
+            ]
+        ],
+
+        [
+            'worker_id' => 2,
+            'services' => [
+                ['name' => 'Pipe Installation', 'price' => 3000],
+                ['name' => 'Leak Repair', 'price' => 1500],
+                ['name' => 'Drain Cleaning', 'price' => 1000],
+                ['name' => 'Water Tank Connection', 'price' => 2500]
+            ]
+        ],
+
+        [
+            'worker_id' => 3,
+            'services' => [
+                ['name' => 'Interior Painting', 'price' => 7000],
+                ['name' => 'Exterior Painting', 'price' => 12000],
+                ['name' => 'Wall Putty', 'price' => 5000],
+                ['name' => 'Door Painting', 'price' => 1500]
+            ]
+        ],
+
+        [
+            'worker_id' => 4,
+            'services' => [
+                ['name' => 'Bike Servicing', 'price' => 1500],
+                ['name' => 'Engine Repair', 'price' => 6000],
+                ['name' => 'Brake Repair', 'price' => 1200],
+                ['name' => 'Oil Change', 'price' => 800]
+            ]
+        ],
+
+        [
+            'worker_id' => 5,
+            'services' => [
+                ['name' => 'Furniture Making', 'price' => 12000],
+                ['name' => 'Door Repair', 'price' => 3000],
+                ['name' => 'Window Frame Work', 'price' => 4000],
+                ['name' => 'Cabinet Installation', 'price' => 7000]
+            ]
+        ]
+    ];
+
+    foreach ($services as $worker) {
+
+        $worker_id = $worker['worker_id'];
+
+        foreach ($worker['services'] as $service) {
+
+            $service_name = $service['name'];
+            $service_price = $service['price'];
+
+            $sql = "INSERT INTO worker_service
+                    (worker_id, service_name, service_price)
+                    VALUES
+                    ('$worker_id', '$service_name', '$service_price')";
+
+            mysqli_query($conn, $sql);
+        }
+    }
+
+    echo "Services inserted successfully";
 }
