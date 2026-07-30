@@ -2,6 +2,7 @@
 session_start();
 include '../components/customerNavbar.php';
 include "../components/fetchWorkers.php";
+
 $users = fetchWorkers($conn);
 ?>
 
@@ -35,18 +36,24 @@ $users = fetchWorkers($conn);
                             </div>
                         </div>
                         <div class="worker_services">
-                            <!-- <?php
-                                    foreach ($user["services"] as $service) {
-                                    ?>
+                            <?php foreach ($user['services'] as $service) { ?>
                                 <div class="service">
-                                    <?php echo $service ?>
+                                    <?php echo $service['name']; ?>
                                 </div>
-                            <?php
-                                    }
-
-                            ?> -->
+                            <?php } ?>
                         </div>
                         <br>
+                        <div class="hr_line_right"></div>
+                        <br>
+                        <div class="booking_bottom">
+                            <span class="price">
+                                NPR <?php echo $user['services'][0]['price'] ?? '0'; ?>/hr
+                            </span>
+                            <span class="rating">
+                                <img src="../assets/logo/star.png" alt="" class="rate">
+                                <?php echo $user['rating'] ?? '5.0'; ?>
+                            </span>
+                        </div>
                         <div class="booking_bottom">
                             <a href="">
                                 <button class="remove_saved">
@@ -58,6 +65,7 @@ $users = fetchWorkers($conn);
             <?php
                 }
             }
+
             ?>
         </div>
     </div>

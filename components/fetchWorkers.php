@@ -1,18 +1,49 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "Artipera");
-function fetchWorkers($conn)
+include '../php/connect.php';
+function fetchWorkers($conn, $limit = 6)
 {
-    $sql = "SELECT users.*, worker.*, category.* FROM users
-            JOIN worker ON worker.user_id = users.user_id
-            JOIN category ON category.category_id = worker.category_id
-            WHERE users.role = 'worker' LIMIT 6;";
+    $limit = (int)$limit;
 
-    $data = [];
-    $res = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($res)) {
-        while ($row = mysqli_fetch_assoc($res)) {
-            array_push($data, $row);
+    $sql = "SELECT u.*, w.*, c.*
+            FROM users u
+            JOIN worker w ON w.user_id = u.user_id
+            JOIN category c ON c.category_id = w.category_id
+            WHERE u.role = 'worker'
+            AND EXISTS (
+                SELECT 1
+                FROM worker_service ws
+                WHERE ws.worker_id = w.worker_id
+            )
+            LIMIT $limit";
+
+    $result = mysqli_query($conn, $sql);
+
+    $workers = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+
+        $workerId = $row['Worker_id'];
+
+        $serviceSql = "
+            SELECT service_name, service_price
+            FROM worker_service
+            WHERE worker_id = $workerId
+        ";
+
+        $serviceResult = mysqli_query($conn, $serviceSql);
+
+        $row['services'] = [];
+
+        while ($service = mysqli_fetch_assoc($serviceResult)) {
+
+            $row['services'][] = [
+                'name'  => $service['service_name'],
+                'price' => $service['service_price']
+            ];
         }
+
+        $workers[] = $row;
     }
-    return $data;
+
+    return $workers;
 }

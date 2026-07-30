@@ -1,36 +1,10 @@
 <?php
 session_start();
 include '../components/customerNavbar.php';
+include '../components/fetchWorkers.php';
 $conn = mysqli_connect("localhost", "root", "", "Artipera");
-function fetchWorkers($conn)
-{
-    // $sql = "SELECT users.*, worker.*, category.* FROM users
-    //         JOIN worker ON worker.user_id = users.user_id
-    //         JOIN category ON category.category_id = worker.category_id
-    //         WHERE users.role = 'worker' LIMIT 6;";
-    $sql = "SELECT
-            users.*,
-            worker.*,
-            category.*,
-            worker_service.service_name,
-            worker_service.service_price
-        FROM users
-        JOIN worker ON worker.user_id = users.user_id
-        JOIN category ON category.category_id = worker.category_id
-        JOIN worker_service ON worker_service.worker_id = worker.worker_id
-        WHERE users.role = 'worker'
-        LIMIT 6";
-    $data = [];
-    $res = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($res)) {
-        while ($row = mysqli_fetch_assoc($res)) {
-            array_push($data, $row);
-        }
-    }
-    return $data;
-}
-$users = fetchWorkers($conn);
 
+$users = fetchWorkers($conn);
 ?>
 
 <!DOCTYPE html>
@@ -79,44 +53,70 @@ $users = fetchWorkers($conn);
                 <a href="customerSearch.php" class="right_btn">View all</a>
             </div>
             <div class="recomended_workers">
-                <?php
-                foreach ($users as $user) {
 
-                ?>
+                <?php foreach ($users as $user) { ?>
+
                     <div class="workerin_customer">
-                        <div class="workerprof">
-                            <div class="worker_profile_logo"></div>
-                            <div class="worker_profile_text">
-                                <p class="worker_profile_name">
-                                    <?php echo $user['name'] ?>
-                                </p>
-                                <p class="job"><?php echo $user['category_name'] ?></p>
-                            </div>
-                        </div>
-                        <div class="worker_services">
-                            <!-- <?php
-                                    foreach ($user["service_name"] as $service) {
-                                    ?>
-                                <div class="service">
-                                    <?php echo $service ?>
-                                </div>
-                            <?php
-                                    }
-                                    $img = '<img src="../assets/logo/star.png" alt="" class="rate">';
-                            ?> -->
-                        </div>
-                        <br>
-                        <div class="hr_line_right"></div><br>
-                        <div class="booking_bottom">
-                            <span class="price">NPR <?php echo $user['service_price'] ?? "10" ?>/hr</span>
-                            <span class="rating"><?php echo $img, $user['rating'] ?? "10" ?></span>
-                        </div>
-                    </div>
-                <?php
 
-                }
-                ?>
+                        <div class="workerprof">
+
+                            <div class="worker_profile_logo">
+                                <img
+                                    src="../assets/profile/<?php echo $user['profile_image']; ?>"
+                                    alt="">
+                            </div>
+
+                            <div class="worker_profile_text">
+
+                                <p class="worker_profile_name">
+                                    <?php echo $user['name']; ?>
+                                </p>
+
+                                <p class="job">
+                                    <?php echo $user['category_name']; ?>
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="worker_services">
+
+                            <?php foreach ($user['services'] as $service) { ?>
+
+                                <div class="service">
+                                    <?php echo $service['name']; ?>
+                                </div>
+
+                            <?php } ?>
+
+                        </div>
+
+                        <br>
+
+                        <div class="hr_line_right"></div>
+
+                        <br>
+
+                        <div class="booking_bottom">
+
+                            <span class="price">
+                                NPR <?php echo $user['services'][0]['price'] ?? '0'; ?>/hr
+                            </span>
+
+                            <span class="rating">
+                                <img src="../assets/logo/star.png" alt="" class="rate">
+                                <?php echo $user['rating'] ?? '5.0'; ?>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                <?php } ?>
+
             </div>
+
         </div>
         <div class="right_two_container">
             <div class=" right_container_upcomming">

@@ -18,9 +18,9 @@ function Navbar($active)
             <div class="profile_logo"></div>
             <div class="profile_text">
                 <p class="profile_name">
-                    <?php echo $_SESSION['name'] ?>
+                    <?php echo $_SESSION['name'] ?? "sayujya" ?>
                 </p>
-                <p class="role"><?php echo $_SESSION['role'] ?></p>
+                <p class="role"><?php echo $_SESSION['role'] ?? "sayujya" ?></p>
             </div>
         </div>
         <div class="hr-line"></div>

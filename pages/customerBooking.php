@@ -2,6 +2,7 @@
 session_start();
 include '../components/customerNavbar.php';
 include '../components/fetchWorkers.php';
+
 $users = fetchWorkers($conn);
 ?>
 

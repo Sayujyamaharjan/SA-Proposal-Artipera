@@ -65,7 +65,7 @@ body {
 }
 .main_contents {
   margin-top: 5px;
-  height: 530px;
+  height: 505px;
 }
 .main_tab {
   height: 50px;
@@ -381,4 +381,98 @@ option:checked {
   text-decoration: none;
   color: #c6330e;
   cursor: pointer;
+}
+.profile_info {
+  width: 100%;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  gap: 10px;
+}
+.profile_logo_view {
+  width: 70px;
+  height: 70px;
+  border-radius: 40px;
+  background-color: rgb(201, 239, 201);
+}
+.profile_view_text {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 5px 0px;
+  flex: 1;
+}
+.profile_view_name {
+  font-size: 20px;
+  font-weight: 700;
+}
+.profile_view_category {
+  font-weight: 500;
+}
+.view_rate {
+  width: 24px;
+  height: 24px;
+}
+.rating_view {
+  font-weight: 500;
+  font-size: 18px;
+}
+.rating_txt {
+  font-weight: 500;
+  font-size: 12px;
+  color: #888888;
+}
+.details {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.rating_data,
+.experience_data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.rating_number {
+  display: flex;
+  align-items: center;
+}
+.experience_data p {
+  margin: 0;
+}
+.worker_services_view {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.view_status {
+  border-radius: 20px;
+  background-color: rgb(225, 246, 194);
+  padding: 5px 10px 5px 10px;
+}
+.status_detail {
+  font-size: 10px;
+  font-weight: 600;
+  color: green;
+  letter-spacing: 0.7px;
+}
+.view_buttons {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.view_price {
+  font-size: 20px;
+  font-weight: 700;
+}
+button {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 15px;
 }
