@@ -1,3 +1,7 @@
+<?php
+include '../php/authGuard.php';
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -10,7 +14,7 @@
 
 <body>
     <nav>
-        <a href="landing.html" class="logo">
+        <a href="landing.php" class="logo">
             <img src="../assets/logo/logo1.png" alt="" class="logo_img" />
         </a>
         <div class="nav_links">

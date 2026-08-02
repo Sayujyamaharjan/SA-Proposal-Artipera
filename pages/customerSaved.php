@@ -1,6 +1,6 @@
 <?php
-session_start();
-include '../components/customerNavbar.php';
+include '../php/authGuard.php';
+include '../components/Navbar.php';
 include "../components/fetchWorkers.php";
 
 $users = fetchWorkers($conn);

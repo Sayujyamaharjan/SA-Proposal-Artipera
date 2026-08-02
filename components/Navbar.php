@@ -1,0 +1,93 @@
+<?php
+include '../php/connect.php';
+
+function Navbar($active)
+{
+?>
+    <style>
+        .activeNav {
+            background-color: #e5e7eb;
+            border-left: 7px solid limegreen;
+        }
+
+        .profile_link {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+    <div class="option_bar">
+        <div class="web_logo">
+            <a href="landing.php" class="logo">
+                <img src="../assets/logo/logo1.png" alt="" class="logo_img">
+            </a>
+        </div>
+
+        <div class="userprof">
+            <div class="profile_logo"></div>
+            <a href="../pages/profile.php" class="link_profile">
+                <div class="profile_text">
+                    <p class="profile_name">
+                        <?php echo $_SESSION['name'] ?? "sayujya" ?>
+                    </p>
+                    <p class="role"><?php echo $_SESSION['role'] ?? "sayujya" ?></p>
+                </div>
+            </a>
+        </div>
+        <!-- </a> -->
+        <div class="hr-line"></div>
+        <div class="profile_main">
+            <div class="main_contents">
+                <?php
+                if (isset($_SESSION['role']) && $_SESSION['role'] == "customer") {
+                ?>
+                    <div class="main_tab <?php echo $active === 'dashboard' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/home.svg" alt="" class="tab_img">
+                        <a href="customer.php" class="tab_text">Home</a>
+                    </div>
+                    <div class="main_tab <?php echo $active === 'search' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/search.svg" alt="" class="tab_img">
+                        <a href="customerSearch.php" class="tab_text">Search</a>
+                    </div>
+                    <div class="main_tab <?php echo $active === 'bookings' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/calendar-week.svg" alt="" class="tab_img">
+                        <a href="customerBooking.php" class="tab_text">My Bookings</a>
+                    </div>
+                    <div class="main_tab <?php echo $active === 'saved' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/heart.svg" alt="" class="tab_img">
+                        <a href="customerSaved.php" class="tab_text">Saved Workers</a>
+                    </div>
+                <?php
+                }
+
+                if (isset($_SESSION['role']) && $_SESSION['role'] == "worker") {
+                ?>
+                    <div class="main_tab <?php echo $active === 'dashboard' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/home.svg" alt="" class="tab_img">
+                        <a href="worker.php" class="tab_text">Home</a>
+                    </div>
+                    <div class="main_tab <?php echo $active === 'bookings' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/calendar-week.svg" alt="" class="tab_img">
+                        <a href="workerBooking.php" class="tab_text">My Bookings</a>
+                    </div>
+                    <div class="main_tab <?php echo $active === 'saved' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/heart.svg" alt="" class="tab_img">
+                        <a href="workerSchedule.php" class="tab_text">My schedule</a>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+        <div class="hr-line"></div>
+        <div class="bottom_option">
+            <img src="../assets/svg/logout.svg" alt="" class="tab_img">
+            <a href="logout.php" class="tab_text">Log Out</a>
+        </div>
+    </div>
+
+
+<?php
+}
+
+
+?>

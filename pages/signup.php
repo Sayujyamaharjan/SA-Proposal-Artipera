@@ -1,3 +1,5 @@
+<?php
+include '../php/authGuard.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,11 +13,11 @@
 <body>
     <form action="" method="post" class="form">
         <div class="left">
-            <a href="landing.html" class="logo">
+            <a href="landing.php" class="logo">
                 <img src="../assets/logo/logo1.png" alt="" class="logo_img">
             </a>
             <div class="texts">
-                <h2>Welcome Back</h2>
+                <h2>Become a customer</h2>
                 <p>Login to your account to continue</p>
             </div>
             <div class="info_container">
