@@ -315,7 +315,7 @@ function createWorker($conn)
         user_id INT NOT NULL,
         bio VARCHAR(100) NOT NULL,
         year_of_experience INT NOT NULL,
-      
+        base_rate INT NOT NULL ;
         id_front_photo VARCHAR(255) NOT NULL,
         id_back_photo VARCHAR(255) NOT NULL,
         id_status VARCHAR(255) DEFAULT 'pending', 

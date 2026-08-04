@@ -38,8 +38,26 @@ include "../components/Navbar.php";
                     </div>
                     <div class="input_group">
                         <label>Phone</label>
-                        <input type="text" value="+977 9812345678">
+                        <input type="tel" value="+977 9812345678">
                     </div>
+                    <div class="input_group">
+                        <label>Address</label>
+                        <input type="text" value="Kathmandu">
+                    </div>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "worker") { ?>
+                        <div class="input_group">
+                            <label>Category</label>
+                            <input type="text" value="Mechanic">
+                        </div>
+                        <div class="input_group">
+                            <label>Experience</label>
+                            <input type="text" value="8 years">
+                        </div>
+                        <div class="input_group">
+                            <label>Bio</label>
+                            <textarea>Professional plumber with 8 years of experience. Specialized in residential plumbing, leak detection, and complete bathroom fitting.</textarea>
+                        </div>
+                    <?php } ?>
                     <button class="save_btn_profile">Save Changes</button>
                 </div>
             </div>

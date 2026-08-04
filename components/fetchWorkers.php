@@ -25,7 +25,7 @@ function fetchWorkers($conn, $limit = 6)
         $workerId = $row['Worker_id'];
 
         $serviceSql = "
-            SELECT service_name, service_price
+            SELECT service_name
             FROM worker_service
             WHERE worker_id = $workerId
         ";
@@ -38,7 +38,6 @@ function fetchWorkers($conn, $limit = 6)
 
             $row['services'][] = [
                 'name'  => $service['service_name'],
-                'price' => $service['service_price']
             ];
         }
 

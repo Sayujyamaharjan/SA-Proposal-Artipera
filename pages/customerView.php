@@ -81,17 +81,6 @@ if ($workerDetails) {
                     </p>
                 </div>
                 <div class="view_container">
-                    <p class="head">Services</p>
-                    <?php foreach ($worker['services'] as $service) { ?>
-                        <div class="service_row">
-                            <span><?php echo $service['name']; ?></span>
-                            <span>NPR <?php echo $service['price'] ??  100 ?></span>
-                        </div>
-                    <?php } ?>
-                </div>
-            </div>
-            <div class="right_section">
-                <div class="view_container">
                     <p class="head">Customer Reviews</p>
                     <?php foreach ($worker['services'] as $service) { ?>
                         <div class="review_container">
@@ -113,7 +102,19 @@ if ($workerDetails) {
                         </div>
                     <?php } ?>
                 </div>
+
             </div>
+            <!-- <div class="right_section">
+                <div class="view_container">
+                    <p class="head">Services</p>
+                    <?php foreach ($worker['services'] as $service) { ?>
+                        <div class="service_row">
+                            <span><?php echo $service['name']; ?></span>
+
+                        </div>
+                    <?php } ?>
+                </div>
+            </div> -->
         </div>
     </div>
 </body>

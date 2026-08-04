@@ -23,7 +23,84 @@ WHERE b.Worker_id = $id;";
 }
 
 
+$services = [];
 
+if (isset($_POST['add_skill'])) {
+
+    $service_name = trim($_POST['service_name']);
+
+    if (!empty($service_name)) {
+
+
+        $sql = "INSERT INTO worker_service (worker_id, service_name)
+                    VALUES ('$id', '$service_name')";
+
+        mysqli_query($conn, $sql);
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
+}
+
+if (isset($_POST['delete_service'])) {
+
+    $service_name = mysqli_real_escape_string($conn, $_POST['delete_service']);
+    $sql = "DELETE FROM worker_service
+                WHERE worker_id = '$id'
+                AND service_name = '$service_name'
+                LIMIT 1";
+
+    mysqli_query($conn, $sql);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+
+$sql = "SELECT b.*, u.name
+            FROM booking b
+            JOIN users u ON b.user_id = u.user_id
+            WHERE b.Worker_id = $id";
+
+$res = mysqli_query($conn, $sql);
+
+if ($res) {
+    while ($row = mysqli_fetch_assoc($res)) {
+        $myBookings[] = $row;
+    }
+}
+
+
+$sql = "SELECT * FROM worker_service
+            WHERE worker_id = '$id'";
+
+$res = mysqli_query($conn, $sql);
+
+if ($res) {
+    while ($row = mysqli_fetch_assoc($res)) {
+        $services[] = $row;
+    }
+}
+
+
+if (isset($_POST['update_rate'])) {
+
+    $base_rate = (float)$_POST['base_rate'];
+
+    $sql = "UPDATE worker
+            SET base_rate = '$base_rate'
+            WHERE Worker_id = '$id'";
+
+    mysqli_query($conn, $sql);
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+$sql = "SELECT base_rate
+        FROM worker
+        WHERE Worker_id = '$id'";
+
+$res = mysqli_query($conn, $sql);
+$worker = mysqli_fetch_assoc($res);
 
 
 $month = date('m');
@@ -34,7 +111,6 @@ $daysInMonth = cal_days_in_month(
     $month,
     $year
 );
-
 $firstDay = date(
     'w',
     strtotime("$year-$month-01")
@@ -42,14 +118,13 @@ $firstDay = date(
 
 $today = date('j');
 
-/* Booking dates from DB later */
 $bookedDates = [];
 
 foreach ($myBookings as $booking) {
     $bookedDates[] = date('j', strtotime($booking['Booking_date']));
 }
 
-// print_r($bookedDates);
+
 
 ?>
 <!DOCTYPE html>
@@ -68,7 +143,7 @@ foreach ($myBookings as $booking) {
         <div class="schedule_container">
             <div class="calendar_card">
                 <h2 class="calendar_title">
-                    <?= date('F Y', strtotime("$year-$month-01")); ?>
+                    <?php date('F Y', strtotime("$year-$month-01")); ?>
                 </h2>
                 <div class="calendar">
                     <div class="day_name">SUN</div>
@@ -113,33 +188,6 @@ foreach ($myBookings as $booking) {
                 </div>
             </div>
             <div class="right_side">
-                <div class="hours_card">
-                    <h2>Working Hours</h2>
-                    <p class="hours_subtitle">
-                        Set your default working hours
-                    </p>
-                    <?php
-                    $days = [
-                        "Monday",
-                        "Tuesday",
-                        "Wednesday",
-                        "Thursday",
-                        "Friday"
-                    ];
-                    foreach ($days as $d) {
-                    ?>
-                        <div class="time_row">
-                            <label><?= $d ?></label>
-                            <input type="time" value="08:00">
-                            <span>-</span>
-                            <input type="time" value="18:00">
-                            <input type="checkbox" checked>
-                        </div>
-                    <?php } ?>
-                    <button class="save_btn">
-                        Save Hours
-                    </button>
-                </div>
                 <div class="availability_card">
                     <h2>Availability Status</h2>
                     <div
@@ -159,6 +207,41 @@ foreach ($myBookings as $booking) {
                         <button class="busy">
                             Set Busy
                         </button>
+                    </div>
+                </div>
+                <div class="skills_section">
+                    <h3>Skills & Specializations</h3>
+                    <div class="skills_container">
+                        <?php foreach ($services as $service): ?>
+                            <form method="POST" class="skill_form">
+                                <input type="hidden" name="delete_service" value="<?php echo $service['service_name'] ?>">
+                                <button type="submit" class="skill_tag"> <?php echo $service['service_name'] ?>
+                                    <span>&times;</span>
+                                </button>
+                            </form>
+                        <?php endforeach; ?>
+                    </div>
+                    <form method="POST" class="add_skill">
+                        <input type="text" name="service_name" placeholder="Add a skill..." required>
+                        <button type="submit" name="add_skill"> + Add</button>
+                    </form>
+                    <div class="hourly_rate_section">
+                        <p class="rate_title">Hourly Rate (NPR)</p>
+                        <form method="POST" class="rate_form">
+                            <input
+                                type="number"
+                                name="base_rate"
+                                value="<?= $worker['base_rate'] ?>"
+                                min="0"
+                                step="50"
+                                class="rate_input">
+                            <button
+                                type="submit"
+                                name="update_rate"
+                                class="rate_btn">
+                                Save
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
