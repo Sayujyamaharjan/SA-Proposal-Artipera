@@ -25,6 +25,12 @@ $customerPages = [
     'customerSaved.php',
     'customerView.php',
     'profile.php',
+    'bookingpopup.php',
+    'logout.php'
+];
+
+$adminPages = [
+    'admin.php',
     'logout.php'
 ];
 
@@ -42,6 +48,13 @@ if (isset($_SESSION['isLogged_in']) && $_SESSION['isLogged_in'] == true) {
 
         if (!in_array($currentPage, $customerPages)) {
             header("Location: https://proposal.test/pages/customer.php");
+            exit();
+        }
+    }
+    if ($_SESSION['role'] == 'admin') {
+
+        if (!in_array($currentPage, $adminPages)) {
+            header("Location: https://proposal.test/pages/admin.php");
             exit();
         }
     }

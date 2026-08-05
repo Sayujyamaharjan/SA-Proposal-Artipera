@@ -29,9 +29,9 @@ $users = fetchWorkers($conn);
                         <div class="workerprof">
                             <div class="worker_profile_logo"></div>
                             <div class="worker_profile_text">
-                                <p class="worker_profile_name">
-                                    <?php echo $user['name'] ?>
-                                </p>
+                                <a href="customerView.php?user_id=<?php echo $user['user_id'] ?>" class="worker_profile_name">
+                                    <?php echo $user['name']; ?>
+                                </a>
                                 <p class="job"><?php echo $user['category_name'] ?></p>
                             </div>
                         </div>
@@ -47,7 +47,7 @@ $users = fetchWorkers($conn);
                         <br>
                         <div class="booking_bottom">
                             <span class="price">
-                                NPR <?php echo $user['services'][0]['price'] ?? '0'; ?>/hr
+                                NPR <?php echo $user['base_rate'] ?? '100'; ?>/hr
                             </span>
                             <span class="rating">
                                 <img src="../assets/logo/star.png" alt="" class="rate">

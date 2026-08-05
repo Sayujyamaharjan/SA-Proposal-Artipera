@@ -70,29 +70,29 @@ $users = fetchWorkers($conn);
                         <div class="workerprof">
                             <div class="worker_profile_logo"></div>
                             <div class="worker_profile_text">
-                                <p class="worker_profile_name">
-                                    <?php echo $user['name'] ?>
-                                </p>
+                                <a href="customerView.php?user_id=<?php echo $user['user_id'] ?>" class="worker_profile_name">
+                                    <?php echo $user['name']; ?>
+                                </a>
                                 <p class="job"><?php echo $user['category_name'] ?></p>
                             </div>
                         </div>
                         <div class="worker_services">
-                            <!-- <?php
-                                    foreach ($user["services"] as $service) {
-                                    ?>
+                            <?php foreach ($user['services'] as $service) { ?>
                                 <div class="service">
-                                    <?php echo $service ?>
+                                    <?php echo $service['name']; ?>
                                 </div>
-                            <?php
-                                    }
-                                    $img = '<img src="../assets/logo/star.png" alt="" class="rate">';
-                            ?> -->
+                            <?php } ?>
                         </div>
                         <br>
                         <div class="hr_line_right"></div><br>
                         <div class="booking_bottom">
-                            <span class="price">NPR <?php echo $user['price'] ?? "10" ?>/hr</span>
-                            <span class="rating"><?php echo $img, $user['rating'] ?? "10" ?></span>
+                            <span class="price">
+                                NPR <?php echo $user['base_rate'] ?? '100'; ?>/hr
+                            </span>
+                            <span class="rating">
+                                <img src="../assets/logo/star.png" alt="" class="rate">
+                                <?php echo $user['rating'] ?? '5.0'; ?>
+                            </span>
                         </div>
                     </div>
             <?php

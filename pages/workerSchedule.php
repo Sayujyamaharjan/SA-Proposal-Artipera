@@ -231,7 +231,7 @@ foreach ($myBookings as $booking) {
                             <input
                                 type="number"
                                 name="base_rate"
-                                value="<?= $worker['base_rate'] ?>"
+                                value="<?php $worker['base_rate'] ?>"
                                 min="0"
                                 step="50"
                                 class="rate_input">

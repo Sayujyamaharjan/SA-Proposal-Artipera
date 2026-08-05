@@ -5,6 +5,11 @@ function Navbar($active)
 {
 ?>
     <style>
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
         .activeNav {
             background-color: #e5e7eb;
             border-left: 7px solid limegreen;
@@ -69,9 +74,26 @@ function Navbar($active)
                         <img src="../assets/svg/calendar-week.svg" alt="" class="tab_img">
                         <a href="workerBooking.php" class="tab_text">My Bookings</a>
                     </div>
-                    <div class="main_tab <?php echo $active === 'saved' ? 'activeNav' : '' ?>">
-                        <img src="../assets/svg/heart.svg" alt="" class="tab_img">
-                        <a href="workerSchedule.php" class="tab_text">My schedule</a>
+                    <div class="main_tab <?php echo $active === 'schedule' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/service.svg" alt="" class="tab_img">
+                        <a href="workerSchedule.php" class="tab_text">Services</a>
+                    </div>
+                <?php
+                }
+                if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
+                ?>
+                    <div class="main_tab <?php echo $active === 'workers' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/calendar-week.svg" alt="" class="tab_img">
+                        <a href="workerBooking.php" class="tab_text">All Bookings</a>
+                    </div>
+                    <div class="main_tab <?php echo $active === 'allBookings' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/worker.svg" alt="" class="tab_img">
+                        <a href="worker.php" class="tab_text">Workers</a>
+                    </div>
+
+                    <div class="main_tab <?php echo $active === 'customers' ? 'activeNav' : '' ?>">
+                        <img src="../assets/svg/usersmany.svg" alt="" class="tab_img">
+                        <a href="workerSchedule.php" class="tab_text">Customer</a>
                     </div>
                 <?php
                 }

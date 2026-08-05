@@ -83,7 +83,7 @@ $users = fetchWorkers($conn);
                         <br>
                         <div class="booking_bottom">
                             <span class="price">
-                                NPR <?php echo $user['services'][0]['price'] ?? '0'; ?>/hr
+                                NPR <?php echo $user['base_rate'] ?? '100'; ?>/hr
                             </span>
                             <span class="rating">
                                 <img src="../assets/logo/star.png" alt="" class="rate">
