@@ -31,6 +31,8 @@ $customerPages = [
 
 $adminPages = [
     'admin.php',
+    'adminWorker.php',
+    'adminCustomer.php',
     'logout.php'
 ];
 

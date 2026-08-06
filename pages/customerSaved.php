@@ -3,7 +3,22 @@ include '../php/authGuard.php';
 include '../components/Navbar.php';
 include "../components/fetchWorkers.php";
 
-$users = fetchWorkers($conn);
+$users = fetchSavedWorkers($conn, $_SESSION['user_id']);
+
+if (isset($_POST['remove_saved'])) {
+
+    $user_id = $_SESSION['user_id'];
+    $worker_id = $_POST['worker_id'];
+
+    $sql = "DELETE FROM saved_workers
+            WHERE user_id = '$user_id'
+            AND worker_id = '$worker_id'";
+
+    mysqli_query($conn, $sql);
+
+    header("Location: customerSaved.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,11 +70,12 @@ $users = fetchWorkers($conn);
                             </span>
                         </div>
                         <div class="booking_bottom">
-                            <a href="">
-                                <button class="remove_saved">
+                            <form method="POST">
+                                <input type="hidden" name="worker_id" value="<?php echo $user['Worker_id']; ?>">
+                                <button type="submit" name="remove_saved" class="remove_saved">
                                     Remove
                                 </button>
-                            </a>
+                            </form>
                         </div>
                     </div>
             <?php

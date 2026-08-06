@@ -88,12 +88,12 @@ function Navbar($active)
                     </div>
                     <div class="main_tab <?php echo $active === 'allBookings' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/worker.svg" alt="" class="tab_img">
-                        <a href="worker.php" class="tab_text">Workers</a>
+                        <a href="adminWorker.php" class="tab_text">Workers</a>
                     </div>
 
                     <div class="main_tab <?php echo $active === 'customers' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/usersmany.svg" alt="" class="tab_img">
-                        <a href="workerSchedule.php" class="tab_text">Customer</a>
+                        <a href="adminCustomer.php" class="tab_text">Customer</a>
                     </div>
                 <?php
                 }

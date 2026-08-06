@@ -6,13 +6,14 @@ include 'connect.php';
 if (!$conn) {
     die("connection error ..." . mysqli_connect_error());
 } else {
-    TableUser($conn);
-    createCategory($conn);
-    createWorker($conn);
-    // createUsers($conn);
-    createBooking($conn);
-    createReview($conn);
-    createServices($conn);
+    // TableUser($conn);
+    // createCategory($conn);
+    // createWorker($conn);
+    // // createUsers($conn);
+    // createBooking($conn);
+    // createReview($conn);
+    // createServices($conn);
+    createSaved($conn);
 }
 function createDB()
 {
@@ -478,4 +479,22 @@ function createServices($conn)
     }
 
     echo "Services inserted successfully";
+}
+function createSaved()
+{
+    $sql = "CREATE TABLE saved_workers (
+    saved_id INT  PRIMARY KEY,
+    user_id INT NOT NULL,
+    worker_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (worker_id) REFERENCES worker(Worker_id)
+)";
+    $res = mysqli_query($conn, $sql);
+
+    if ($res) {
+        echo "<br>Saved Table Created Successfully!!!";
+    } else {
+        echo "<br>Error: " . mysqli_error($conn);
+    }
 }

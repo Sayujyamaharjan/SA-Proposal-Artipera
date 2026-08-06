@@ -281,6 +281,10 @@ ${taskArr['Booking_detail']}<br>
                 `;
             } else {
                 document.getElementById(
+                        "selected_date"
+                    ).innerHTML =
+                    "Selected Date : " + day;
+                document.getElementById(
                     "booking_details"
                 ).innerHTML = `
                 <strong>No Bookings</strong><br><br>

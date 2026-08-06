@@ -16,7 +16,6 @@ function fetchWorkers($conn, $limit = 6)
             LIMIT $limit";
 
     $result = mysqli_query($conn, $sql);
-
     $workers = [];
 
     while ($row = mysqli_fetch_assoc($result)) {
@@ -67,4 +66,42 @@ function fetchBookings($conn)
     }
 
     return $bookings;
+}
+
+
+function fetchSavedWorkers($conn, $user_id)
+{
+    $sql = "SELECT u.*, w.*, c.*
+            FROM saved_workers s
+            JOIN worker w ON s.worker_id = w.Worker_id
+            JOIN users u ON w.user_id = u.user_id
+            JOIN category c ON w.category_id = c.category_id
+            WHERE s.user_id = '$user_id'";
+
+    $result = mysqli_query($conn, $sql);
+
+    $workers = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+
+        $worker_id = $row['Worker_id'];
+
+        $service_sql = "SELECT service_name
+                        FROM worker_service
+                        WHERE worker_id = '$worker_id'";
+
+        $service_result = mysqli_query($conn, $service_sql);
+
+        $row['services'] = [];
+
+        while ($service = mysqli_fetch_assoc($service_result)) {
+            $row['services'][] = [
+                'name' => $service['service_name'],
+            ];
+        }
+
+        $workers[] = $row;
+    }
+
+    return $workers;
 }

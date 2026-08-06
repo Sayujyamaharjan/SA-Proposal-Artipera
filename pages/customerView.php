@@ -17,6 +17,25 @@ if ($workerDetails) {
     }
 }
 $today = date('Y-m-d');
+
+if (isset($_POST['save_worker'])) {
+    $user_id = $_SESSION['user_id'];
+    $worker_id = $_POST['worker_id'];
+
+    $check = mysqli_query(
+        $conn,
+        "SELECT * FROM saved_workers
+         WHERE user_id = '$user_id'
+         AND worker_id = '$worker_id'"
+    );
+
+    if (mysqli_num_rows($check) == 0) {
+        mysqli_query(
+            $conn,
+            "INSERT INTO saved_workers(user_id, worker_id) VALUES('$user_id', '$worker_id')"
+        );
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +67,7 @@ $today = date('Y-m-d');
                         <span class="rating_txt">Rating</span>
                     </div>
                     <div class="experience_data">
-                        <p class="rating_view">5 years</p>
+                        <p class="rating_view"><?php echo $worker['year_of_experience'] ?> years</p>
                         <p class="rating_txt">Experience</p>
                     </div>
                     <div class="view_status">
@@ -66,7 +85,12 @@ $today = date('Y-m-d');
             <div class="view_buttons">
                 <p class="view_price">NPR <?php echo $worker['base_rate'] ?>/hr</p>
                 <div class="btns"><button class="book_btn button" popovertarget="popupbox" popovertargetaction="show">Book now</button>
-                    <a href=""><button class="save_btn button"><span class="love">♥&nbsp;</span>Saved</button></a>
+                    <form action="" method="POST">
+                        <input type="hidden" name="worker_id" value="<?php echo $worker['Worker_id']; ?>">
+                        <button type="submit" name="save_worker" class="save_btn button">
+                            <span class="love">♥&nbsp;</span>Save
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -161,7 +185,7 @@ $today = date('Y-m-d');
                         </div>
                     </div>
                     <button class="confirm_btn" type="submit">Confirm Booking</button>
-                    <button class="cancel_btn" type="button">Cancel </button>
+                    <button class="cancel_btn" type="button" popovertarget="popupbox" popovertargetaction="hide">Cancel </button>
                 </form>
             </div>
         </div>
