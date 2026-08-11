@@ -5,6 +5,36 @@ include '../components/fetchWorkers.php';
 $conn = mysqli_connect("localhost", "root", "", "Artipera");
 
 $users = fetchWorkers($conn);
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT 
+            b.Booking_id,
+            b.address,
+            b.pricing,
+            b.Booking_date,
+            b.Booking_detail,
+            b.status,
+            b.Worker_id,
+            b.user_id,
+            u.name AS worker_name,
+            u.profile_image AS worker_profile
+        FROM booking b
+        INNER JOIN users u ON b.Worker_id = u.user_id
+        WHERE b.user_id = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+$bookings = [];
+
+while ($row = $result->fetch_assoc()) {
+    $bookings[] = $row;
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -103,18 +133,30 @@ $users = fetchWorkers($conn);
                 <div class="right_contents_detail">
                     <div>
                         <?php
-                        foreach ($users as $user) {
-
+                        for ($i = 0; $i < 5; $i++) {
+                            $book = $bookings[$i];
+                            $bookStatus = ($book['status'] === "pending" ? "warn" : ($book['status'] === "approved" ? "approve" : ($book['status'] === "completed" ? "success" : "danger")))
                         ?>
                             <div class="workerin_customer upcoming">
                                 <div class="workerprof">
-                                    <div class="worker_profile_logo"></div>
+                                    <div class="worker_profile_logo">
+                                        <?php
+                                        $name = explode(' ', $book['worker_name']);
+                                        $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
+                                        ?>
+                                        <div class="avatar navy">
+                                            <?php echo $initials; ?>
+                                        </div>
+                                    </div>
                                     <div class="worker_profile_text">
                                         <p class="worker_profile_name">
-                                            <?php echo $user['name'] ?>
+                                            <?php echo $book['Booking_detail'] ?>
                                         </p>
-                                        <p class="job"><?php echo $user['category_name'] ?></p>
+                                        <p class="job"><?php echo $book['worker_name'] ?></p>
                                     </div>
+                                </div>
+                                <div class="my_status">
+                                    <div class="<?php echo $bookStatus ?>"><?php echo $book['status'] ?></div>
                                 </div>
                             </div>
                             <br>
@@ -158,7 +200,6 @@ $users = fetchWorkers($conn);
                         <?php
                         }
                         ?>
-
                     </div>
                 </div>
 

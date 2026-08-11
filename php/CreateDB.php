@@ -361,7 +361,7 @@ function createBooking($conn)
             pricing INT NOT NULL,
             Booking_date DATE NOT NULL,
             Booking_detail VARCHAR(255) NOT NULL,
-            status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+            status ENUM('pending', 'approved', 'rejected','confirmed') DEFAULT 'pending',
             Worker_id INT NOT NULL,
             user_id INT NOT NULL,
             FOREIGN KEY (Worker_id) REFERENCES worker(Worker_id),

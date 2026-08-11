@@ -23,14 +23,14 @@ $bookings = fetchBookings($conn);
                 <table>
                     <thead>
                         <tr>
-                            <th>BOOKING ID</th>
+                            <th class="book">BOOKING ID</th>
                             <th>SERVICE</th>
                             <th>CUSTOMER</th>
                             <th>WORKER</th>
                             <th>DATE & TIME</th>
                             <th>AMOUNT</th>
                             <th>STATUS</th>
-                            <th>ACTION</th>
+                            <th class="book_left">ACTION</th>
                         </tr>
                     </thead>
 
@@ -40,35 +40,38 @@ $bookings = fetchBookings($conn);
                                 <td class="booking_id">
                                     <?php echo $booking['Booking_id']; ?>
                                 </td>
-
                                 <td>
                                     <?php echo $booking['Booking_detail']; ?>
                                 </td>
-
                                 <td>
                                     <div class="user_info">
                                         <div class="user_avatar">
-                                            <!-- <?php echo $booking['customer_name']; ?> -->
+                                            <?php
+                                            $name = explode(' ', $booking['customer_name']);
+                                            $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
+                                            ?>
+                                            <?php echo $initials ?>
                                         </div>
                                         <span><?php echo $booking['customer_name']; ?></span>
                                     </div>
                                 </td>
-
                                 <td>
                                     <div class="user_info">
                                         <div class="user_avatar">
-                                            <!-- <?php echo $booking['worker_name']; ?> -->
+                                            <?php
+                                            $name = explode(' ', $booking['worker_name']);
+                                            $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
+                                            ?>
+                                            <?php echo $initials ?>
                                         </div>
                                         <span><?php echo $booking['worker_name']; ?></span>
                                     </div>
                                 </td>
-
                                 <td class="date-books">
                                     <?php echo date('Y-m-d', strtotime($booking['Booking_date'])); ?>
                                     <br>
                                     10:00 AM
                                 </td>
-
                                 <td class="amount">
                                     NPR <?php echo number_format($booking['pricing']); ?>
                                 </td>

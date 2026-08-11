@@ -1,6 +1,10 @@
 <?php
 include '../components/Navbar.php';
-include '../php/authGuard.php'; ?>
+include '../php/authGuard.php';
+include '../components/fetchWorkers.php';
+
+$customer = fetchCustomer($conn);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,73 +22,42 @@ include '../php/authGuard.php'; ?>
             <table>
                 <thead>
                     <tr>
-                        <th>CUSTOMER</th>
+                        <th class="book">CUSTOMER</th>
+                        <th>EMAIL</th>
                         <th>LOCATION</th>
                         <th>JOINED</th>
-                        <th>ACTIONS</th>
+                        <th>BOOKINGS</th>
+                        <th class="book_left">ACTIONS</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="worker_profile">
-                                <div class="avatar navy">RB</div>
-                                <div>
-                                    <h4>Ram Bahadur KC</h4>
+                    <?php foreach ($customer as $customers) { ?>
+                        <tr>
+                            <td>
+                                <div class="worker_profile">
 
+                                    <?php
+                                    $name = explode(' ', $customers['name']);
+                                    $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
+                                    ?>
+                                    <div class="avatar navy">
+                                        <?php echo $initials ?>
+                                    </div>
+                                    <div>
+                                        <?php echo $customers['name'] ?>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-
-                        <td>Kathmandu</td>
-                        <td><?php echo date('M Y'); ?></td>
-                        <td>
-                            <button class="btn_view">View</button> &nbsp; &nbsp;
-                            <button class="btn_suspend">Suspend</button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="worker_profile">
-                                <div class="avatar violet">SS</div>
-                                <div>
-                                    <h4>Sita Sharma</h4>
-                                </div>
-                            </div>
-                        </td>
-
-                        <td>Lalitpur</td>
-
-                        <td><?php echo date('M Y'); ?></td>
-
-                        <td>
-                            <button class="btn_view">View</button> &nbsp; &nbsp;
-                            <button class="btn_suspend">Suspend</button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="worker_profile">
-                                <div class="avatar green">HT</div>
-                                <div>
-                                    <h4>Hari Thapa</h4>
-                                </div>
-                            </div>
-                        </td>
-
-                        <td>Bhaktapur</td>
-
-                        <td><?php echo date('M Y'); ?></td>
-
-                        <td>
-                            <button class="btn_view">View</button> &nbsp; &nbsp;
-                            <button class="btn_suspend">Suspend</button>
-                        </td>
-                    </tr>
-
+                            </td>
+                            <td> <?php echo $customers['email'] ?> </td>
+                            <td><?php echo $customers['address'] ?></td>
+                            <td><?php echo date('M Y', strtotime($customers['created_at'])) ?></td>
+                            <td>3</td>
+                            <td>
+                                <button class="btn_view">View</button>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>

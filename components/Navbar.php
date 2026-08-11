@@ -19,6 +19,14 @@ function Navbar($active)
             text-decoration: none;
             color: black;
         }
+
+        .profile_logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 500;
+        }
     </style>
     <div class="option_bar">
         <div class="web_logo">
@@ -28,7 +36,13 @@ function Navbar($active)
         </div>
 
         <div class="userprof">
-            <div class="profile_logo"></div>
+            <?php
+            $name = explode(' ', $_SESSION['name']);
+            $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
+            ?>
+            <div class="profile_logo">
+                <?php echo $initials ?>
+            </div>
             <a href="../pages/profile.php" class="link_profile">
                 <div class="profile_text">
                     <p class="profile_name">

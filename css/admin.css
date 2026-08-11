@@ -108,6 +108,7 @@ body {
   border-collapse: collapse;
   background-color: white;
   padding: 20px;
+  border-radius: 20px 20px 0px 0px;
 }
 
 table {
@@ -126,7 +127,7 @@ th {
 .booking_table th {
   font-size: 14px;
   font-weight: 600;
-  background: #f8fafc;
+  background: #ebeef1;
 }
 
 .user_info {
@@ -139,10 +140,15 @@ th {
   font-weight: 500;
 }
 .user_avatar {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background: #dbeafe;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
 }
 .date-books {
   white-space: nowrap;
@@ -362,4 +368,17 @@ td {
   border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
+}
+.table_container {
+  border: 2px solid #e2e8f0;
+  padding: 30px;
+  border-radius: 25px;
+  background-color: white;
+}
+.book {
+  border-top-left-radius: 10px;
+  /* border-bottom-left-radius: 10px; */
+}
+.book_left {
+  border-top-right-radius: 10px;
 }

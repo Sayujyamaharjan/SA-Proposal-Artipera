@@ -1,5 +1,8 @@
 <?php
-include '../php/authGuard.php'; ?>
+include '../php/authGuard.php';
+include '../components/fetchWorkers.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,7 +69,7 @@ include '../php/authGuard.php'; ?>
                     </div>
                 </div>
                 <div class="input_boxes input_button">
-                    <input type="submit" value="Create account">
+                    <input type="submit" value="Create account" name="signup">
                 </div>
                 <div class="already_have">
                     <span class="txt">Already have an account?</span>

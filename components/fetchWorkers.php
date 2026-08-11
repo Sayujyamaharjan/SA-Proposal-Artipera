@@ -45,13 +45,9 @@ function fetchWorkers($conn, $limit = 6)
     return $workers;
 }
 
-
 function fetchBookings($conn)
 {
-    $sql = "SELECT
-                b.*,
-                customer.name AS customer_name,
-                worker_user.name AS worker_name
+    $sql = "SELECT b.*, customer.name AS customer_name, worker_user.name AS worker_name
             FROM booking b
             JOIN users customer ON b.user_id = customer.user_id
             JOIN worker w ON b.Worker_id = w.Worker_id
@@ -67,7 +63,6 @@ function fetchBookings($conn)
 
     return $bookings;
 }
-
 
 function fetchSavedWorkers($conn, $user_id)
 {
@@ -104,4 +99,21 @@ function fetchSavedWorkers($conn, $user_id)
     }
 
     return $workers;
+}
+
+function fetchCustomer($conn)
+{
+
+    $sql = "SELECT * FROM users WHERE role = 'customer'";
+
+    $result = mysqli_query($conn, $sql);
+
+    $customers = [];
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $customers[] = $row;
+        }
+    }
+
+    return $customers;
 }

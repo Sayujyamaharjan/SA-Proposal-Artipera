@@ -81,12 +81,12 @@ $user = fetchWorkers($conn);
                 <table>
                     <thead>
                         <tr>
-                            <th>WORKER</th>
+                            <th class="book">WORKER</th>
                             <th>SKILL</th>
                             <th>LOCATION</th>
                             <th>RATING</th>
                             <th>STATUS</th>
-                            <th>ACTIONS</th>
+                            <th class="book_left">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,8 +113,7 @@ $user = fetchWorkers($conn);
                                 <td>⭐ 4.9</td>
                                 <td><span class="verified">Verified</span></td>
                                 <td>
-                                    <button class="btn_view">View</button>&nbsp;&nbsp;
-                                    <button class="btn_suspend">Suspend</button>
+                                    <button class="btn_view">View</button>
                                 </td>
                             </tr>
                         <?php } ?>

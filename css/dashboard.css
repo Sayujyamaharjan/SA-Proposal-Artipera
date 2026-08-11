@@ -181,14 +181,26 @@ body {
   gap: 10px;
 }
 .worker_profile_logo {
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
   background-color: rgb(201, 239, 201);
+  margin-top: 5px;
+}
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
 }
 .worker_profile_text {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
 }
 .worker_profile_name {
@@ -367,10 +379,7 @@ option:checked {
   justify-content: space-between;
   width: 100%;
 }
-.My_status {
-  display: flex;
-  align-items: center;
-}
+
 .remove_saved {
   margin-top: 10px;
   width: 100%;
@@ -587,4 +596,150 @@ option:checked {
 a {
   text-decoration: none;
   color: black;
+}
+.success {
+  background-color: rgba(208, 255, 139, 0.537);
+  color: rgb(0, 149, 10);
+}
+.danger {
+  background-color: rgba(255, 154, 139, 0.537);
+  color: rgb(128, 60, 0);
+}
+.warn {
+  background-color: rgba(235, 247, 168, 0.537);
+  color: rgb(163, 147, 0);
+}
+.approve {
+  background-color: rgba(149, 165, 255, 0.537);
+  color: #002fb2;
+}
+.my_status {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  flex-direction: column;
+  gap: 10px;
+}
+.leave {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: white;
+  font-size: 12px;
+}
+.my_status div {
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+
+/* review   review  review  review  review  review  review  review  review   */
+
+.popup-container-review {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  height: 50%;
+  border: none;
+  border-radius: 15px;
+  transform: translate(-50%, -50%);
+}
+.popup-container-review::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+.review_box {
+  width: 500px;
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.review_box h1 {
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #64748b;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  margin-bottom: 5px;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 42px;
+  color: #d1d5db;
+  cursor: pointer;
+  padding: 0 3px;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #f59e0b;
+}
+
+.review_label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+textarea {
+  width: 100%;
+  height: 80px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 15px;
+  resize: none;
+  margin-bottom: 25px;
+  font-size: 15px;
+}
+
+.message {
+  text-align: center;
+  margin-bottom: 15px;
+  color: green;
+  font-weight: 600;
+}
+.btns_review {
+  display: flex;
+  gap: 10px;
+}
+
+.submit_btn,
+.cancel_btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.submit_btn {
+  border: none;
+  background: #f59e0b;
+  color: #000;
+  cursor: pointer;
+}
+
+.cancel_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border: 1px solid #1f2937;
+  color: #1f2937;
 }
