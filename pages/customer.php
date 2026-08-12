@@ -33,8 +33,42 @@ $bookings = [];
 while ($row = $result->fetch_assoc()) {
     $bookings[] = $row;
 }
+$sql = "
+SELECT
+COUNT(*) AS total_bookings,
 
+SUM(CASE
+    WHEN status='completed'
+    THEN 1 ELSE 0
+END) AS completed_bookings,
 
+SUM(CASE
+    WHEN status='pending'
+    THEN 1 ELSE 0
+END) AS pending_bookings,
+
+MAX(CASE
+    WHEN status='completed'
+    THEN Booking_date
+END) AS last_completed_date,
+
+MIN(CASE
+    WHEN status='approved'
+    AND Booking_date >= CURDATE()
+    THEN Booking_date
+END) AS next_appointment,
+
+(
+    SELECT COUNT(*)
+    FROM saved_workers
+    WHERE user_id = $user_id
+) AS total_saved
+
+FROM booking
+WHERE user_id = $user_id
+";
+$result = mysqli_query($conn, $sql);
+$stats = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -54,25 +88,39 @@ while ($row = $result->fetch_assoc()) {
         <div class="right_stats">
             <div class="stats_box">
                 <img src="../assets/svg/calendar-week blue.svg" alt="" class="stats_logo">
-                <p class="stats_number">10</p>
+                <p class="stats_number"><?php echo $stats['total_bookings']; ?></p>
                 <p class="stats_text">Total Bookings</p>
                 <p class="stats_status">This Month</p>
             </div>
             <div class="stats_box">
                 <img src="../assets/svg/checkbox.svg" alt="" class="stats_logo">
-                <p class="stats_number">05</p>
+                <p class="stats_number"><?php echo $stats['completed_bookings']; ?></p>
                 <p class="stats_text">Completed Bookings</p>
-                <p class="stats_status">Last Completed Date</p>
+                <p class="stats_status">
+                    <?php
+                    echo $stats['last_completed_date']
+                        ? date('M d', strtotime($stats['last_completed_date']))
+                        : 'No completed bookings';
+                    ?>
+                </p>
             </div>
             <div class="stats_box">
                 <img src="../assets/svg/clock.svg" alt="" class="stats_logo">
-                <p class="stats_number">03</p>
+                <p class="stats_number"><?php echo $stats['pending_bookings']; ?></p>
                 <p class="stats_text">Pending Bookings</p>
-                <p class="stats_status">Next Appointment</p>
+                <p class="stats_status">
+                    <?php
+                    echo $stats['next_appointment']
+                        ? date('M d', strtotime($stats['next_appointment']))
+                        : 'No upcoming booking';
+                    ?>
+                </p>
             </div>
             <div class="stats_box">
                 <img src="../assets/svg/heart red.svg" alt="" class="stats_logo">
-                <p class="stats_number">02</p>
+                <p class="stats_number">
+                    <?php echo $stats['total_saved']; ?>
+                </p>
                 <p class="stats_text">Saved Workers</p>
                 <a href="customerSaved.php" class="stats_status">View all</a>
             </div>
@@ -89,8 +137,15 @@ while ($row = $result->fetch_assoc()) {
                     <div class="workerin_customer">
                         <div class="workerprof">
                             <div class="worker_profile_logo">
-                                <img
-                                    src="../assets/profile/<?php echo $user['profile_image']; ?>" alt="">
+                                <div class="worker_profile_logo">
+                                    <?php
+                                    $name = explode(' ', $user['name']);
+                                    $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
+                                    ?>
+                                    <div class="avatar navy">
+                                        <?php echo $initials; ?>
+                                    </div>
+                                </div>
                             </div>
                             <div class="worker_profile_text">
                                 <a href="customerView.php?user_id=<?php echo $user['user_id'] ?>" class="worker_profile_name">
@@ -180,7 +235,15 @@ while ($row = $result->fetch_assoc()) {
                         ?>
                             <div class="workern_customer upcoming">
                                 <div class="workerprof">
-                                    <div class="worker_profile_logo"></div>
+                                    <div class="worker_profile_logo">
+                                        <?php
+                                        $name = explode(' ', $user['name']);
+                                        $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
+                                        ?>
+                                        <div class="avatar navy">
+                                            <?php echo $initials; ?>
+                                        </div>
+                                    </div>
                                     <div class="worker_profile_text">
                                         <p class="worker_profile_name">
                                             <?php echo $user['name'] ?>
@@ -193,7 +256,10 @@ while ($row = $result->fetch_assoc()) {
                                 ?>
                                 <br>
                                 <div class="booking_bottom">
-                                    <span class="rating"><?php echo $img, $user['rating'] ?? "0" ?></span>
+                                    <span class="rating">
+                                        <img src="../assets/logo/star.png" alt="" class="rate">
+                                        <?php echo $user['rating']  ?>
+                                    </span>
                                 </div>
                             </div>
                             <br>

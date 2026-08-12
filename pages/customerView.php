@@ -131,7 +131,6 @@ if (isset($_POST['save_worker'])) {
     </div>
 
     <dialog class="popup-container" popover id="popupbox">
-
         <div class="popup">
             <div class="booking_modal">
                 <h1 class="worker_name">

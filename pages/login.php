@@ -6,6 +6,17 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    if (empty($email) || empty($password)) {
+?>
+        <script>
+            alert("Invalid email or password")
+            window.location.replace("./login.php");
+        </script>
+
+        <?php
+
+    }
+
     $sql = "SELECT * FROM users WHERE email='$email' ";
     $result = mysqli_query($conn, $sql);
 
@@ -27,7 +38,7 @@ if (isset($_POST['login'])) {
                 header("Location: customer.php");
             }
         } else {
-?>
+        ?>
             <script>
                 alert("Invalid Password")
             </script> <?php
@@ -80,8 +91,8 @@ if (isset($_POST['login'])) {
                     <div class="line"></div>
                 </div>
                 <div class="buttons">
-                    <button class="signcuss sign"><a href="signup.php" class="cusssign">Be a customer</a></button>
-                    <button class="signwork sign"><a href="signup.php" class="worksign">Be a worker</a></button>
+                    <button class="signcuss sign"><a href="signup.php?page_title=Customer" class="cusssign">Be a customer</a></button>
+                    <button class="signwork sign"><a href="signup.php?page_title=Worker" class="worksign">Be a worker</a></button>
                 </div>
 
             </div>

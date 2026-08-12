@@ -38,7 +38,16 @@ function fetchWorkers($conn, $limit = 6)
                 'name'  => $service['service_name'],
             ];
         }
+        $ratingSql = "
+        SELECT ROUND(AVG(rating),1) AS rating
+        FROM review
+        WHERE Worker_id = $workerId
+    ";
 
+        $ratingResult = mysqli_query($conn, $ratingSql);
+        $rating = mysqli_fetch_assoc($ratingResult);
+
+        $row['rating'] = $rating['rating'] ?? "3.0";
         $workers[] = $row;
     }
 
@@ -94,7 +103,16 @@ function fetchSavedWorkers($conn, $user_id)
                 'name' => $service['service_name'],
             ];
         }
+        $ratingSql = "
+    SELECT ROUND(AVG(rating),1) AS rating
+    FROM review
+    WHERE Worker_id = $worker_id
+";
 
+        $ratingResult = mysqli_query($conn, $ratingSql);
+        $rating = mysqli_fetch_assoc($ratingResult);
+
+        $row['rating'] = $rating['rating'] ?? "3.0";
         $workers[] = $row;
     }
 
