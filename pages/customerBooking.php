@@ -17,7 +17,10 @@ $sql = "SELECT
             u.name AS worker_name,
             u.profile_image AS worker_profile
         FROM booking b
-        INNER JOIN users u ON b.Worker_id = u.user_id
+        INNER JOIN worker w 
+            ON b.Worker_id = w.Worker_id
+        INNER JOIN users u 
+            ON w.user_id = u.user_id
         WHERE b.user_id = ?";
 
 $stmt = $conn->prepare($sql);
