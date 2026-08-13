@@ -1,6 +1,6 @@
 <?php
 include '../php/connect.php';
-function fetchWorkers($conn, $limit = 6)
+function fetchWorkers($conn, $limit)
 {
     $limit = (int)$limit;
     $sql = "SELECT u.*, w.*, c.*
@@ -134,4 +134,23 @@ function fetchCustomer($conn)
     }
 
     return $customers;
+}
+
+function fetchWorkerBookings($conn, $workerId)
+{
+    $sql = "SELECT b.*, customer.name AS customer_name
+            FROM booking b
+            JOIN users customer
+            ON b.user_id = customer.user_id
+            WHERE b.Worker_id = '$workerId'";
+
+    $result = mysqli_query($conn, $sql);
+
+    $bookings = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $bookings[] = $row;
+    }
+
+    return $bookings;
 }

@@ -77,8 +77,8 @@ $bookings = fetchBookings($conn);
                                 </td>
 
                                 <td>
-                                    <span class="status">
-                                        <?php echo ucfirst($booking['status']); ?>
+                                    <span class="<?php echo $booking['status']; ?>">
+                                        <?php echo $booking['status']; ?>
                                     </span>
                                 </td>
                                 <td>

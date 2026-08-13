@@ -3,7 +3,8 @@ include '../components/Navbar.php';
 include '../php/authGuard.php';
 include '../components/fetchWorkers.php';
 
-$user = fetchWorkers($conn);
+$user = fetchWorkers($conn, 8);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,7 @@ $user = fetchWorkers($conn);
 </head>
 
 <body>
-    <?php Navbar("adminworker") ?>
+    <?php Navbar("adminWorker") ?>
     <div class="dashboard_right">
         <div class="workers_section">
 
@@ -76,7 +77,7 @@ $user = fetchWorkers($conn);
             </div>
 
             <div class="workers_table">
-                <h2>All Workers (8)</h2>
+                <h2>Workers (<?php echo count($user); ?>)</h2>
 
                 <table>
                     <thead>
@@ -106,12 +107,17 @@ $user = fetchWorkers($conn);
                                         </div>
                                     </div>
                                 </td>
-                                <td><?php echo $worker['address']; ?></td>
+                                <td><?php echo $worker['category_name']; ?></td>
                                 <td>
-                                    <?php echo date('M Y', strtotime($worker['created_at'])); ?>
+                                    <?php echo $worker['address']; ?>
                                 </td>
-                                <td>⭐ 4.9</td>
-                                <td><span class="verified">Verified</span></td>
+                                <td> <span class="rating">
+                                        <img src="../assets/logo/star.png" alt="" class="rate">
+                                        <?php echo $worker['rating']  ?>
+                                    </span></td>
+                                <td><span style="text-transform: capitalize;" class="<?php echo $worker['validation_status']; ?>">
+                                        <?php echo $worker['validation_status']; ?>
+                                    </span></td>
                                 <td>
                                     <button class="btn_view">View</button>
                                 </td>

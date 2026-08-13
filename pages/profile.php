@@ -84,7 +84,7 @@ include "../components/Navbar.php";
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "worker") { ?>
                 <div class="documents_container">
                     <div class="document_item">
-                        <span>📄 Citizenship Card (Verified)</span>
+                        <span>📄 Citizenship Card (Approved)</span>
                         <span class="verified">✓</span>
                     </div>
                     <label for="documentUpload" class="upload_box">
