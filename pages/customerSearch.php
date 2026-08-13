@@ -91,7 +91,7 @@ $users = fetchWorkers($conn);
                             </span>
                             <span class="rating">
                                 <img src="../assets/logo/star.png" alt="" class="rate">
-                                <?php echo $user['rating'] ?? '5.0'; ?>
+                                <?php echo $user['rating']; ?>
                             </span>
                         </div>
                     </div>

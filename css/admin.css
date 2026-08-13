@@ -174,8 +174,8 @@ th {
 }
 
 .verification_box {
-  background: #fffdf1;
-  border: 1px solid #f4d03f;
+  background-color: white;
+  border: 1px solid #dbe2ea;
   border-radius: 24px;
   padding: 30px;
 }

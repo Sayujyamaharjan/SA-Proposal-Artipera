@@ -2,7 +2,41 @@
 include '../php/authGuard.php';
 include '../components/fetchWorkers.php';
 
+$pageTitle = $_GET['page_title'];
+
+if (!isset($pageTitle)  ||  !in_array($pageTitle, ['Worker', "Customer"])) {
+    header("location: ./login.php");
+}
+if (isset($_POST['signup'])) {
+    $first_name =  $_POST['first_name'];
+    $last_name  = $_POST['last_name'];
+    $email      = $_POST['email'];
+    $phone      = $_POST['phone'];
+    $address    = $_POST['address'];
+
+    $full_name = $first_name . " " . $last_name;
+    $role = $pageTitle == "Worker" ? "worker" : "customer";
+    if (empty($email)) {
+        header("location: ./login.php");
+    }
+    $password   = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $sql = "INSERT INTO users
+        (name, email, password, phone, address, role,profile_image)
+        VALUES
+        ('$full_name', '$email', '$password', '$phone', '$address', '$role','default.jpg')";
+
+    if (mysqli_query($conn, $sql)) {
 ?>
+        <script>
+            alert("Account created successfully")
+            header("location: ./login.php");
+        </script> <?php
+                } else {
+                    echo "Error: " . mysqli_error($conn);
+                    header("location: ./login.php");
+                }
+            }
+                    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,13 +54,19 @@ include '../components/fetchWorkers.php';
                 <img src="../assets/logo/logo1.png" alt="" class="logo_img">
             </a>
             <div class="texts">
-                <h2>Become a customer</h2>
-                <p>Login to your account to continue</p>
+                <h2>Become a <?php echo $pageTitle ?></h2>
+                <p>Create your account to continue</p>
             </div>
             <div class="info_container">
-                <div class="input_boxes">
-                    <label for="full_name">Full Name</label>
-                    <input type="text" name="name" id="full_name">
+                <div class="input_boxes_locate_phone ">
+                    <div class="input_boxes">
+                        <label for="first_name">First Name</label>
+                        <input type="text" name="first_name" id="first_name">
+                    </div>
+                    <div class="input_boxes">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" name="last_name" id="last_name">
+                    </div>
                 </div>
                 <div class="input_boxes">
                     <label for="email">Email</label>

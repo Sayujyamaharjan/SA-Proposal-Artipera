@@ -141,48 +141,53 @@ foreach ($myBookings as $booking) {
     <?php Navbar('workerSchedule'); ?>
     <div class="dashboard_right">
         <div class="schedule_container">
-            <div class="calendar_card">
-                <h2 class="calendar_title">
-                    <?php date('F Y', strtotime("$year-$month-01")); ?>
+            <div class="booking_calendar_card">
+                <h2 class="booking_calendar_title">
+                    <?php echo date('F Y', strtotime("$year-$month-01")); ?>
                 </h2>
-                <div class="calendar">
-                    <div class="day_name">SUN</div>
-                    <div class="day_name">MON</div>
-                    <div class="day_name">TUE</div>
-                    <div class="day_name">WED</div>
-                    <div class="day_name">THU</div>
-                    <div class="day_name">FRI</div>
-                    <div class="day_name">SAT</div>
+
+                <div class="booking_calendar">
+                    <div class="calendar_header">SUN</div>
+                    <div class="calendar_header">MON</div>
+                    <div class="calendar_header">TUE</div>
+                    <div class="calendar_header">WED</div>
+                    <div class="calendar_header">THU</div>
+                    <div class="calendar_header">FRI</div>
+                    <div class="calendar_header">SAT</div>
+
                     <?php
                     for ($i = 0; $i < $firstDay; $i++) {
                         echo "<div></div>";
                     }
+
                     for ($day = 1; $day <= $daysInMonth; $day++) {
-                        $class = "day";
+
+                        $class = "calendar_date";
+
                         if ($day == $today) {
-                            $class .= " today";
+                            $class .= " current_date";
                         }
+
                         if (in_array($day, $bookedDates)) {
-                            $class .= " booked";
+                            $class .= " booked_date";
                         }
+
                         echo "
-                    <div
-                        class='$class'
-                        onclick='showDetails($day)'
-                    >
-                        $day
-                    </div>
-                ";
+            <div class='$class' onclick='showDetails($day)'>
+                $day
+            </div>";
                     }
                     ?>
                 </div>
-                <div class="legend">
-                    <div class="legend_item">
-                        <div class="box today_box"></div>
+
+                <div class="calendar_status">
+                    <div class="status_item">
+                        <div class="status_box today_status"></div>
                         Today
                     </div>
-                    <div class="legend_item">
-                        <div class="box booking_box"></div>
+
+                    <div class="status_item">
+                        <div class="status_box booking_status"></div>
                         Has Booking
                     </div>
                 </div>
@@ -200,14 +205,14 @@ foreach ($myBookings as $booking) {
                         id="booking_details">
                         Click any date from the calendar.
                     </div>
-                    <div class="status_buttons">
+                    <!-- <div class="status_buttons">
                         <button class="available">
                             Available
                         </button>
                         <button class="busy">
                             Set Busy
                         </button>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="skills_section">
                     <h3>Skills & Specializations</h3>
@@ -258,7 +263,6 @@ foreach ($myBookings as $booking) {
             if (day < 10) {
                 day = `0${day}`;
             }
-
 
             let taskArr = bookings.find((e) => {
                 return parseInt(e.Booking_date.split("-").at(-1)) == parseInt(day)

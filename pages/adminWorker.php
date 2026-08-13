@@ -21,7 +21,7 @@ $user = fetchWorkers($conn);
         <div class="workers_section">
 
             <div class="verification_box">
-                <h2>⏳ 2 Workers Awaiting Verification</h2>
+                <h2>Workers Awaiting Verification</h2>
 
                 <div class="verification_card">
                     <div class="worker_left">
@@ -118,71 +118,6 @@ $user = fetchWorkers($conn);
                             </tr>
                         <?php } ?>
                     </tbody>
-                    <!-- <tbody>
-                        <tr>
-                            <td>
-                                <div class="worker_profile">
-                                    <div class="avatar navy">RB</div>
-                                    <div>
-                                        <h4>Ram Bahadur KC</h4>
-                                        <p>8 years exp</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Plumber</td>
-                            <td>Kathmandu</td>
-                            <td>⭐ 4.9 (124)</td>
-                            <td>312</td>
-                            <td><span class="verified">Verified</span></td>
-                            <td>
-                                <button class="btn_view">View</button> &nbsp; &nbsp;
-                                <button class="btn_suspend">Suspend</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <div class="worker_profile">
-                                    <div class="avatar violet">SS</div>
-                                    <div>
-                                        <h4>Sita Sharma</h4>
-                                        <p>6 years exp</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Electrician</td>
-                            <td>Lalitpur</td>
-                            <td>⭐ 4.8 (98)</td>
-                            <td>245</td>
-                            <td><span class="verified">Verified</span></td>
-                            <td>
-                                <button class="btn_view">View</button> &nbsp; &nbsp;
-                                <button class="btn_suspend">Suspend</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <div class="worker_profile">
-                                    <div class="avatar green">HT</div>
-                                    <div>
-                                        <h4>Hari Thapa</h4>
-                                        <p>12 years exp</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Carpenter</td>
-                            <td>Bhaktapur</td>
-                            <td>⭐ 4.6 (87)</td>
-                            <td>198</td>
-                            <td><span class="verified">Verified</span></td>
-                            <td>
-                                <button class="btn_view">View</button> &nbsp; &nbsp;
-                                <button class="btn_suspend">Suspend</button>
-                            </td>
-                        </tr>
-
-                    </tbody> -->
                 </table>
             </div>
         </div>
