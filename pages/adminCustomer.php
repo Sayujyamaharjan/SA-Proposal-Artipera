@@ -16,7 +16,7 @@ $customer = fetchCustomer($conn);
 </head>
 
 <body>
-    <?php Navbar("admincustomer") ?>
+    <?php Navbar("adminCustomer") ?>
     <div class="dashboard_right">
         <div class="workers_table">
             <table>
@@ -25,7 +25,6 @@ $customer = fetchCustomer($conn);
                         <th class="book">CUSTOMER</th>
                         <th>EMAIL</th>
                         <th>LOCATION</th>
-                        <th>JOINED</th>
                         <th>BOOKINGS</th>
                         <th class="book_left">ACTIONS</th>
                     </tr>
@@ -51,7 +50,6 @@ $customer = fetchCustomer($conn);
                             </td>
                             <td> <?php echo $customers['email'] ?> </td>
                             <td><?php echo $customers['address'] ?></td>
-                            <td><?php echo date('M Y', strtotime($customers['created_at'])) ?></td>
                             <td>3</td>
                             <td>
                                 <button class="btn_view">View</button>

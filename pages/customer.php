@@ -4,7 +4,7 @@ include '../components/Navbar.php';
 include '../components/fetchWorkers.php';
 $conn = mysqli_connect("localhost", "root", "", "Artipera");
 
-$users = fetchWorkers($conn);
+$users = fetchWorkers($conn, 6);
 $user_id = $_SESSION['user_id'];
 
 $sql = "SELECT 

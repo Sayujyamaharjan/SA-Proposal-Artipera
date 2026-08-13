@@ -32,7 +32,7 @@ if (isset($_POST['remove_saved'])) {
 </head>
 
 <body>
-    <?php Navbar("saved",) ?>
+    <?php Navbar("saved") ?>
     <div class="dashboard_right">
         <p class="greetings">Saved Workers</p>
         <div class="recomended_workers">

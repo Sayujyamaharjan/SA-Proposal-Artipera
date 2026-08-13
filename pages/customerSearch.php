@@ -3,7 +3,7 @@ include '../php/authGuard.php';
 include '../components/Navbar.php';
 include '../components/fetchWorkers.php';
 
-$users = fetchWorkers($conn);
+$users = fetchWorkers($conn, 6);
 ?>
 
 <!DOCTYPE html>

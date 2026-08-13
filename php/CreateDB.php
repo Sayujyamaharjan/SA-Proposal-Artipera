@@ -319,11 +319,12 @@ function createWorker($conn)
         base_rate INT NOT NULL ;
         id_front_photo VARCHAR(255) NOT NULL,
         id_back_photo VARCHAR(255) NOT NULL,
-        id_status VARCHAR(255) DEFAULT 'pending', 
+        id_status ENUM('pending', 'approved','rejected') DEFAULT 'pending', 
         past_work_photo VARCHAR(255) NOT NULL,
-        work_status VARCHAR(255) DEFAULT 'pending', 
+        work_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending', 
         degree VARCHAR(255) NOT NULL,
-        degree_status VARCHAR(255) DEFAULT 'pending',
+        degree_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+        validation_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
         FOREIGN KEY (user_id) REFERENCES users(user_id),
         FOREIGN KEY (category_id) REFERENCES category(category_id)
     )";

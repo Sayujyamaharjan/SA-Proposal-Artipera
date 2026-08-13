@@ -52,7 +52,6 @@ function Navbar($active)
                 </div>
             </a>
         </div>
-        <!-- </a> -->
         <div class="hr-line"></div>
         <div class="profile_main">
             <div class="main_contents">
@@ -80,15 +79,15 @@ function Navbar($active)
 
                 if (isset($_SESSION['role']) && $_SESSION['role'] == "worker") {
                 ?>
-                    <div class="main_tab <?php echo $active === 'dashboard' ? 'activeNav' : '' ?>">
+                    <div class="main_tab <?php echo $active === 'workerDashboard' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/home.svg" alt="" class="tab_img">
                         <a href="worker.php" class="tab_text">Home</a>
                     </div>
-                    <div class="main_tab <?php echo $active === 'bookings' ? 'activeNav' : '' ?>">
+                    <div class="main_tab <?php echo $active === 'workerBookings' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/calendar-week.svg" alt="" class="tab_img">
                         <a href="workerBooking.php" class="tab_text">My Bookings</a>
                     </div>
-                    <div class="main_tab <?php echo $active === 'schedule' ? 'activeNav' : '' ?>">
+                    <div class="main_tab <?php echo $active === 'workerSchedule' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/service.svg" alt="" class="tab_img">
                         <a href="workerSchedule.php" class="tab_text">Services</a>
                     </div>
@@ -96,16 +95,16 @@ function Navbar($active)
                 }
                 if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
                 ?>
-                    <div class="main_tab <?php echo $active === 'workers' ? 'activeNav' : '' ?>">
+                    <div class="main_tab <?php echo $active === 'admin' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/calendar-week.svg" alt="" class="tab_img">
                         <a href="workerBooking.php" class="tab_text">All Bookings</a>
                     </div>
-                    <div class="main_tab <?php echo $active === 'allBookings' ? 'activeNav' : '' ?>">
+                    <div class="main_tab <?php echo $active === 'adminWorker' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/worker.svg" alt="" class="tab_img">
                         <a href="adminWorker.php" class="tab_text">Workers</a>
                     </div>
 
-                    <div class="main_tab <?php echo $active === 'customers' ? 'activeNav' : '' ?>">
+                    <div class="main_tab <?php echo $active === 'adminCustomer' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/usersmany.svg" alt="" class="tab_img">
                         <a href="adminCustomer.php" class="tab_text">Customer</a>
                     </div>
