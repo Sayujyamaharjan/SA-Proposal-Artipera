@@ -3,7 +3,8 @@ include '../components/Navbar.php';
 include "../php/connect.php";
 include "../php/authGuard.php";
 include "../components/fetchWorkers.php";
-$workerDetails = fetchWorkers($conn);
+
+$workerDetails = fetchWorkers($conn, 6);
 
 $userIdUrl =  $_GET['user_id'] ?? NULL;
 
@@ -16,6 +17,7 @@ if ($workerDetails) {
         }
     }
 }
+
 $today = date('Y-m-d');
 
 if (isset($_POST['save_worker'])) {
@@ -36,6 +38,27 @@ if (isset($_POST['save_worker'])) {
         );
     }
 }
+
+if (isset($_POST['confirm_booking'])) {
+
+    $user_id = $_SESSION['user_id'];
+
+    $worker_id = $worker['Worker_id'];
+    $pricing = $worker['base_rate'] + 50;
+
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
+    $booking_date = $_POST['booking_date'];
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
+
+    $sql = "INSERT INTO booking
+            (user_id, Worker_id, address, pricing, Booking_date, Booking_detail, status)
+            VALUES
+            ('$user_id', '$worker_id', '$address', '$pricing',
+             '$booking_date', '$description', 'pending')";
+
+    mysqli_query($conn, $sql);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -140,17 +163,21 @@ if (isset($_POST['save_worker'])) {
                     <?php echo $worker['category_name']  ?? "electrician" ?> · NPR <?php echo $worker['base_rate'] ?? 100 ?>/hr
                 </p>
                 <form method="POST">
-                    <div class="form_group">
+                    <input type="hidden" name="worker_id"
+                        value="<?php echo $worker['Worker_id']; ?>">
+                    <input type="hidden" name="pricing"
+                        value="<?php echo $worker['base_rate'] + 50; ?>">
+                    <!-- <div class="form_group">
                         <label>Service Needed</label>
                         <select name="service_name">
 
                             <?php foreach ($worker['services'] as $service) { ?>
-                                <option value="<?php $service['name'] ?>">
+                                <option value=" echo <?php $service['name'] ?>">
                                     <?php echo $service['name'] ?>
                                 </option>
                             <?php } ?>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="form_group">
                             <label>Date</label>
@@ -183,7 +210,7 @@ if (isset($_POST['save_worker'])) {
                             <span>NPR <?php echo $worker['base_rate'] + 50 ?? 100 ?>+</span>
                         </div>
                     </div>
-                    <button class="confirm_btn" type="submit">Confirm Booking</button>
+                    <button class="confirm_btn" type="submit" name="confirm_booking">Confirm Booking</button>
                     <button class="cancel_btn" type="button" popovertarget="popupbox" popovertargetaction="hide">Cancel </button>
                 </form>
             </div>
