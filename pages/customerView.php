@@ -19,6 +19,30 @@ if ($workerDetails) {
 }
 
 $today = date('Y-m-d');
+$reviews = [];
+
+if ($worker) {
+    $workerId = $worker['Worker_id'];
+
+    $reviewSql = "
+        SELECT
+            r.Rating,
+            r.Comment,
+            b.Booking_date,
+            u.name AS reviewer_name
+        FROM review r
+        JOIN booking b ON r.Booking_id = b.Booking_id
+        JOIN users u ON b.user_id = u.user_id
+        WHERE r.Worker_id = '$workerId'
+        ORDER BY b.Booking_date DESC
+    ";
+
+    $reviewResult = mysqli_query($conn, $reviewSql);
+
+    while ($row = mysqli_fetch_assoc($reviewResult)) {
+        $reviews[] = $row;
+    }
+}
 
 if (isset($_POST['save_worker'])) {
     $user_id = $_SESSION['user_id'];
@@ -75,7 +99,15 @@ if (isset($_POST['confirm_booking'])) {
     <?php Navbar("view") ?>
     <div class="dashboard_right">
         <div class="profile_info">
-            <div class="profile_logo_view"></div>
+            <div class="profile_logo_view">
+                <?php
+                $name = explode(' ', $worker['name']);
+                $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
+                ?>
+                <div class="avatar navy">
+                    <?php echo $initials; ?>
+                </div>
+            </div>
             <div class="profile_view_text">
                 <p class="profile_view_name"><?php echo $worker['name'] ?></p>
                 <div class="verify_manage">
@@ -122,30 +154,53 @@ if (isset($_POST['confirm_booking'])) {
                 <div class="view_container">
                     <p class="head">About</p>
                     <p class="paragraph">
-                        Licensed electrician specializing in residential and commercial wiring,
-                        solar panel installation, and electrical safety audits.
+                        <?php
+                        echo $worker['bio'];
+                        ?>
                     </p>
                 </div>
                 <div class="view_container">
                     <p class="head">Customer Reviews</p>
-                    <?php foreach ($worker['services'] as $service) { ?>
-                        <div class="review_container">
-                            <div class="review_header">
-                                <div class="view_profile_logo">
-                                    PA
+                    <?php if (!empty($reviews)) { ?>
+
+                        <?php foreach ($reviews as $review) { ?>
+
+                            <div class="review_container">
+                                <div class="review_header">
+
+                                    <div class="view_profile_logo">
+                                        <?php
+                                        $name = explode(' ', $review['reviewer_name']);
+                                        $initials = strtoupper(
+                                            $name[0][0] .
+                                                $name[count($name) - 1][0]
+                                        );
+                                        ?>
+                                        <div class="avatar navy">
+                                            <?php echo $initials; ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="view_profile_text">
+                                        <p class="view_profile_name">
+                                            <?php echo $review['reviewer_name']; ?>
+                                        </p>
+
+                                        <span class="review_date">
+                                            <?php echo date('M d, Y', strtotime($review['Booking_date'])); ?>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="view_profile_text">
-                                    <p class="view_profile_name">
-                                        <?php echo $_SESSION['name'] ?? "Sayujya"; ?>
-                                    </p>
-                                    <span class="review_date">2 days ago</span>
-                                </div>
+                                <p class="review_text">
+                                    <?php echo $review['Comment']; ?>
+                                </p>
                             </div>
-                            <p class="review_text">
-                                Highly recommend. Showed up on time, did the job perfectly.
-                                Will book again.
-                            </p>
-                        </div>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <p class="paragraph">
+                            No reviews available yet.
+                        </p>
+
                     <?php } ?>
                 </div>
 

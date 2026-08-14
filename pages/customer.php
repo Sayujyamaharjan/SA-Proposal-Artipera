@@ -4,7 +4,7 @@ include '../components/Navbar.php';
 include '../components/fetchWorkers.php';
 $conn = mysqli_connect("localhost", "root", "", "Artipera");
 
-$users = fetchWorkers($conn, 6);
+$users = fetchWorkers($conn, 5);
 $user_id = $_SESSION['user_id'];
 
 $sql = "SELECT 
@@ -182,7 +182,7 @@ $stats = mysqli_fetch_assoc($result);
         <div class="right_two_container">
             <div class=" right_container_upcomming">
                 <div class="recomended_head">
-                    <p class="right_heading">Upcoming Bookings</p>
+                    <p class="right_heading">My Bookings</p>
                     <a href="customerBooking.php" class="right_btn">View all</a>
                 </div>
                 <div class="right_contents_detail">
