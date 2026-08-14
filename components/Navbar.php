@@ -27,6 +27,39 @@ function Navbar($active)
             font-size: 13px;
             font-weight: 500;
         }
+
+        .option_bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            border-right: 2px solid #e5e7eb;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bottom_option {
+            margin-top: auto;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            opacity: 60%;
+            transition: 0.2s ease-in-out;
+        }
+
+        .bottom_section {
+            margin-top: auto;
+        }
+
+        .profile_main {
+            flex: 1;
+        }
+
+        .main_contents {
+            margin-top: 5px;
+        }
     </style>
     <div class="option_bar">
         <div class="web_logo">
@@ -113,10 +146,13 @@ function Navbar($active)
                 ?>
             </div>
         </div>
-        <div class="hr-line"></div>
-        <div class="bottom_option">
-            <img src="../assets/svg/logout.svg" alt="" class="tab_img">
-            <a href="logout.php" class="tab_text">Log Out</a>
+        <div class="bottom_section">
+            <div class="hr-line"></div>
+
+            <div class="bottom_option">
+                <img src="../assets/svg/logout.svg" alt="" class="tab_img">
+                <a href="logout.php" class="tab_text">Log Out</a>
+            </div>
         </div>
     </div>
 

@@ -29,7 +29,7 @@ if (isset($_POST['signup'])) {
 ?>
         <script>
             alert("Account created successfully")
-            header("location: ./login.php");
+            window.location.href = 'signup.php?page_title=$pageTitle';
         </script> <?php
                 } else {
                     echo "Error: " . mysqli_error($conn);

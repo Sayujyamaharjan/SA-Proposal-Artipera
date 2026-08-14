@@ -27,13 +27,17 @@ if (isset($_POST['save_profile'])) {
     $address = mysqli_real_escape_string($conn, $_POST['address']);
 
     $sql = "UPDATE users
-            SET name='$name',
-                email='$email',
-                phone='$phone',
-                address='$address'
-            WHERE user_id='$user_id'";
+        SET name='$name',
+            email='$email',
+            phone='$phone',
+            address='$address'
+        WHERE user_id='$user_id'";
 
     mysqli_query($conn, $sql);
+
+    // Update session values
+    $_SESSION['name'] = $name;
+    $_SESSION['email'] = $email;
 
     if ($_SESSION['role'] == 'worker') {
 
@@ -49,7 +53,8 @@ if (isset($_POST['save_profile'])) {
 
         mysqli_query($conn, $sql);
     }
-
+    $_SESSION['name'] = $name;
+    $_SESSION['email'] = $email;
     header("Location: profile.php");
     exit();
 }

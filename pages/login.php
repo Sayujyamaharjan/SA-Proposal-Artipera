@@ -9,7 +9,7 @@ if (isset($_POST['login'])) {
     if (empty($email) || empty($password)) {
 ?>
         <script>
-            alert("Invalid email or password")
+            alert("Email or password canot be empty")
             window.location.replace("./login.php");
         </script>
 

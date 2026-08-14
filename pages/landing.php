@@ -42,8 +42,8 @@ include '../php/authGuard.php';
                 before anyone steps inside your home.</span>
         </div>
         <div class="home_btn">
-            <a href="" class="customer_btn">Join as customer</a>
-            <a href="" class="worker_btn">Join as worker</a>
+            <a href="signup.php" class="customer_btn">Join as customer</a>
+            <a href="signup.php" class="worker_btn">Join as worker</a>
         </div>
         <p class="below_btn">
             Sign in required to browse. No directory. No anonymous listings.

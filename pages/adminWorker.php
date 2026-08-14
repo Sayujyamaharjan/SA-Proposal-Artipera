@@ -43,9 +43,9 @@ $user = fetchWorkers($conn, 8);
                     </div>
 
                     <div class="actions">
-                        <button class="btn_docs">📄 View Docs</button>
-                        <button class="btn_verify">✓ Verify</button>
-                        <button class="btn_reject">✗ Reject</button>
+                        <button class="btn_docs"> View Docs</button>
+                        <button class="btn_verify"> Verify</button>
+                        <button class="btn_reject"> Reject</button>
                     </div>
                 </div>
 
@@ -69,9 +69,9 @@ $user = fetchWorkers($conn, 8);
                     </div>
 
                     <div class="actions">
-                        <button class="btn_docs">📄 View Docs</button>
-                        <button class="btn_verify">✓ Verify</button>
-                        <button class="btn_reject">✗ Reject</button>
+                        <button class="btn_docs">View Docs</button>
+                        <button class="btn_verify">Verify</button>
+                        <button class="btn_reject">Reject</button>
                     </div>
                 </div>
             </div>
