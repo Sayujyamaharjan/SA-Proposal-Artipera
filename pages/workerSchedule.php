@@ -159,7 +159,6 @@ foreach ($myBookings as $booking) {
                     for ($i = 0; $i < $firstDay; $i++) {
                         echo "<div></div>";
                     }
-
                     for ($day = 1; $day <= $daysInMonth; $day++) {
 
                         $class = "calendar_date";
@@ -172,14 +171,10 @@ foreach ($myBookings as $booking) {
                             $class .= " booked_date";
                         }
 
-                        echo "
-            <div class='$class' onclick='showDetails($day)'>
-                $day
-            </div>";
+                        echo " <div class='$class' onclick='showDetails($day)'> $day </div>";
                     }
                     ?>
                 </div>
-
                 <div class="calendar_status">
                     <div class="status_item">
                         <div class="status_box today_status"></div>

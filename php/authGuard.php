@@ -38,7 +38,7 @@ $adminPages = [
 
 if (isset($_SESSION['isLogged_in']) && $_SESSION['isLogged_in'] == true) {
 
-    if ($_SESSION['role'] == 'worker') {
+    if ($_SESSION['role'] === 'worker') {
 
         if (!in_array($currentPage, $workerPages)) {
             header("Location: https://proposal.test/pages/worker.php");
@@ -46,14 +46,14 @@ if (isset($_SESSION['isLogged_in']) && $_SESSION['isLogged_in'] == true) {
         }
     }
 
-    if ($_SESSION['role'] == 'customer') {
+    if ($_SESSION['role'] === 'customer') {
 
         if (!in_array($currentPage, $customerPages)) {
             header("Location: https://proposal.test/pages/customer.php");
             exit();
         }
     }
-    if ($_SESSION['role'] == 'admin') {
+    if ($_SESSION['role'] === 'admin') {
 
         if (!in_array($currentPage, $adminPages)) {
             header("Location: https://proposal.test/pages/admin.php");

@@ -308,7 +308,7 @@ body {
   margin-top: 23px;
   padding: 15px;
   border: 1px solid #e5e7eb;
-  background-color: rgb(255, 0, 0);
+  background-color: rgb(48, 47, 47);
   color: #000000;
   border-radius: 15px;
   display: flex;
@@ -333,6 +333,7 @@ option:checked {
 .button_txt {
   font-size: 15px;
   font-weight: 500;
+  color: white;
 }
 .search_button_image {
   width: 18px;

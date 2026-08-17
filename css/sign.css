@@ -135,3 +135,7 @@ a {
 .worksign {
   color: black;
 }
+.swal2-toast,
+.swal2-icon.swal2-error {
+  animation: none !important;
+}

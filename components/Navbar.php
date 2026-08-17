@@ -96,7 +96,7 @@ function Navbar($active)
                         <a href="customer.php" class="tab_text">Home</a>
                     </div>
                     <div class="main_tab <?php echo $active === 'search' ? 'activeNav' : '' ?>">
-                        <img src="../assets/svg/search.svg" alt="" class="tab_img">
+                        <img src="../assets/svg/search black.svg" alt="" class="tab_img">
                         <a href="customerSearch.php" class="tab_text">Search</a>
                     </div>
                     <div class="main_tab <?php echo $active === 'bookings' ? 'activeNav' : '' ?>">
