@@ -67,6 +67,9 @@ body {
   opacity: 60%;
   transition: 0.2s ease-in-out;
 }
+.main_tab:hover {
+  opacity: 100%;
+}
 .tab_text {
   font-size: 14px;
   font-weight: 500;

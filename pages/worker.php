@@ -125,7 +125,7 @@ foreach ($myBookings as $booking) {
                     <div>
                         <?php
                         foreach ($users as $user) {
-                        ?>
+                            ?>
                             <div class="workerin_customer upcoming">
                                 <div class="workerprof">
                                     <div class="worker_profile_logo"></div>
@@ -138,7 +138,7 @@ foreach ($myBookings as $booking) {
                                 </div>
                             </div>
                             <br>
-                        <?php
+                                <?php
 
                         }
                         ?>

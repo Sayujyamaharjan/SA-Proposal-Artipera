@@ -149,13 +149,12 @@ if (isset($_POST['login'])) {
 
         <script>
             Swal.fire({
-                title: '<?php echo $title; ?>',
+                text: '<?php echo $title; ?>',
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
                 timer: 2000,
                 width: 'auto',
-                padding: '5px',
                 timerProgressBar: false
             });
             window.history.replaceState({}, document.title, "login.php");

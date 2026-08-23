@@ -3,7 +3,7 @@ include '../php/authGuard.php';
 include '../components/Navbar.php';
 include '../components/fetchWorkers.php';
 $conn = mysqli_connect("localhost", "root", "", "Artipera");
-
+$saved_users = fetchSavedWorkers($conn, $_SESSION['user_id'], 5);
 $users = fetchWorkers($conn, 5);
 $user_id = $_SESSION['user_id'];
 
@@ -36,34 +36,28 @@ while ($row = $result->fetch_assoc()) {
 $sql = "
 SELECT
 COUNT(*) AS total_bookings,
-
 SUM(CASE
     WHEN status='completed'
     THEN 1 ELSE 0
 END) AS completed_bookings,
-
 SUM(CASE
     WHEN status='pending'
     THEN 1 ELSE 0
 END) AS pending_bookings,
-
 MAX(CASE
     WHEN status='completed'
     THEN Booking_date
 END) AS last_completed_date,
-
 MIN(CASE
     WHEN status='approved'
     AND Booking_date >= CURDATE()
     THEN Booking_date
 END) AS next_appointment,
-
 (
     SELECT COUNT(*)
     FROM saved_workers
     WHERE user_id = $user_id
 ) AS total_saved
-
 FROM booking
 WHERE user_id = $user_id
 ";
@@ -132,7 +126,7 @@ $stats = mysqli_fetch_assoc($result);
             </div>
             <div class="recomended_workers">
 
-                <?php foreach ($users as $user) {  ?>
+                <?php foreach ($users as $user) { ?>
 
                     <div class="workerin_customer">
                         <div class="workerprof">
@@ -148,7 +142,8 @@ $stats = mysqli_fetch_assoc($result);
                                 </div>
                             </div>
                             <div class="worker_profile_text">
-                                <a href="customerView.php?user_id=<?php echo $user['user_id'] ?>" class="worker_profile_name">
+                                <a href="customerView.php?user_id=<?php echo $user['user_id'] ?>"
+                                    class="worker_profile_name">
                                     <?php echo $user['name']; ?>
                                 </a>
                                 <p class="job">
@@ -188,10 +183,10 @@ $stats = mysqli_fetch_assoc($result);
                 <div class="right_contents_detail">
                     <div>
                         <?php
-                        for ($i = 0; $i < 5; $i++) {
+                        for ($i = 0; $i < count($bookings) && $i < 5; $i++) {
                             $book = $bookings[$i];
                             $bookStatus = ($book['status'] === "pending" ? "warn" : ($book['status'] === "approved" ? "approve" : ($book['status'] === "completed" ? "success" : "danger")))
-                        ?>
+                                ?>
                             <div class="workerin_customer upcoming">
                                 <div class="workerprof">
                                     <div class="worker_profile_logo">
@@ -215,7 +210,7 @@ $stats = mysqli_fetch_assoc($result);
                                 </div>
                             </div>
                             <br>
-                        <?php
+                            <?php
 
                         }
                         ?>
@@ -226,13 +221,13 @@ $stats = mysqli_fetch_assoc($result);
             <div class=" right_container_upcomming" style="width: 100%;">
                 <div class="recomended_head">
                     <p class="right_heading">Saved Workers</p>
-                    <a href="customerSearch.php" class="right_btn">View all</a>
+                    <a href="customerSaved.php" class="right_btn">View all</a>
                 </div>
                 <div class="right_contents_detail">
                     <div>
                         <?php
-                        foreach ($users as $user) {
-                        ?>
+                        foreach ($saved_users as $user) {
+                            ?>
                             <div class="workern_customer upcoming">
                                 <div class="workerprof">
                                     <div class="worker_profile_logo">
@@ -245,9 +240,10 @@ $stats = mysqli_fetch_assoc($result);
                                         </div>
                                     </div>
                                     <div class="worker_profile_text">
-                                        <p class="worker_profile_name">
+                                        <a href="customerView.php?user_id=<?php echo $user['user_id'] ?>"
+                                            style="font-weight:600">
                                             <?php echo $user['name'] ?>
-                                        </p>
+                                        </a>
                                         <p class="job"><?php echo $user['category_name'] ?></p>
                                     </div>
                                 </div>
@@ -258,12 +254,12 @@ $stats = mysqli_fetch_assoc($result);
                                 <div class="booking_bottom">
                                     <span class="rating">
                                         <img src="../assets/logo/star.png" alt="" class="rate">
-                                        <?php echo $user['rating']  ?>
+                                        <?php echo $user['rating'] ?>
                                     </span>
                                 </div>
                             </div>
                             <br>
-                        <?php
+                            <?php
                         }
                         ?>
                     </div>

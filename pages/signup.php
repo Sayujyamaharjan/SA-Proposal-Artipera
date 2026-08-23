@@ -1,12 +1,19 @@
 <?php
 include '../php/authGuard.php';
 include '../components/fetchWorkers.php';
+include "../php/emailHandler.php";
+include "../php/caller.php";
 if (
     !isset($_GET['page_title']) || !in_array($_GET['page_title'], ['Worker', 'Customer'])
 ) {
     header("Location: ./login.php");
     exit;
 }
+
+$emailHandler = new EmailHandler();
+
+
+
 $pageTitle = $_GET['page_title'];
 if (isset($_POST['signup'])) {
     $first_name = trim($_POST['first_name']);
@@ -54,6 +61,27 @@ if (isset($_POST['signup'])) {
         exit;
     }
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $profile_image = "default.jpg";
+    $otp_expires = time() + (2 * 60);
+    $otp = generateOtp();
+    $request_id = generateRefCode();
+    $_SESSION['otp'] = $otp;
+    $_SESSION['otp_expires'] = $otp_expires;
+
+
+    $_SESSION['pending_info'] = [
+        'name' => $full_name,
+        'email' => $email,
+        'password' => $hashed_password,
+        'phone' => $phone,
+        'address' => $address,
+        'role' => $role,
+        'profile_image' => $profile_image
+    ];
+    $emailHandler->sendOTP($email, $full_name, $otp, $otp_expires, $request_id);
+    header("location: otpPage.php?expires_on=$otp_expires&request_id=$request_id&email=$email");
+    exit;
+    /* 
     $sql = "INSERT INTO users
             (name, email, password, phone, address, role, profile_image)
             VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -62,7 +90,7 @@ if (isset($_POST['signup'])) {
         header("Location: signup.php?page_title=$pageTitle&error=database");
         exit;
     }
-    $profile_image = "default.jpg";
+
     mysqli_stmt_bind_param(
         $stmt,
         "sssssss",
@@ -73,7 +101,7 @@ if (isset($_POST['signup'])) {
         $address,
         $role,
         $profile_image
-    );
+    ); */
     try {
         if (mysqli_stmt_execute($stmt)) {
             mysqli_stmt_close($stmt);
@@ -243,7 +271,6 @@ if (isset($_POST['signup'])) {
                 showConfirmButton: false,
                 timer: 2000,
                 width: 'auto',
-                padding: '5px',
                 timerProgressBar: false
             });
             window.history.replaceState(

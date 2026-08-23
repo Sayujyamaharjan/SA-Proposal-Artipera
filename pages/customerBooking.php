@@ -55,7 +55,7 @@ while ($row = $result->fetch_assoc()) {
             <?php
             foreach ($bookings as $book) {
                 $bookStatus = ($book['status'] === "pending" ? "warn" : ($book['status'] === "approved" ? "approve" : ($book['status'] === "completed" ? "success" : "danger")))
-            ?>
+                    ?>
 
                 <div class="workerin_customer">
                     <div class="workerprof">
@@ -77,13 +77,16 @@ while ($row = $result->fetch_assoc()) {
                             </div>
                             <div class="my_status">
                                 <div class="<?php echo $bookStatus ?>"><?php echo $book['status'] ?></div>
-                                <button class="leave" popovertarget="popupbox_review" popovertargetaction="show">Leave Review</button>
+                                <?php if ($book['status'] === "completed") { ?>
+                                    <button class="leave" popovertarget="popupbox_review" popovertargetaction="show">Leave
+                                        Review</button>
+                                    <?php
+                                } ?>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php
-
+                <?php
             }
             ?>
         </div>
@@ -106,24 +109,18 @@ while ($row = $result->fetch_assoc()) {
 
             <form method="POST">
 
-                <input type="hidden"
-                    name="booking_id"
-                    value="<?php echo $booking_id; ?>">
+                <input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
 
                 <div class="star-rating">
 
                     <input type="radio" name="rating" id="star5" value="5" required>
                     <label for="star5">★</label>
-
                     <input type="radio" name="rating" id="star4" value="4">
                     <label for="star4">★</label>
-
                     <input type="radio" name="rating" id="star3" value="3">
                     <label for="star3">★</label>
-
                     <input type="radio" name="rating" id="star2" value="2">
                     <label for="star2">★</label>
-
                     <input type="radio" name="rating" id="star1" value="1">
                     <label for="star1">★</label>
 
@@ -133,10 +130,7 @@ while ($row = $result->fetch_assoc()) {
                     Your Review
                 </label>
 
-                <textarea
-                    name="comment"
-                    placeholder="Share your experience with this worker..."
-                    required></textarea>
+                <textarea name="comment" placeholder="Share your experience with this worker..." required></textarea>
 
                 <div class="btns_review">
                     <button type="submit" class="submit_btn">

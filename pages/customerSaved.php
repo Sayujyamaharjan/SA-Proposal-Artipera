@@ -3,7 +3,7 @@ include '../php/authGuard.php';
 include '../components/Navbar.php';
 include "../components/fetchWorkers.php";
 
-$users = fetchSavedWorkers($conn, $_SESSION['user_id']);
+$users = fetchSavedWorkers($conn, $_SESSION['user_id'], 10);
 
 if (isset($_POST['remove_saved'])) {
 
@@ -39,7 +39,7 @@ if (isset($_POST['remove_saved'])) {
             <?php
             foreach ($users as $user) {
                 if ($user['role'] == "worker") {
-            ?>
+                    ?>
                     <div class="workerin_customer">
                         <div class="workerprof">
                             <div class="worker_profile_logo"></div>
@@ -78,7 +78,7 @@ if (isset($_POST['remove_saved'])) {
                             </form>
                         </div>
                     </div>
-            <?php
+                    <?php
                 }
             }
 

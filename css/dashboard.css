@@ -604,6 +604,7 @@ a {
 .my_status {
   display: flex;
   align-items: center;
+  justify-content: center;
   font-size: 12px;
   font-weight: 500;
   flex-direction: column;
@@ -718,7 +719,7 @@ textarea {
 
 .submit_btn {
   border: none;
-  background: #f59e0b;
+  background: #3562f4;
   color: #000;
   cursor: pointer;
 }

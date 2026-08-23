@@ -6,7 +6,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 $publicPages = [
     'landing.php',
     'login.php',
-    'signup.php'
+    'signup.php',
+    'otpPage.php'
 ];
 
 $workerPages = [

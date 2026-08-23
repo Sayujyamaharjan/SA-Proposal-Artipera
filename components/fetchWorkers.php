@@ -2,7 +2,7 @@
 include '../php/connect.php';
 function fetchWorkers($conn, $limit)
 {
-    $limit = (int)$limit;
+    $limit = (int) $limit;
     $sql = "SELECT u.*, w.*, c.*
             FROM users u
             JOIN worker w ON w.user_id = u.user_id
@@ -35,7 +35,7 @@ function fetchWorkers($conn, $limit)
         while ($service = mysqli_fetch_assoc($serviceResult)) {
 
             $row['services'][] = [
-                'name'  => $service['service_name'],
+                'name' => $service['service_name'],
             ];
         }
         $ratingSql = "
@@ -73,14 +73,16 @@ function fetchBookings($conn)
     return $bookings;
 }
 
-function fetchSavedWorkers($conn, $user_id)
+function fetchSavedWorkers($conn, $user_id, $limit)
 {
+    $limit = (int) $limit;
     $sql = "SELECT u.*, w.*, c.*
             FROM saved_workers s
             JOIN worker w ON s.worker_id = w.Worker_id
             JOIN users u ON w.user_id = u.user_id
             JOIN category c ON w.category_id = c.category_id
-            WHERE s.user_id = '$user_id'";
+            WHERE s.user_id = '$user_id'
+                 LIMIT $limit";
 
     $result = mysqli_query($conn, $sql);
 

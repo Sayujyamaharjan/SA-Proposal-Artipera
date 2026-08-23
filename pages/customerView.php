@@ -6,12 +6,12 @@ include "../components/fetchWorkers.php";
 
 $workerDetails = fetchWorkers($conn, 6);
 
-$userIdUrl =  $_GET['user_id'] ?? NULL;
+$userIdUrl = $_GET['user_id'] ?? NULL;
 
 $worker = null;
 if ($workerDetails) {
     foreach ($workerDetails as $item) {
-        if ((int)$item['user_id'] === (int)$userIdUrl) {
+        if ((int) $item['user_id'] === (int) $userIdUrl) {
             $worker = $item;
             break;
         }
@@ -19,6 +19,24 @@ if ($workerDetails) {
 }
 
 $today = date('Y-m-d');
+$bookedDates = [];
+
+if ($worker) {
+    $workerId = $worker['Worker_id'];
+
+    $bookedDateSql = "
+        SELECT DISTINCT DATE(Booking_date) AS booked_date
+        FROM booking
+        WHERE Worker_id = '$workerId'
+        AND status IN ('pending', 'approved')
+    ";
+
+    $bookedDateResult = mysqli_query($conn, $bookedDateSql);
+
+    while ($row = mysqli_fetch_assoc($bookedDateResult)) {
+        $bookedDates[] = $row['booked_date'];
+    }
+}
 $reviews = [];
 
 if ($worker) {
@@ -66,7 +84,6 @@ if (isset($_POST['save_worker'])) {
 if (isset($_POST['confirm_booking'])) {
 
     $user_id = $_SESSION['user_id'];
-
     $worker_id = $worker['Worker_id'];
     $pricing = $worker['base_rate'] + 50;
 
@@ -74,15 +91,38 @@ if (isset($_POST['confirm_booking'])) {
     $booking_date = $_POST['booking_date'];
     $description = mysqli_real_escape_string($conn, $_POST['description']);
 
-    $sql = "INSERT INTO booking
-            (user_id, Worker_id, address, pricing, Booking_date, Booking_detail, status)
-            VALUES
-            ('$user_id', '$worker_id', '$address', '$pricing',
-             '$booking_date', '$description', 'pending')";
+    $checkBookingSql = "
+        SELECT Booking_id
+        FROM booking
+        WHERE Worker_id = '$worker_id'
+        AND DATE(Booking_date) = '$booking_date'
+        AND status IN ('pending', 'approved')
+        LIMIT 1
+    ";
 
-    mysqli_query($conn, $sql);
+    $checkBooking = mysqli_query($conn, $checkBookingSql);
+
+    if (mysqli_num_rows($checkBooking) > 0) {
+        echo "<script>
+                alert('This worker is already booked on this date. Please select another date.');
+                window.history.back();
+              </script>";
+
+    } else {
+
+        $sql = "INSERT INTO booking
+                (user_id, Worker_id, address, pricing, Booking_date, Booking_detail, status)
+                VALUES
+                ('$user_id', '$worker_id', '$address', '$pricing',
+                 '$booking_date', '$description', 'pending')";
+
+        mysqli_query($conn, $sql);
+        echo "<script>
+                alert('Booking confirmed successfully!');
+                window.location.href = window.location.href;
+              </script>";
+    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,7 +179,8 @@ if (isset($_POST['confirm_booking'])) {
             </div>
             <div class="view_buttons">
                 <p class="view_price">NPR <?php echo $worker['base_rate'] ?>/hr</p>
-                <div class="btns"><button class="book_btn button" popovertarget="popupbox" popovertargetaction="show">Book now</button>
+                <div class="btns"><button class="book_btn button" popovertarget="popupbox"
+                        popovertargetaction="show">Book now</button>
                     <form action="" method="POST">
                         <input type="hidden" name="worker_id" value="<?php echo $worker['Worker_id']; ?>">
                         <button type="submit" name="save_worker" class="save_btn button">
@@ -173,7 +214,7 @@ if (isset($_POST['confirm_booking'])) {
                                         $name = explode(' ', $review['reviewer_name']);
                                         $initials = strtoupper(
                                             $name[0][0] .
-                                                $name[count($name) - 1][0]
+                                            $name[count($name) - 1][0]
                                         );
                                         ?>
                                         <div class="avatar navy">
@@ -215,14 +256,13 @@ if (isset($_POST['confirm_booking'])) {
                     <?php echo $worker['name'] ?? "Ram" ?>
                 </h1>
                 <p class="worker_info">
-                    <?php echo $worker['category_name']  ?? "electrician" ?> · NPR <?php echo $worker['base_rate'] ?? 100 ?>/hr
+                    <?php echo $worker['category_name'] ?? "electrician" ?> · NPR
+                    <?php echo $worker['base_rate'] ?? 100 ?>/hr
                 </p>
                 <form method="POST">
-                    <input type="hidden" name="worker_id"
-                        value="<?php echo $worker['Worker_id']; ?>">
-                    <input type="hidden" name="pricing"
-                        value="<?php echo $worker['base_rate'] + 50; ?>">
-                    <!-- <div class="form_group">
+                    <input type="hidden" name="worker_id" value="<?php echo $worker['Worker_id']; ?>">
+                    <input type="hidden" name="pricing" value="<?php echo $worker['base_rate'] + 50; ?>">
+                    <div class="form_group">
                         <label>Service Needed</label>
                         <select name="service_name">
 
@@ -232,11 +272,12 @@ if (isset($_POST['confirm_booking'])) {
                                 </option>
                             <?php } ?>
                         </select>
-                    </div> -->
+                    </div>
                     <div class="row">
                         <div class="form_group">
                             <label>Date</label>
-                            <input type="date" name="booking_date" min="<?php echo $today ?>" value="<?php echo $today ?>">
+                            <input type="date" name="booking_date" id="booking_date" min="<?php echo $today ?>"
+                                value="<?php echo $today ?>" required>
                         </div>
                         <div class="form_group">
                             <label>Time</label>
@@ -244,12 +285,13 @@ if (isset($_POST['confirm_booking'])) {
                         </div>
                     </div>
                     <div class="form_group">
-                        <label>Service Address</label>
+                        <label>Address</label>
                         <input type="text" name="address" placeholder="Your full address">
                     </div>
                     <div class="form_group">
                         <label>Description of Problem</label>
-                        <textarea name="description" rows="5" placeholder="Describe what needs to be done..."></textarea>
+                        <textarea name="description" rows="5"
+                            placeholder="Describe what needs to be done..."></textarea>
                     </div>
                     <div class="price_box">
                         <div class="price_row">
@@ -266,11 +308,24 @@ if (isset($_POST['confirm_booking'])) {
                         </div>
                     </div>
                     <button class="confirm_btn" type="submit" name="confirm_booking">Confirm Booking</button>
-                    <button class="cancel_btn" type="button" popovertarget="popupbox" popovertargetaction="hide">Cancel </button>
+                    <button class="cancel_btn" type="button" popovertarget="popupbox" popovertargetaction="hide">Cancel
+                    </button>
                 </form>
             </div>
         </div>
     </dialog>
+    <script>
+        const bookedDates = <?php echo json_encode($bookedDates); ?>;
+        const dateInput = document.getElementById("booking_date");
+
+        dateInput.addEventListener("change", function () {
+
+            if (bookedDates.includes(this.value)) {
+                alert("This worker is already booked on this date. Please select another date.");
+                this.value = "";
+            }
+        });
+    </script>
 </body>
 
 </html>

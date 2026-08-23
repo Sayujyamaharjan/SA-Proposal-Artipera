@@ -4,7 +4,48 @@ include '../components/Navbar.php';
 include '../components/fetchWorkers.php';
 
 $users = fetchWorkers($conn, 50);
+$search = $_GET['search'] ?? '';
 $selectedCategory = $_GET['category'] ?? '';
+$selectedLocation = $_GET['location'] ?? '';
+$sort = $_GET['sort'] ?? '';
+
+$filteredUsers = [];
+
+foreach ($users as $user) {
+    if (!empty($search) && stripos($user['name'], $search) === false) {
+        continue;
+    }
+    if (
+        !empty($selectedCategory) &&
+        $user['category_name'] != $selectedCategory
+    ) {
+        continue;
+    }
+    if (
+        !empty($selectedLocation) &&
+        $user['address'] != $selectedLocation
+    ) {
+        continue;
+    }
+    $filteredUsers[] = $user;
+}
+if ($sort == "rating_high") {
+    usort($filteredUsers, function ($a, $b) {
+        return $b['rating'] - $a['rating'];
+    });
+} elseif ($sort == "rating_low") {
+    usort($filteredUsers, function ($a, $b) {
+        return $a['rating'] - $b['rating'];
+    });
+} elseif ($sort == "price_high") {
+    usort($filteredUsers, function ($a, $b) {
+        return $b['base_rate'] - $a['base_rate'];
+    });
+} elseif ($sort == "price_low") {
+    usort($filteredUsers, function ($a, $b) {
+        return $a['base_rate'] - $b['base_rate'];
+    });
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,15 +65,12 @@ $selectedCategory = $_GET['category'] ?? '';
         <form action="" method="get">
             <div class="search_feature_container">
                 <div class="search_contents">
-                    <p class="search_text">
-                        Search by Name
-                    </p>
-                    <input type="search" name="search" id="search" class="search_input input_text" placeholder="Search by name">
+                    <p class="search_text">Search by Name </p>
+                    <input type="search" name="search" id="search" class="search_input input_text"
+                        placeholder="Search by name">
                 </div>
                 <div class="search_contents">
-                    <p class="search_text">
-                        Skill Category
-                    </p>
+                    <p class="search_text"> Skill Category</p>
                     <select name="category" id="category" class="search_input input_text">
                         <option value="" selected disabled class="category">Categories</option>
                         <option value="Electrician">Electrician</option>
@@ -44,7 +82,7 @@ $selectedCategory = $_GET['category'] ?? '';
                 </div>
                 <div class="search_contents">
                     <p class="search_text">Location</p>
-                    <select name="select" id="select" class="search_input input_text">
+                    <select name="location" id="location" class="search_input input_text">
                         <option value="" selected disabled hidden>Select Location</option>
                         <option value="Kathmandu">Kathmandu</option>
                         <option value="Lalitpur">Lalitpur</option>
@@ -70,29 +108,31 @@ $selectedCategory = $_GET['category'] ?? '';
                 </div>
                 <div class="search_contents">
                     <p class="search_text">Sort By</p>
-                    <select name="select" id="select" class="search_input input_text">
+                    <select name="sort" id="sort" class="search_input input_text">
                         <option value="" selected disabled>Sort</option>
-                        <option value="Rating">Rating(High-Low)</option>
-                        <option value="Rating">Rating(Low-High)</option>
-                        <option value="Price">Price</option>
+                        <option value="rating_high">Rating (High-Low)</option>
+                        <option value="rating_low">Rating (Low-High)</option>
+                        <option value="price_high">Price (High-Low)</option>
+                        <option value="price_low">Price (Low-High)</option>
                     </select>
                 </div>
                 <div class="search_contents">
-                    <button type="submit" class="search_button"><img src="../assets/svg/search.svg" alt="" class="search_button_image">
+                    <button type="submit" class="search_button"><img src="../assets/svg/search.svg" alt=""
+                            class="search_button_image">
                         <span class="button_txt">Find</span></button>
                 </div>
             </div>
         </form>
 
         <div class="search_workers">
-            <?php foreach ($users as $user) {
+            <?php foreach ($filteredUsers as $user) {
                 if ($user['role'] != "worker") {
                     continue;
                 }
                 if (!empty($selectedCategory) && $user['category_name'] != $selectedCategory) {
                     continue;
                 }
-            ?>
+                ?>
                 <div class="workerin_customer">
                     <div class="workerprof">
                         <div class="worker_profile_logo"></div>
@@ -122,10 +162,9 @@ $selectedCategory = $_GET['category'] ?? '';
                         </span>
                     </div>
                 </div>
-            <?php
+                <?php
             }
             ?>
-
         </div>
 </body>
 
