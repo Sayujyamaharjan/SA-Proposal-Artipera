@@ -67,7 +67,7 @@ include '../php/authGuard.php';
             margin-bottom: 9px;
         }
 
-        h1 {
+        /* h1 {
             margin: 0;
             font-size: 24px;
             color: #111;
@@ -75,7 +75,7 @@ include '../php/authGuard.php';
 
         h1 span {
             color: #91cf55;
-        }
+        } */
 
         .description {
             margin: 10px 0 24px;
@@ -219,37 +219,23 @@ include '../php/authGuard.php';
     </style>
 </head>
 
-
 <body>
 
     <section class="otp-box" id="otp-container">
         <div class="brand">
-            <div class="brand-logo">
-                A
-            </div>
-            <div class="brand-name">
-                Artipera
-            </div>
+            <div class="brand-logo"> A </div>
+            <div class="brand-name">Artipera</div>
         </div>
-
-        <div class="label">
-            ONE TIME PASSWORD
-        </div>
-        <h1>
+        <div class="label"> ONE TIME PASSWORD</div>
+        <!-- <h1>
             Confirm it's <span>really you</span>
-        </h1>
+        </h1> -->
         <p class="description">
-
             Enter the code sent to
             <span id="emailReadOnly"></span>.
             The code is valid for 2 minutes.
-
         </p>
-
-        <div class="otp-title">
-            ENTER CODE
-        </div>
-
+        <div class="otp-title"> ENTER CODE </div>
         <div class="passcode-container" id="passcode-container">
             <input type="number" class="passcode-digit" maxlength="1">
             <input type="number" class="passcode-digit" maxlength="1">
@@ -257,23 +243,15 @@ include '../php/authGuard.php';
             <input type="number" class="passcode-digit" maxlength="1">
             <input type="number" class="passcode-digit" maxlength="1">
             <input type="number" class="passcode-digit" maxlength="1">
-
         </div>
-
         <div class="otp-info">
-
-            <div>
-                Expires in
+            <div>Expires in
                 <span id="expiresOnText"></span>
             </div>
-
-            <div>
-                Request ID -
+            <div>Request ID -
                 <span id="requestIdOnText"></span>
             </div>
-
         </div>
-
         <div class="buttons">
             <button type="button" class="resend-btn"> Resend Code </button>
             <button type="button" id="submit_otp" class="submit-btn"> Submit Code </button>

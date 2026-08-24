@@ -1,7 +1,6 @@
 <?php
 include '../php/authGuard.php';
 include '../components/fetchWorkers.php';
-include "../php/emailHandler.php";
 include "../php/caller.php";
 if (
     !isset($_GET['page_title']) || !in_array($_GET['page_title'], ['Worker', 'Customer'])
@@ -9,9 +8,6 @@ if (
     header("Location: ./login.php");
     exit;
 }
-
-$emailHandler = new EmailHandler();
-
 
 
 $pageTitle = $_GET['page_title'];
@@ -22,32 +18,59 @@ if (isset($_POST['signup'])) {
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
     $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
     $full_name = $first_name . " " . $last_name;
     $role = ($pageTitle == "Worker") ? "worker" : "customer";
 
-    if (empty($first_name) || empty($last_name) || empty($email) || empty($phone) || empty($address) || empty($password)) {
+    if (
+        empty($first_name) ||
+        empty($last_name) ||
+        empty($email) ||
+        empty($phone) ||
+        empty($address) ||
+        empty($password) ||
+        empty($confirm_password)
+    ) {
         header("Location: signup.php?page_title=$pageTitle&error=empty");
+        exit;
+    }
+
+    if ($password !== $confirm_password) {
+        header("Location: signup.php?page_title=$pageTitle&error=password_mismatch");
         exit;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: signup.php?page_title=$pageTitle&error=email");
         exit;
     }
-    $checkSql = "SELECT user_id FROM users WHERE email = ?";
-    $checkStmt = mysqli_prepare($conn, $checkSql);
-    if (!$checkStmt) {
-        header("Location: signup.php?page_title=$pageTitle&error=database");
-        exit;
-    }
-    mysqli_stmt_bind_param($checkStmt, "s", $email);
-    mysqli_stmt_execute($checkStmt);
-    $checkResult = mysqli_stmt_get_result($checkStmt);
-    if (mysqli_num_rows($checkResult) > 0) {
-        mysqli_stmt_close($checkStmt);
+    // $checkSql = "SELECT user_id FROM users WHERE email = ?";
+    // $checkStmt = mysqli_prepare($conn, $checkSql);
+    // if (!$checkStmt) {
+    //     header("Location: signup.php?page_title=$pageTitle&error=database");
+    //     exit;
+    // }
+    // mysqli_stmt_bind_param($checkStmt, "s", $email);
+    // mysqli_stmt_execute($checkStmt);
+    // $checkResult = mysqli_stmt_get_result($checkStmt);
+    // if (mysqli_num_rows($checkResult) > 0) {
+    //     mysqli_stmt_close($checkStmt);
+    //     header("Location: signup.php?page_title=$pageTitle&error=email_exists");
+    //     exit;
+    // }
+
+    $existingUser = getUser('email', $email, $conn);
+
+
+    if (count($existingUser) > 0) {
         header("Location: signup.php?page_title=$pageTitle&error=email_exists");
         exit;
     }
-    mysqli_stmt_close($checkStmt);
+    $existingPhone = getUser('phone', $phone, $conn);
+
+    if (count($existingPhone) > 0) {
+        header("Location: signup.php?page_title=$pageTitle&error=phone_exists");
+        exit;
+    }
     if (
         strlen($password) < 8 ||
         !preg_match('/[0-9]/', $password) ||
@@ -60,70 +83,29 @@ if (isset($_POST['signup'])) {
         header("Location: signup.php?page_title=$pageTitle&error=phone");
         exit;
     }
+
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $profile_image = "default.jpg";
-    $otp_expires = time() + (2 * 60);
-    $otp = generateOtp();
-    $request_id = generateRefCode();
-    $_SESSION['otp'] = $otp;
-    $_SESSION['otp_expires'] = $otp_expires;
+    $status = otpMailer($email, $full_name);
+    $otp_exp = $status['expiresOn'];
+    $request_id = $status['requestId'];
+    if ($status['status']) {
+        $_SESSION['pending_signup'] = [
+            'full_name' => $full_name,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
+            'password' => $hashed_password,
+            'role' => $role,
+            'profile_image' => $profile_image
+        ];
+    }
 
-
-    $_SESSION['pending_info'] = [
-        'name' => $full_name,
-        'email' => $email,
-        'password' => $hashed_password,
-        'phone' => $phone,
-        'address' => $address,
-        'role' => $role,
-        'profile_image' => $profile_image
-    ];
-    $emailHandler->sendOTP($email, $full_name, $otp, $otp_expires, $request_id);
-    header("location: otpPage.php?expires_on=$otp_expires&request_id=$request_id&email=$email");
+    header("location: otpPage.php?expires_on=$otp_exp&request_id=$request_id&email=$email");
     exit;
-    /* 
-    $sql = "INSERT INTO users
-            (name, email, password, phone, address, role, profile_image)
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    if (!$stmt) {
-        header("Location: signup.php?page_title=$pageTitle&error=database");
-        exit;
-    }
 
-    mysqli_stmt_bind_param(
-        $stmt,
-        "sssssss",
-        $full_name,
-        $email,
-        $hashed_password,
-        $phone,
-        $address,
-        $role,
-        $profile_image
-    ); */
-    try {
-        if (mysqli_stmt_execute($stmt)) {
-            mysqli_stmt_close($stmt);
-            header("Location: signup.php?page_title=$pageTitle&success=created");
-            exit;
-        }
-    } catch (mysqli_sql_exception $e) {
-        mysqli_stmt_close($stmt);
-        if ($e->getCode() == 1062) {
-            if (strpos($e->getMessage(), 'users.email') !== false) {
 
-                header("Location: signup.php?page_title=$pageTitle&error=email_exists");
-                exit;
-            }
-            if (strpos($e->getMessage(), 'users.phone') !== false) {
-                header("Location: signup.php?page_title=$pageTitle&error=phone_exists");
-                exit;
-            }
-        }
-        header("Location: signup.php?page_title=$pageTitle&error=database");
-        exit;
-    }
+
 }
 ?>
 <!DOCTYPE html>
@@ -167,6 +149,10 @@ if (isset($_POST['signup'])) {
                 <div class="input_boxes">
                     <label for="pass">Password</label>
                     <input type="password" name="password" id="pass" required>
+                </div>
+                <div class="input_boxes">
+                    <label for="confirm_pass">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_pass" required>
                 </div>
                 <div class="input_boxes_locate_phone">
                     <div class="input_boxes">
@@ -233,6 +219,9 @@ if (isset($_POST['signup'])) {
         } elseif ($_GET['error'] == 'weak_password') {
             $title = "Weak Password";
             $text = "Password must be at least 8 characters with a number and special character.";
+        } elseif ($_GET['error'] == 'password_mismatch') {
+            $title = "Passwords Do Not Match";
+            $text = "Password and confirm password must be the same.";
         } elseif ($_GET['error'] == 'database') {
             $title = "Error";
             $text = "Something went wrong. Please try again.";

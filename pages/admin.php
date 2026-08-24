@@ -75,7 +75,6 @@ $bookings = fetchBookings($conn);
                                 <td class="amount">
                                     NPR <?php echo number_format($booking['pricing']); ?>
                                 </td>
-
                                 <td>
                                     <span class="<?php echo $booking['status']; ?>">
                                         <?php echo $booking['status']; ?>

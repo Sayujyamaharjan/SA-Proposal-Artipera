@@ -40,9 +40,11 @@ export const HandleOtp = () => {
                 });
                 let data = await res.json();
                 if (!data.error) {
+                    console.log(data);
                     // Toast(data.message, "Success");
                 } else {
                     // Toast(data.message, "Error");
+                    console.log(data);
                 }
             } catch (error) {
                 // Toast("Something went wrong", "Error");

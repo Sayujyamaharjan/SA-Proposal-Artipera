@@ -251,9 +251,6 @@ foreach ($myBookings as $booking) {
         const bookings = <?php echo json_encode($myBookings) ?>;
         console.log(bookings)
 
-
-
-
         function showDetails(day) {
             if (day < 10) {
                 day = `0${day}`;
