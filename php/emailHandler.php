@@ -4,10 +4,12 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 use Dotenv\Dotenv;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/emailTemplate.php';
+require_once __DIR__ . '/completionEmailTemplate.php';
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
@@ -74,6 +76,25 @@ class EmailHandler
             'Your OTP Verification Code',
             $message,
             "Your OTP is: {$passcode}. It expires at {$expiresOn}."
+        );
+    }
+    public function sendCompletionOTP(
+        string $to,
+        string $name,
+        string $passcode
+    ): bool {
+
+        $message = completionEmailTemplate([
+            'name' => $name,
+            'passcode' => $passcode
+        ]);
+
+        return $this->send(
+            $to,
+            $name,
+            'ARTIPERA - Booking Completion Verification',
+            $message,
+            "Your ARTIPERA booking completion OTP is {$passcode}."
         );
     }
 }

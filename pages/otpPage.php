@@ -1,5 +1,26 @@
 <?php
 include '../php/authGuard.php';
+include "../php/emailHandler.php";
+
+
+if (isset($_POST['resend_otp'])) {
+
+    $otp = random_int(100000, 999999);
+    $otp_expires = time() + 120;
+
+    $_SESSION['otp'] = $otp;
+    $_SESSION['otp_expires'] = $otp_expires;
+
+    $emailHandler = new EmailHandler();
+
+    $emailHandler->sendOTP(
+        $_SESSION['pending_signup']['email'],
+        $_SESSION['pending_signup']['full_name'],
+        $otp,
+        $otp_expires,
+        $_GET['request_id']
+    );
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -253,7 +274,9 @@ include '../php/authGuard.php';
             </div>
         </div>
         <div class="buttons">
-            <button type="button" class="resend-btn"> Resend Code </button>
+            <form method="POST">
+                <button type="submit" name="resend_otp" class="resend-btn"> Resend Code</button>
+            </form>
             <button type="button" id="submit_otp" class="submit-btn"> Submit Code </button>
         </div>
     </section>

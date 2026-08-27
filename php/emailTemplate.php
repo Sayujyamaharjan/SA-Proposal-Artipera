@@ -24,10 +24,8 @@ function emailTemplate($props)
                         style="width:100%;max-width:600px;background-color:#ffffff; border-radius:18px;overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.06);">
                         <tr>
                             <td align="center" style="padding:30px 30px 24px 30px;">
-
                                 <table cellpadding="0" cellspacing="0" border="0">
                                     <tr>
-
                                         <td width="42" height="42" align="center" valign="middle"
                                             style="width:42px;  height:42px;  background-color:#a4e063; border-radius:12px;  color:#ffffff; font-size:21px; font-weight:bold;">
                                             A
@@ -35,10 +33,8 @@ function emailTemplate($props)
                                         <td style=" padding-left:10px; color:#111111;  font-size:20px;font-weight:bold; ">
                                             Artipera
                                         </td>
-
                                     </tr>
                                 </table>
-
                             </td>
                         </tr>
                         <tr>

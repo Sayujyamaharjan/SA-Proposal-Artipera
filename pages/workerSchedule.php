@@ -83,7 +83,7 @@ if ($res) {
 
 if (isset($_POST['update_rate'])) {
 
-    $base_rate = (float)$_POST['base_rate'];
+    $base_rate = (float) $_POST['base_rate'];
 
     $sql = "UPDATE worker
             SET base_rate = '$base_rate'
@@ -121,7 +121,16 @@ $today = date('j');
 $bookedDates = [];
 
 foreach ($myBookings as $booking) {
-    $bookedDates[] = date('j', strtotime($booking['Booking_date']));
+
+    if (
+        $booking['status'] == 'pending' ||
+        $booking['status'] == 'approved'
+    ) {
+        $bookedDates[] = date(
+            'j',
+            strtotime($booking['Booking_date'])
+        );
+    }
 }
 
 
@@ -190,14 +199,10 @@ foreach ($myBookings as $booking) {
             <div class="right_side">
                 <div class="availability_card">
                     <h2>Availability Status</h2>
-                    <div
-                        class="selected_date"
-                        id="selected_date">
+                    <div class="selected_date" id="selected_date">
                         Select a date
                     </div>
-                    <div
-                        class="booking_details"
-                        id="booking_details">
+                    <div class="booking_details" id="booking_details">
                         Click any date from the calendar.
                     </div>
                     <!-- <div class="status_buttons">
@@ -228,17 +233,9 @@ foreach ($myBookings as $booking) {
                     <div class="hourly_rate_section">
                         <p class="rate_title">Hourly Rate (NPR)</p>
                         <form method="POST" class="rate_form">
-                            <input
-                                type="number"
-                                name="base_rate"
-                                value="<?php $worker['base_rate'] ?>"
-                                min="0"
-                                step="50"
-                                class="rate_input">
-                            <button
-                                type="submit"
-                                name="update_rate"
-                                class="rate_btn">
+                            <input type="number" name="base_rate" value="<?php $worker['base_rate'] ?>" min="0"
+                                step="50" class="rate_input">
+                            <button type="submit" name="update_rate" class="rate_btn">
                                 Save
                             </button>
                         </form>
@@ -262,8 +259,8 @@ foreach ($myBookings as $booking) {
             if (taskArr) {
 
                 document.getElementById(
-                        "selected_date"
-                    ).innerHTML =
+                    "selected_date"
+                ).innerHTML =
                     "Selected Date : " + day;
 
                 document.getElementById(
@@ -277,8 +274,8 @@ ${taskArr['Booking_detail']}<br>
                 `;
             } else {
                 document.getElementById(
-                        "selected_date"
-                    ).innerHTML =
+                    "selected_date"
+                ).innerHTML =
                     "Selected Date : " + day;
                 document.getElementById(
                     "booking_details"
