@@ -13,7 +13,9 @@ if ($res) {
     $sql = "SELECT b.*, u.name
 FROM booking b
 JOIN users u ON b.user_id = u.user_id
-WHERE b.Worker_id = $id;";
+WHERE b.Worker_id = $id
+AND b.status IN ('pending', 'approved')
+AND b.Booking_date >= CURDATE();";
     $res = mysqli_query($conn, $sql);
     if ($res) {
         while ($row = mysqli_fetch_assoc($res)) {
@@ -30,7 +32,6 @@ if (isset($_POST['add_skill'])) {
     $service_name = trim($_POST['service_name']);
 
     if (!empty($service_name)) {
-
 
         $sql = "INSERT INTO worker_service (worker_id, service_name)
                     VALUES ('$id', '$service_name')";
@@ -55,18 +56,18 @@ if (isset($_POST['delete_service'])) {
 }
 
 
-$sql = "SELECT b.*, u.name
-            FROM booking b
-            JOIN users u ON b.user_id = u.user_id
-            WHERE b.Worker_id = $id";
+// $sql = "SELECT b.*, u.name
+//             FROM booking b
+//             JOIN users u ON b.user_id = u.user_id
+//             WHERE b.Worker_id = $id";
 
-$res = mysqli_query($conn, $sql);
+// $res = mysqli_query($conn, $sql);
 
-if ($res) {
-    while ($row = mysqli_fetch_assoc($res)) {
-        $myBookings[] = $row;
-    }
-}
+// if ($res) {
+//     while ($row = mysqli_fetch_assoc($res)) {
+//         $myBookings[] = $row;
+//     }
+// }
 
 
 $sql = "SELECT * FROM worker_service

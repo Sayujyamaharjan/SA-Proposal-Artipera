@@ -315,6 +315,7 @@ if (isset($_POST['confirm_booking'])) {
         </div>
     </dialog>
     <script>
+
         const bookedDates = <?php echo json_encode($bookedDates); ?>;
         const dateInput = document.getElementById("booking_date");
 

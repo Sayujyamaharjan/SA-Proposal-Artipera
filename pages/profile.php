@@ -35,14 +35,13 @@ if (isset($_POST['save_profile'])) {
 
     mysqli_query($conn, $sql);
 
-    // Update session values
     $_SESSION['name'] = $name;
     $_SESSION['email'] = $email;
 
     if ($_SESSION['role'] == 'worker') {
 
-        $category_id = (int)$_POST['category_id'];
-        $year_of_experience = (int)$_POST['experience'];
+        $category_id = (int) $_POST['category_id'];
+        $year_of_experience = (int) $_POST['experience'];
         $bio = mysqli_real_escape_string($conn, $_POST['bio']);
 
         $sql = "UPDATE worker
@@ -57,6 +56,63 @@ if (isset($_POST['save_profile'])) {
     $_SESSION['email'] = $email;
     header("Location: profile.php");
     exit();
+}
+if (isset($_POST['change_password'])) {
+
+    $user_id = $_SESSION['user_id'];
+
+    $current_password = $_POST['current_password'];
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    if (
+        empty($current_password) ||
+        empty($new_password) ||
+        empty($confirm_password)
+    ) {
+
+        echo "<script>
+                alert('Please fill in all password fields.');
+              </script>";
+    } else {
+
+        $sql = "SELECT password FROM users WHERE user_id='$user_id'";
+        $result = mysqli_query($conn, $sql);
+        $user_data = mysqli_fetch_assoc($result);
+
+        if (!password_verify($current_password, $user_data['password'])) {
+            echo "<script>
+                    alert('Current password is incorrect.');
+                  </script>";
+        } elseif ($new_password != $confirm_password) {
+            echo "<script>
+                    alert('New password and confirm password do not match.');
+                  </script>";
+        } elseif (
+            strlen($new_password) < 8 ||
+            !preg_match('/[0-9]/', $new_password) ||
+            !preg_match('/[^A-Za-z0-9]/', $new_password)
+        ) {
+            echo "<script>
+                    alert('Password must be at least 8 characters long and contain a number and a special character.');
+                  </script>";
+        } else {
+
+            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+            $sql = "UPDATE users
+                    SET password='$hashed_password'
+                    WHERE user_id='$user_id'";
+
+            mysqli_query($conn, $sql);
+
+            echo "<script>
+                    alert('Password changed successfully.');
+                    window.location.href='profile.php';
+                  </script>";
+            exit();
+        }
+    }
 }
 ?>
 
@@ -100,26 +156,45 @@ if (isset($_POST['save_profile'])) {
                         <label for="locate">Address</label>
                         <select name="address" id="locate" placeholder="">
                             <option value="" selected disabled hidden>Select Location</option>
-                            <option value="Kathmandu" <?php echo $user['address'] == 'Kathmandu' ? 'selected' : '' ?>>Kathmandu</option>
-                            <option value="Lalitpur" <?php echo $user['address'] == 'Lalitpur' ? 'selected' : '' ?>>Lalitpur</option>
-                            <option value="Bhaktapur" <?php echo $user['address'] == 'Bhaktapur' ? 'selected' : '' ?>>Bhaktapur</option>
-                            <option value="Pokhara" <?php echo $user['address'] == 'Pokhara' ? 'selected' : '' ?>>Pokhara</option>
-                            <option value="Chitwan" <?php echo $user['address'] == 'Chitwan' ? 'selected' : '' ?>>Chitwan</option>
-                            <option value="Butwal" <?php echo $user['address'] == 'Butwal' ? 'selected' : '' ?>>Butwal</option>
-                            <option value="Dharan" <?php echo $user['address'] == 'Dharan' ? 'selected' : '' ?>>Dharan</option>
-                            <option value="Biratnagar" <?php echo $user['address'] == 'Biratnagar' ? 'selected' : '' ?>>Biratnagar</option>
-                            <option value="Janakpur" <?php echo $user['address'] == 'Janakpur' ? 'selected' : '' ?>>Janakpur</option>
-                            <option value="Hetauda" <?php echo $user['address'] == 'Hetauda' ? 'selected' : '' ?>>Hetauda</option>
-                            <option value="Nepalgunj" <?php echo $user['address'] == 'Nepalgunj' ? 'selected' : '' ?>>Nepalgunj</option>
-                            <option value="Itahari" <?php echo $user['address'] == 'Itahari' ? 'selected' : '' ?>>Itahari</option>
-                            <option value="Dhangadhi" <?php echo $user['address'] == 'Dhangadhi' ? 'selected' : '' ?>>Dhangadhi</option>
-                            <option value="Tulsipur" <?php echo $user['address'] == 'Tulsipur' ? 'selected' : '' ?>>Tulsipur</option>
-                            <option value="Banepa" <?php echo $user['address'] == 'Banepa' ? 'selected' : '' ?>>Banepa</option>
-                            <option value="Dhulikhel" <?php echo $user['address'] == 'Dhulikhel' ? 'selected' : '' ?>>Dhulikhel</option>
-                            <option value="Bharatpur" <?php echo $user['address'] == 'Bharatpur' ? 'selected' : '' ?>>Bharatpur</option>
-                            <option value="Gorkha" <?php echo $user['address'] == 'Gorkha' ? 'selected' : '' ?>>Gorkha</option>
+                            <option value="Kathmandu" <?php echo $user['address'] == 'Kathmandu' ? 'selected' : '' ?>>
+                                Kathmandu</option>
+                            <option value="Lalitpur" <?php echo $user['address'] == 'Lalitpur' ? 'selected' : '' ?>>
+                                Lalitpur</option>
+                            <option value="Bhaktapur" <?php echo $user['address'] == 'Bhaktapur' ? 'selected' : '' ?>>
+                                Bhaktapur</option>
+                            <option value="Pokhara" <?php echo $user['address'] == 'Pokhara' ? 'selected' : '' ?>>Pokhara
+                            </option>
+                            <option value="Chitwan" <?php echo $user['address'] == 'Chitwan' ? 'selected' : '' ?>>Chitwan
+                            </option>
+                            <option value="Butwal" <?php echo $user['address'] == 'Butwal' ? 'selected' : '' ?>>Butwal
+                            </option>
+                            <option value="Dharan" <?php echo $user['address'] == 'Dharan' ? 'selected' : '' ?>>Dharan
+                            </option>
+                            <option value="Biratnagar" <?php echo $user['address'] == 'Biratnagar' ? 'selected' : '' ?>>
+                                Biratnagar</option>
+                            <option value="Janakpur" <?php echo $user['address'] == 'Janakpur' ? 'selected' : '' ?>>
+                                Janakpur</option>
+                            <option value="Hetauda" <?php echo $user['address'] == 'Hetauda' ? 'selected' : '' ?>>Hetauda
+                            </option>
+                            <option value="Nepalgunj" <?php echo $user['address'] == 'Nepalgunj' ? 'selected' : '' ?>>
+                                Nepalgunj</option>
+                            <option value="Itahari" <?php echo $user['address'] == 'Itahari' ? 'selected' : '' ?>>Itahari
+                            </option>
+                            <option value="Dhangadhi" <?php echo $user['address'] == 'Dhangadhi' ? 'selected' : '' ?>>
+                                Dhangadhi</option>
+                            <option value="Tulsipur" <?php echo $user['address'] == 'Tulsipur' ? 'selected' : '' ?>>
+                                Tulsipur</option>
+                            <option value="Banepa" <?php echo $user['address'] == 'Banepa' ? 'selected' : '' ?>>Banepa
+                            </option>
+                            <option value="Dhulikhel" <?php echo $user['address'] == 'Dhulikhel' ? 'selected' : '' ?>>
+                                Dhulikhel</option>
+                            <option value="Bharatpur" <?php echo $user['address'] == 'Bharatpur' ? 'selected' : '' ?>>
+                                Bharatpur</option>
+                            <option value="Gorkha" <?php echo $user['address'] == 'Gorkha' ? 'selected' : '' ?>>Gorkha
+                            </option>
                             <option value="Ilam" <?php echo $user['address'] == 'Ilam' ? 'selected' : '' ?>>Ilam</option>
-                            <option value="Surkhet" <?php echo $user['address'] == 'Surkhet' ? 'selected' : '' ?>>Surkhet</option>
+                            <option value="Surkhet" <?php echo $user['address'] == 'Surkhet' ? 'selected' : '' ?>>Surkhet
+                            </option>
                         </select>
                     </div>
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "worker") { ?>
@@ -127,7 +202,8 @@ if (isset($_POST['save_profile'])) {
                             <label for="locate">Category</label>
                             <select name="category_id" id="locate" placeholder="">
                                 <option value="" selected disabled hidden>Select your category</option>
-                                <option value="1" <?php echo $user['category_id'] == 1 ? 'selected' : '' ?>>Electrician</option>
+                                <option value="1" <?php echo $user['category_id'] == 1 ? 'selected' : '' ?>>Electrician
+                                </option>
                                 <option value="2" <?php echo $user['category_id'] == 2 ? 'selected' : '' ?>>Plumber</option>
                                 <option value="3" <?php echo $user['category_id'] == 3 ? 'selected' : '' ?>>Painter</option>
                                 <option value="4" <?php echo $user['category_id'] == 4 ? 'selected' : '' ?>>Mechanic</option>
@@ -136,7 +212,8 @@ if (isset($_POST['save_profile'])) {
                         </div>
                         <div class="input_group">
                             <label>Experience</label>
-                            <input type="text" name="experience" value="<?php echo $user['year_of_experience'] . ' years' ?>">
+                            <input type="text" name="experience"
+                                value="<?php echo $user['year_of_experience'] . ' years' ?>">
                         </div>
                         <div class="input_group">
                             <label>Bio</label>
@@ -150,21 +227,23 @@ if (isset($_POST['save_profile'])) {
         <div class="profile_right">
             <div class="profile_right_top">
                 <h2>Change Password</h2>
-                <div class="input_group">
-                    <label>Current Password</label>
-                    <input type="password" placeholder="••••••••">
-                </div>
-                <div class="input_group">
-                    <label>New Password</label>
-                    <input type="password" placeholder="••••••••">
-                </div>
-                <div class="input_group">
-                    <label>Confirm Password</label>
-                    <input type="password" placeholder="••••••••">
-                </div>
-                <button class="update_btn" type="submit">
-                    Update Password
-                </button>
+                <form method="POST" class="profile_form">
+                    <div class="input_group">
+                        <label>Current Password</label>
+                        <input type="password" name="current_password" placeholder="••••••••" required>
+                    </div>
+                    <div class="input_group">
+                        <label>New Password</label>
+                        <input type="password" name="new_password" placeholder="••••••••" required>
+                    </div>
+                    <div class="input_group">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirm_password" placeholder="••••••••" required>
+                    </div>
+                    <button class="update_btn" type="submit" name="change_password">
+                        Update Password
+                    </button>
+                </form>
             </div>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "worker") { ?>
                 <div class="documents_container">
@@ -179,7 +258,7 @@ if (isset($_POST['save_profile'])) {
                     </label>
                     <input type="file" id="documentUpload" accept="image/*,.pdf" hidden>
                 </div>
-            <?php
+                <?php
             }
             ?>
         </div>

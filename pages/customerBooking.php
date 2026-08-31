@@ -1,26 +1,82 @@
 <?php
+
 include '../php/authGuard.php';
 include '../components/Navbar.php';
 include '../components/fetchWorkers.php';
 
 $user_id = $_SESSION['user_id'];
+$message = "";
 
-$sql = "SELECT 
-            b.Booking_id,
-            b.address,
-            b.pricing,
-            b.Booking_date,
-            b.Booking_detail,
-            b.status,
-            b.Worker_id,
-            b.user_id,
+if (isset($_POST['submit_review'])) {
+
+    $booking_id = $_POST['booking_id'];
+    $rating = $_POST['rating'];
+    $comment = trim($_POST['comment']);
+
+    $sql = "SELECT Worker_id
+            FROM booking
+            WHERE Booking_id = ?
+            AND user_id = ?
+            AND status = 'completed'";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $booking_id, $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+
+        $booking = $result->fetch_assoc();
+        $worker_id = $booking['Worker_id'];
+
+        $sql = "SELECT Review_id
+                FROM review
+                WHERE Booking_id = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $booking_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+
+            $message = "You have already reviewed this booking.";
+
+        } else {
+
+            $sql = "INSERT INTO review
+                    (Rating, Comment, Booking_id, Worker_id)
+                    VALUES (?, ?, ?, ?)";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param(
+                "isii",
+                $rating,
+                $comment,
+                $booking_id,
+                $worker_id
+            );
+
+            if ($stmt->execute()) {
+                $message = "Review submitted successfully.";
+            }
+        }
+
+    }
+}
+$sql = "SELECT  b.Booking_id,  b.address, b.pricing,
+            b.Booking_date, b.Booking_detail,b.status,
+            b.Worker_id, b.user_id,
             u.name AS worker_name,
-            u.profile_image AS worker_profile
+            u.profile_image AS worker_profile,
+            r.Review_id
         FROM booking b
         INNER JOIN worker w 
             ON b.Worker_id = w.Worker_id
         INNER JOIN users u 
             ON w.user_id = u.user_id
+        LEFT JOIN review r
+            ON b.Booking_id = r.Booking_id
         WHERE b.user_id = ?";
 
 $stmt = $conn->prepare($sql);
@@ -45,6 +101,7 @@ while ($row = $result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -77,11 +134,12 @@ while ($row = $result->fetch_assoc()) {
                             </div>
                             <div class="my_status">
                                 <div class="<?php echo $bookStatus ?>"><?php echo $book['status'] ?></div>
-                                <?php if ($book['status'] === "completed") { ?>
-                                    <button class="leave" popovertarget="popupbox_review" popovertargetaction="show">Leave
-                                        Review</button>
-                                    <?php
-                                } ?>
+                                <?php if ($book['status'] === "completed" && empty($book['Review_id'])) { ?>
+                                    <button class="leave" popovertarget="popupbox_review" popovertargetaction="show"
+                                        onclick="setReviewBooking(<?php echo $book['Booking_id']; ?>)">
+                                        Leave Review
+                                    </button>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -109,7 +167,7 @@ while ($row = $result->fetch_assoc()) {
 
             <form method="POST">
 
-                <input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
+                <input type="hidden" name="booking_id" id="review_booking_id">
 
                 <div class="star-rating">
 
@@ -133,7 +191,7 @@ while ($row = $result->fetch_assoc()) {
                 <textarea name="comment" placeholder="Share your experience with this worker..." required></textarea>
 
                 <div class="btns_review">
-                    <button type="submit" class="submit_btn">
+                    <button type="submit" name="submit_review" class="submit_btn">
                         Submit Review
                     </button>
 
@@ -146,7 +204,22 @@ while ($row = $result->fetch_assoc()) {
 
         </div>
     </dialog>
-
+    <script>
+        function setReviewBooking(bookingId) {
+            document.getElementById("review_booking_id").value = bookingId;
+        }
+    </script>
+    <?php if ($message != "") { ?>
+        <script>
+            Swal.fire({
+                text: <?php echo json_encode($message); ?>,
+                icon: <?php echo json_encode(
+                    $message == "Review submitted successfully." ? "success" : "error"
+                ); ?>,
+                confirmButtonText: "OK"
+            });
+        </script>
+    <?php } ?>
 </body>
 
 </html>

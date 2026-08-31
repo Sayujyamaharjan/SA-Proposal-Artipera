@@ -660,7 +660,7 @@ body {
 }
 
 .profile_userprof,
-.profile_right_top {
+.profile_right_top form {
   background: white;
   border: 2px solid #e2e8f0;
   border-radius: 20px;
@@ -1100,7 +1100,6 @@ textarea {
   font-size: 10px;
   line-height: 16px;
 }
-
 .otp-error {
   margin: 0 0 15px;
   color: #d9534f;
