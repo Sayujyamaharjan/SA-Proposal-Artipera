@@ -1,5 +1,4 @@
 <?php
-
 include '../php/authGuard.php';
 include "../php/connect.php";
 
@@ -7,45 +6,37 @@ if (isset($_POST['login'])) {
 
     $email = trim($_POST['email']);
     $password = $_POST['password'];
-
+    $_SESSION['login_email'] = $email;
     if (empty($email) || empty($password)) {
         header("Location: login.php?error=empty");
         exit;
     }
-
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: login.php?error=invalid_format");
         exit;
     }
 
     $sql = "SELECT * FROM users WHERE email = ?";
-
     $stmt = mysqli_prepare($conn, $sql);
-
     if (!$stmt) {
         header("Location: login.php?error=database");
         exit;
     }
-
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
 
     $result = mysqli_stmt_get_result($stmt);
-
     if (mysqli_num_rows($result) == 0) {
         header("Location: login.php?error=email");
         exit;
     }
 
     $user = mysqli_fetch_assoc($result);
-
     if (!password_verify($password, $user['password'])) {
         header("Location: login.php?error=password");
         exit;
     }
-
     session_regenerate_id(true);
-
     $_SESSION['user_id'] = $user['user_id'];
     $_SESSION['name'] = $user['name'];
     $_SESSION['role'] = $user['role'];
@@ -74,6 +65,7 @@ if (isset($_POST['login'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/sign.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
@@ -96,11 +88,18 @@ if (isset($_POST['login'])) {
             <div class="info_container">
                 <div class="input_boxes">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" required>
+                    <input type="email" name="email" id="email"
+                        value="<?php echo htmlspecialchars($_SESSION['login_email'] ?? ''); ?>" required>
                 </div>
-                <div class="input_boxes">
+                <div class="input_boxes password_box">
                     <label for="pass">Password</label>
-                    <input type="password" name="password" id="pass" required>
+                    <div class="password_input">
+                        <input type="password" name="password" id="pass"
+                            value="<?php echo htmlspecialchars($signup_form['password'] ?? ''); ?>" required>
+                        <span class="toggle_password" onclick="togglePassword('pass', 'eye1')">
+                            <i class="fa-solid fa-eye" id="eye1"></i>
+                        </span>
+                    </div>
                 </div>
                 <div class="input_boxes input_button">
                     <input type="submit" value="Log in" name="login">
@@ -161,7 +160,22 @@ if (isset($_POST['login'])) {
         </script>
 
     <?php } ?>
+    <script>
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
 
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
 </body>
 
 </html>
