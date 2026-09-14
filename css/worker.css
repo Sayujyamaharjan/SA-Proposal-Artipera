@@ -1105,3 +1105,19 @@ textarea {
   color: #d9534f;
   font-size: 12px;
 }
+
+.document {
+  border: 1px solid #0f172a;
+  background: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.document:hover {
+  background: #0f172a;
+  color: #fff;
+}

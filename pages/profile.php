@@ -246,23 +246,53 @@ if (isset($_POST['change_password'])) {
                 </form>
             </div>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "worker") { ?>
-                <div class="documents_container">
+                <form class="documents_container" id="document-verification-form">
                     <div class="document_item">
-                        <span>📄 Citizenship Card (Approved)</span>
-                        <span class="verified">✓</span>
+                        <span>Upload Documents To get Verified</span>
                     </div>
-                    <label for="documentUpload" class="upload_box">
+                    <label for="documentUpload1" class="upload_box">
                         <div class="upload_content">
-                            <p>Upload additional document</p>
+                            <p>1 document</p>
                         </div>
                     </label>
-                    <input type="file" id="documentUpload" accept="image/*,.pdf" hidden>
-                </div>
+                    <input type="file" id="documentUpload1" accept="image/*,.pdf" hidden name="id_front_photo">
+                    <label for="documentUpload2" class="upload_box">
+                        <div class="upload_content">
+                            <p>2 document</p>
+                        </div>
+                    </label>
+                    <input type="file" id="documentUpload2" accept="image/*,.pdf" hidden name="id_back_photo">
+                    <label for="documentUpload3" class="upload_box">
+                        <div class="upload_content">
+                            <p>3 document</p>
+                        </div>
+                    </label>
+                    <input type="file" id="documentUpload3" accept="image/*,.pdf" hidden name="past_work_photo">
+                    <input type="submit" value="Submit" class="document">
+                </form>
                 <?php
             }
             ?>
         </div>
     </div>
+    <script>document.getElementById("documentUpload1").addEventListener("change", function () {
+            if (this.files.length > 0) {
+                this.previousElementSibling.querySelector("p").innerHTML = "✓ Document Uploaded";
+            }
+        });
+
+        document.getElementById("documentUpload2").addEventListener("change", function () {
+            if (this.files.length > 0) {
+                this.previousElementSibling.querySelector("p").innerHTML = "✓ Document Uploaded";
+            }
+        });
+
+        document.getElementById("documentUpload3").addEventListener("change", function () {
+            if (this.files.length > 0) {
+                this.previousElementSibling.querySelector("p").innerHTML = "✓ Document Uploaded";
+            }
+        });</script>
+    <script src="../js/documents.js"></script>
 </body>
 
 </html>

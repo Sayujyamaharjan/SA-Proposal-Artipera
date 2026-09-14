@@ -104,9 +104,15 @@ if (isset($_POST['confirm_booking'])) {
 
     if (mysqli_num_rows($checkBooking) > 0) {
         echo "<script>
-                alert('This worker is already booked on this date. Please select another date.');
-                window.history.back();
-              </script>";
+    window.addEventListener('load', function() {
+        Swal.fire({
+            text: 'This worker is already booked on this date. Please select another date.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.history.back();
+        });
+    });
+</script>";
 
     } else {
 
@@ -118,9 +124,16 @@ if (isset($_POST['confirm_booking'])) {
 
         mysqli_query($conn, $sql);
         echo "<script>
-                alert('Booking confirmed successfully!');
-                window.location.href = window.location.href;
-              </script>";
+    window.addEventListener('load', function() {
+        Swal.fire({
+            text: 'Booking confirmed successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = window.location.href;
+        });
+    });
+</script>";
     }
 }
 ?>
@@ -133,6 +146,7 @@ if (isset($_POST['confirm_booking'])) {
     <title>Document</title>
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/choose.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -322,7 +336,10 @@ if (isset($_POST['confirm_booking'])) {
         dateInput.addEventListener("change", function () {
 
             if (bookedDates.includes(this.value)) {
-                alert("This worker is already booked on this date. Please select another date.");
+                Swal.fire({
+                    text: 'This worker is already booked on this date. Please select another date.',
+                    confirmButtonText: 'OK'
+                });
                 this.value = "";
             }
         });
