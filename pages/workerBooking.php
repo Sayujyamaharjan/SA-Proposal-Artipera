@@ -1,9 +1,8 @@
-<?php include "../components/Navbar.php";
+<?php
+include "../components/Navbar.php";
 include "../php/authGuard.php";
 include "../components/fetchWorkers.php";
 include "../php/caller.php";
-
-
 
 if (isset($_SESSION['showOtpPopup'])) {
     $showOtpPopup = $_SESSION['showOtpPopup'];
@@ -181,28 +180,33 @@ $bookings = fetchWorkerBookings($conn, $workerId);
 
                         <div class="bookings_contents">
                             <div class="worker_profile_text">
-                                <p class="worker_profile_name">
+                                <p class="job">
                                     <?php echo $booking['customer_name']; ?>
                                 </p>
-                                <p class="job">
+                                <p class="worker_profile_name">
                                     <?php echo $booking['Booking_detail']; ?>
                                 </p>
                             </div>
-                            <div class="worker_buttons">
-                                <div style="text-transform: capitalize;" class="<?php echo $booking['status']; ?>">
-                                    <?php echo $booking['status']; ?>
+                            <div class="booking_date">
+                                <div>
+                                    <span>Date</span>
+                                    <strong><?php echo date('M d', strtotime($booking['Booking_date'])); ?></strong>
                                 </div>
+                            </div>
+                            <div style="text-transform: capitalize;" class="<?php echo $booking['status']; ?>">
+                                <?php echo $booking['status']; ?>
+                            </div>
+                            <div class="worker_buttons">
 
                                 <div class="worker_status_btns">
-                                    <?php if ($booking['status'] == 'pending') { ?>
 
-                                        <button class="button_reponse"
-                                            popovertarget="booking_<?php echo $booking['Booking_id']; ?>"
-                                            popovertargetaction="show">
-                                            View Details
-                                        </button>
+                                    <button class="button_reponse"
+                                        popovertarget="booking_<?php echo $booking['Booking_id']; ?>"
+                                        popovertargetaction="show">
+                                        View Details
+                                    </button>
 
-                                    <?php } elseif ($booking['status'] == 'approved') { ?>
+                                    <?php if ($booking['status'] == 'approved') { ?>
 
                                         <button class="button_reponse"
                                             popovertarget="complete_<?php echo $booking['Booking_id']; ?>"
@@ -210,7 +214,6 @@ $bookings = fetchWorkerBookings($conn, $workerId);
                                             Mark Completed
                                         </button>
 
-                                    <?php } elseif ($booking['status'] == 'completed') { ?>
                                     <?php } ?>
 
                                 </div>

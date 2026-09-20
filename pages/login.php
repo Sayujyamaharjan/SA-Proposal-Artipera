@@ -71,7 +71,6 @@ if (isset($_POST['login'])) {
 </head>
 
 <body>
-
     <form action="" method="post" class="form">
 
         <div class="right">

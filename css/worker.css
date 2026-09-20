@@ -153,42 +153,145 @@ body {
   gap: 30px;
 }
 .workerin_customer {
-  border: 2px solid#E2E8F0;
-  padding: 30px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  padding: 24px 28px;
   border-radius: 20px;
-  gap: 30px;
-  background-color: white;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
 }
+
 .workerprof {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
 }
+
 .worker_profile_logo {
   width: 60px;
+  min-width: 60px;
   height: 60px;
+  margin-top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background-color: rgb(201, 239, 201);
-  margin-top: 5px;
+  background-color: #c9efc9;
 }
+
 .worker_profile_text {
+  min-width: 220px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
 }
+
 .worker_profile_name {
-  margin-left: 5px;
-  font-weight: 600;
-  font-size: 15px;
+  margin-left: 0;
+  font-weight: 400;
+  font-size: 13px;
+  color: #676767;
   text-transform: capitalize;
 }
+.worker_status_btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
 .job {
-  margin-left: 5px;
-  color: #676767;
+  margin-left: 0;
+  color: #172033;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.bookings_contents {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 28px;
+}
+
+/* Date */
+.booking_date {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 30px;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  min-width: 190px;
+}
+
+.booking_date svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: #3c9279;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.booking_date div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.booking_date span {
+  color: #737b87;
   font-size: 13px;
+}
+
+.booking_date strong {
+  color: #172033;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Status + View Details */
+.worker_buttons {
+  margin-left: auto;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.button_reponse {
+  border: 1px solid #3c9279;
+  color: #3c9279;
+  text-align: center;
+  padding: 10px 18px;
+  min-height: 40px;
+  border-radius: 22px;
+  font-size: 13px;
+  font-weight: 600;
+  background-color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.button_reponse svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.button_reponse:hover {
+  background-color: #f3faf6;
 }
 .worker_services {
   margin-top: 10px;
@@ -867,11 +970,10 @@ textarea {
   font-weight: 500;
 }
 .worker_buttons {
+  margin-left: auto;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 18px;
 }
 .button_reponse {
   border: 1px solid #cbd5e1;

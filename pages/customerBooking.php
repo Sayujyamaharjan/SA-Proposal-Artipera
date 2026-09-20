@@ -127,24 +127,69 @@ while ($row = $result->fetch_assoc()) {
                         </div>
                         <div class="bookings_contents">
                             <div class="worker_profile_text">
+                                <p class="job"><?php echo $book['worker_name'] ?></p>
                                 <p class="worker_profile_name">
                                     <?php echo $book['Booking_detail'] ?>
                                 </p>
-                                <p class="job"><?php echo $book['worker_name'] ?></p>
                             </div>
+                            <div class="booking_date">
+                                <div>
+                                    <span>Date</span>
+                                    <strong>
+                                        <?php echo date('M d', strtotime($book['Booking_date'])); ?>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="<?php echo $bookStatus ?>"><?php echo $book['status'] ?></div>
                             <div class="my_status">
-                                <div class="<?php echo $bookStatus ?>"><?php echo $book['status'] ?></div>
-                                <?php if ($book['status'] === "completed" && empty($book['Review_id'])) { ?>
-                                    <button class="leave" popovertarget="popupbox_review" popovertargetaction="show"
-                                        onclick="setReviewBooking(<?php echo $book['Booking_id']; ?>)">
-                                        Leave Review
+
+                                <div class="my_status_buttons">
+                                    <button class="button_reponse"
+                                        popovertarget="booking_<?php echo $book['Booking_id']; ?>"
+                                        popovertargetaction="show">
+                                        View Details
                                     </button>
-                                <?php } ?>
+
+                                    <?php if ($book['status'] === "completed" && empty($book['Review_id'])) { ?>
+                                        <button class="leave" popovertarget="popupbox_review" popovertargetaction="show"
+                                            onclick="setReviewBooking(<?php echo $book['Booking_id']; ?>)">
+                                            Leave Review
+                                        </button>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <dialog class="popup-container" popover id="booking_<?php echo $book['Booking_id']; ?>">
+                    <div class="popup">
+                        <h2>Booking Details</h2>
+                        <p>
+                            <strong>Worker:</strong>
+                            <?php echo $book['worker_name']; ?>
+                        </p>
+                        <p>
+                            <strong>Location:</strong>
+                            <?php echo $book['address']; ?>
+                        </p>
+                        <div class="time">
+                            <p>
+                                <strong>Date:</strong>
+                                <?php echo date('d M Y', strtotime($book['Booking_date'])); ?>
+                            </p>
+                            <p>
+                                <strong>Time:</strong>
+                                <?php echo date('g:i A', strtotime($book['Booking_date'])); ?>
+                            </p>
+                        </div>
+                        <p>
+                            <strong>Description:</strong><br>
+                            <?php echo $book['Booking_detail']; ?>
+                        </p>
+                    </div>
+                </dialog>
                 <?php
+
             }
             ?>
         </div>
@@ -152,25 +197,18 @@ while ($row = $result->fetch_assoc()) {
 
     <dialog class="popup-container-review" popover id="popupbox_review">
         <div class="review_box">
-
             <h1>Leave a Review</h1>
-
             <p class="subtitle">
                 How was your experience?
             </p>
-
             <?php if (!empty($message)) { ?>
                 <div class="message">
                     <?php echo $message; ?>
                 </div>
             <?php } ?>
-
             <form method="POST">
-
                 <input type="hidden" name="booking_id" id="review_booking_id">
-
                 <div class="star-rating">
-
                     <input type="radio" name="rating" id="star5" value="5" required>
                     <label for="star5">★</label>
                     <input type="radio" name="rating" id="star4" value="4">
@@ -181,27 +219,20 @@ while ($row = $result->fetch_assoc()) {
                     <label for="star2">★</label>
                     <input type="radio" name="rating" id="star1" value="1">
                     <label for="star1">★</label>
-
                 </div>
-
                 <label class="review_label">
                     Your Review
                 </label>
-
                 <textarea name="comment" placeholder="Share your experience with this worker..." required></textarea>
-
                 <div class="btns_review">
                     <button type="submit" name="submit_review" class="submit_btn">
                         Submit Review
                     </button>
-
                     <a href="customerBooking.php" class="cancel_btn">
                         Cancel
                     </a>
                 </div>
-
             </form>
-
         </div>
     </dialog>
     <script>

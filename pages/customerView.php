@@ -28,7 +28,7 @@ if ($worker) {
         SELECT DISTINCT DATE(Booking_date) AS booked_date
         FROM booking
         WHERE Worker_id = '$workerId'
-        AND status IN ('pending', 'approved')
+        AND status = 'approved'
     ";
 
     $bookedDateResult = mysqli_query($conn, $bookedDateSql);
@@ -96,7 +96,7 @@ if (isset($_POST['confirm_booking'])) {
         FROM booking
         WHERE Worker_id = '$worker_id'
         AND DATE(Booking_date) = '$booking_date'
-        AND status IN ('pending', 'approved')
+        AND status = 'approved'
         LIMIT 1
     ";
 
@@ -127,7 +127,6 @@ if (isset($_POST['confirm_booking'])) {
     window.addEventListener('load', function() {
         Swal.fire({
             text: 'Booking confirmed successfully!',
-            icon: 'success',
             confirmButtonText: 'OK'
         }).then(() => {
             window.location.href = window.location.href;
@@ -332,15 +331,19 @@ if (isset($_POST['confirm_booking'])) {
 
         const bookedDates = <?php echo json_encode($bookedDates); ?>;
         const dateInput = document.getElementById("booking_date");
+        const popupbox = document.getElementById("popupbox");
 
         dateInput.addEventListener("change", function () {
 
             if (bookedDates.includes(this.value)) {
+
+                this.value = "";
+
                 Swal.fire({
                     text: 'This worker is already booked on this date. Please select another date.',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    target: popupbox
                 });
-                this.value = "";
             }
         });
     </script>

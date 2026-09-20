@@ -154,25 +154,30 @@ body {
   gap: 30px;
 }
 .workerin_customer {
-  border: 2px solid#E2E8F0;
-  padding: 30px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  padding: 24px 28px;
   border-radius: 20px;
-  gap: 30px;
   background-color: white;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
 }
+
 .workerprof {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 16px;
 }
+
 .worker_profile_logo {
   width: 60px;
+  min-width: 60px;
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   background-color: rgb(201, 239, 201);
-  margin-top: 5px;
+  margin-top: 0;
 }
 .avatar {
   display: flex;
@@ -182,20 +187,32 @@ body {
   font-weight: 500;
 }
 .worker_profile_text {
+  min-width: 220px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
 }
-.worker_profile_name {
-  margin-left: 5px;
-  font-weight: 600;
-  font-size: 15px;
-}
+
 .job {
-  margin-left: 5px;
-  color: #676767;
+  margin-left: 0;
+  color: #172033;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.worker_profile_name {
+  margin-left: 0;
+  font-weight: 400;
   font-size: 13px;
+  color: #676767;
+}
+
+.bookings_contents {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 28px;
 }
 .worker_services {
   margin-top: 10px;
@@ -358,11 +375,6 @@ option:checked {
   display: flex;
   flex-direction: column;
   gap: 30px;
-}
-.bookings_contents {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 }
 
 .remove_saved {
@@ -604,11 +616,21 @@ a {
 .my_status {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 18px;
+  margin-left: auto;
   font-size: 12px;
   font-weight: 500;
+}
+
+.my_status div {
+  border-radius: 20px;
+  padding: 7px 15px;
+}
+
+.my_status_buttons {
+  display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 .leave {
   padding: 10px;
@@ -616,10 +638,6 @@ a {
   border-radius: 20px;
   background-color: white;
   font-size: 12px;
-}
-.my_status div {
-  border-radius: 20px;
-  padding: 5px 15px;
 }
 
 /* review   review  review  review  review  review  review  review  review   */
@@ -731,4 +749,129 @@ textarea {
   text-decoration: none;
   border: 1px solid #1f2937;
   color: #1f2937;
+}
+.booking_date {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  min-width: 190px;
+}
+
+.booking_date div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.booking_date span {
+  color: #737b87;
+  font-size: 13px;
+}
+
+.booking_date strong {
+  color: #172033;
+  font-size: 16px;
+  font-weight: 600;
+}
+.button_reponse,
+.leave {
+  padding: 10px 16px;
+  border: 1px solid #3c9279;
+  border-radius: 22px;
+  background-color: white;
+  color: #3c9279;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.button_reponse:hover,
+.leave:hover {
+  background-color: #f3faf6;
+}
+.approve {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.warn {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.approve,
+.warn,
+.success {
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.popup-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border: none;
+  border-radius: 15px;
+  transform: translate(-50%, -50%);
+}
+
+.popup-container::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.popup {
+  width: 500px;
+  max-width: 90vw;
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.popup h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #1f2937;
+}
+
+.popup p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.popup strong {
+  color: #111827;
+}
+
+.popup_buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.popup_buttons form {
+  flex: 1;
+}
+
+.popup_buttons button {
+  width: 100%;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
 }
