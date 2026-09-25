@@ -3,8 +3,6 @@ include '../php/authGuard.php';
 include '../components/Navbar.php';
 include '../components/fetchWorkers.php';
 $conn = mysqli_connect("localhost", "root", "", "Artipera");
-
-$users = fetchWorkers($conn, 4);
 $user_id = $_SESSION['user_id'];
 
 $sql = "
@@ -22,7 +20,15 @@ SELECT
         WHEN b.status = 'completed'
         THEN b.pricing
         ELSE 0
-    END), 0) AS earnings
+    END), 0) AS earnings,
+    MAX(CASE
+    WHEN b.status = 'completed'
+    THEN b.Booking_date
+    END) AS last_completed_date,
+    MIN(CASE
+    WHEN b.status = 'pending'
+    THEN b.Booking_date
+    END) AS next_pending_date
 FROM booking b
 JOIN worker w ON b.Worker_id = w.Worker_id
 WHERE w.user_id = $user_id
@@ -38,10 +44,20 @@ $myBookings = [];
 if ($res) {
     $worker_id = mysqli_fetch_assoc($res);
     $id = $worker_id['Worker_id'];
+    $sql = "UPDATE booking
+            SET status = 'rejected'
+            WHERE Worker_id = $id
+            AND status = 'pending'
+            AND Booking_date < CURDATE()";
+
+    mysqli_query($conn, $sql);
     $sql = "SELECT b.*, u.name
-FROM booking b
-JOIN users u ON b.user_id = u.user_id
-WHERE b.Worker_id = $id;";
+            FROM booking b
+            JOIN users u ON b.user_id = u.user_id
+            WHERE b.Worker_id = $id
+            AND b.status IN ('pending', 'approved')
+            AND b.Booking_date >= CURDATE();";
+
     $res = mysqli_query($conn, $sql);
     if ($res) {
         while ($row = mysqli_fetch_assoc($res)) {
@@ -93,19 +109,31 @@ foreach ($myBookings as $booking) {
                 <img src="../assets/svg/calendar-week blue.svg" alt="" class="stats_logo">
                 <p class="stats_number"><?php echo $stats['total_bookings']; ?></p>
                 <p class="stats_text">Total Bookings</p>
-                <p class="stats_status">This Month</p>
+                <p class="stats_status"><?php echo date('F'); ?></p>
             </div>
             <div class="stats_box">
                 <img src="../assets/svg/checkbox.svg" alt="" class="stats_logo">
                 <p class="stats_number"><?php echo $stats['completed_bookings']; ?></p>
                 <p class="stats_text">Completed Bookings</p>
-                <p class="stats_status">Last Completed Date</p>
+                <p class="stats_status">
+                    <?php
+                    echo $stats['last_completed_date']
+                        ? date('M d', strtotime($stats['last_completed_date']))
+                        : 'No completed booking';
+                    ?>
+                </p>
             </div>
             <div class="stats_box">
                 <img src="../assets/svg/clock-red.svg" alt="" class="stats_logo">
                 <p class="stats_number"><?php echo $stats['pending_bookings']; ?></p>
                 <p class="stats_text">Pending Bookings</p>
-                <p class="stats_status">Next Appointment</p>
+                <p class="stats_status">
+                    <?php
+                    echo $stats['next_pending_date']
+                        ? date('M d, Y', strtotime($stats['next_pending_date']))
+                        : 'No pending booking';
+                    ?>
+                </p>
             </div>
             <div class="stats_box">
                 <img src="../assets/svg/coin-rupee.svg" alt="" class="stats_logo">
@@ -124,22 +152,91 @@ foreach ($myBookings as $booking) {
                 <div class="right_contents_detail">
                     <div>
                         <?php
-                        foreach ($users as $user) {
-                            ?>
-                            <div class="workerin_customer upcoming">
-                                <div class="workerprof">
-                                    <div class="worker_profile_logo"></div>
-                                    <div class="worker_profile_text">
-                                        <p class="worker_profile_name">
-                                            <?php echo $user['name'] ?>
-                                        </p>
-                                        <p class="job"><?php echo $user['category_name'] ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                                <?php
+                        $upcomingCount = 0;
 
+                        foreach ($myBookings as $booking) {
+
+                            if (
+                                ($booking['status'] == 'pending' || $booking['status'] == 'approved')
+                                && strtotime($booking['Booking_date']) >= strtotime(date('Y-m-d'))
+                            ) {
+                                if ($upcomingCount < 4) {
+                                    // Get customer's initials
+                                    $nameParts = explode(' ', trim($booking['name']));
+                                    $initials = '';
+
+                                    foreach ($nameParts as $part) {
+                                        $initials .= strtoupper(substr($part, 0, 1));
+                                    }
+
+                                    $initials = substr($initials, 0, 2);
+                                    ?>
+
+                                    <div class="workerin_customer upcoming">
+
+                                        <div class="upcoming_booking_content">
+
+                                            <!-- Customer -->
+                                            <div class="upcoming_customer">
+
+                                                <div class="upcoming_profile_logo">
+                                                    <?php echo $initials; ?>
+                                                </div>
+
+                                                <div class="upcoming_customer_info">
+
+                                                    <p class="upcoming_customer_name">
+                                                        <?php echo $booking['name']; ?>
+                                                    </p>
+
+                                                    <p class="upcoming_service">
+                                                        <?php echo $booking['Booking_detail']; ?>
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Date -->
+                                            <div class="upcoming_date">
+
+                                                <p class="upcoming_label">
+                                                    Date
+                                                </p>
+
+                                                <p class="upcoming_date_value">
+                                                    <?php echo date('M d', strtotime($booking['Booking_date'])); ?>
+                                                </p>
+
+                                            </div>
+
+                                            <!-- Status -->
+                                            <div class="upcoming_status">
+
+                                                <span class="upcoming_status_badge <?php echo $booking['status']; ?>">
+                                                    <?php echo ucfirst($booking['status']); ?>
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <br>
+
+                                    <?php
+                                    $upcomingCount++;
+                                }
+                            }
+                        }
+
+                        if ($upcomingCount == 0) {
+                            ?>
+
+                            <p>No upcoming bookings</p>
+
+                            <?php
                         }
                         ?>
 

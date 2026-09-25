@@ -84,7 +84,7 @@ $stats = mysqli_fetch_assoc($result);
                 <img src="../assets/svg/calendar-week blue.svg" alt="" class="stats_logo">
                 <p class="stats_number"><?php echo $stats['total_bookings']; ?></p>
                 <p class="stats_text">Total Bookings</p>
-                <p class="stats_status">This Month</p>
+                <p class="stats_status"><?php echo date('F'); ?></p>
             </div>
             <div class="stats_box">
                 <img src="../assets/svg/checkbox.svg" alt="" class="stats_logo">
@@ -104,9 +104,11 @@ $stats = mysqli_fetch_assoc($result);
                 <p class="stats_text">Pending Bookings</p>
                 <p class="stats_status">
                     <?php
-                    echo $stats['next_appointment']
-                        ? date('M d', strtotime($stats['next_appointment']))
-                        : 'No upcoming booking';
+                    if ($stats['pending_bookings'] > 0) {
+                        echo $stats['next_appointment']
+                            ? date('M d', strtotime($stats['next_appointment']))
+                            : 'No upcoming booking';
+                    }
                     ?>
                 </p>
             </div>
@@ -244,7 +246,7 @@ $stats = mysqli_fetch_assoc($result);
                                             style="font-weight:600">
                                             <?php echo $user['name'] ?>
                                         </a>
-                                        <p class="job"><?php echo $user['category_name'] ?></p>
+                                        <p style="font-size:12px"><?php echo $user['category_name'] ?></p>
                                     </div>
                                 </div>
                                 <?php
