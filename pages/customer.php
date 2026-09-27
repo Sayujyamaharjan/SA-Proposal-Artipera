@@ -146,9 +146,9 @@ $stats = mysqli_fetch_assoc($result);
                             <div class="worker_profile_text">
                                 <a href="customerView.php?user_id=<?php echo $user['user_id'] ?>"
                                     class="worker_profile_name">
-                                    <?php echo $user['name']; ?>
+                                    <span class="job"><?php echo $user['name']; ?></span>
                                 </a>
-                                <p class="job">
+                                <p style="font-size:12px">
                                     <?php echo $user['category_name']; ?>
                                 </p>
                             </div>
