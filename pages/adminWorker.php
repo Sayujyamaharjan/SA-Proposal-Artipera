@@ -3,7 +3,7 @@ include '../components/Navbar.php';
 include '../php/authGuard.php';
 include '../components/fetchWorkers.php';
 
-$user = fetchWorkers($conn, 8);
+$user = fetchWorkers($conn);
 
 ?>
 <!DOCTYPE html>
@@ -14,120 +14,160 @@ $user = fetchWorkers($conn, 8);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
 </head>
 
 <body>
     <?php Navbar("adminWorker") ?>
     <div class="dashboard_right">
-        <div class="workers_section">
+        <div class="workers_table">
+            <h2>Workers</h2>
 
-            <div class="verification_box">
-                <h2>Workers Awaiting Verification</h2>
-
-                <div class="verification_card">
-                    <div class="worker_left">
-                        <div class="avatar dark">SA</div>
-
-                        <div>
-                            <h3>Suresh Adhikari</h3>
-                            <p class="worker_info">
-                                Welder · Bhaktapur · Applied 2025-06-08
-                            </p>
-
-                            <div class="documents">
-                                <span class="submit">Submitted:</span>
-                                <span class="doc_tag">Citizenship Card</span>
-                                <span class="doc_tag">Trade Certificate</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="actions">
-                        <button class="btn_docs"> View Docs</button>
-                        <button class="btn_verify"> Verify</button>
-                        <button class="btn_reject"> Reject</button>
-                    </div>
-                </div>
-
-                <div class="verification_card">
-                    <div class="worker_left">
-                        <div class="avatar purple">ML</div>
-
-                        <div>
-                            <h3>Mina Lama</h3>
-                            <p class="worker_info">
-                                Interior Designer · Kathmandu · Applied 2025-06-07
-                            </p>
-
-                            <div class="documents">
-                                <span class="sumbit">Submitted:</span>
-                                <span class="doc_tag">Citizenship Card</span>
-                                <span class="doc_tag">Diploma Certificate</span>
-                                <span class="doc_tag">Portfolio</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="actions">
-                        <button class="btn_docs">View Docs</button>
-                        <button class="btn_verify">Verify</button>
-                        <button class="btn_reject">Reject</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="workers_table">
-                <h2>Workers (<?php echo count($user); ?>)</h2>
-
-                <table>
-                    <thead>
+            <table id="workersTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="book">WORKER</th>
+                        <th>SKILL</th>
+                        <th>LOCATION</th>
+                        <th>RATING</th>
+                        <th>STATUS</th>
+                        <th class="book_left">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($user as $worker) { ?>
+                        <?php
+                        $name = trim($worker['name']);
+                        $nameParts = explode(' ', $name);
+                        $initials = strtoupper(
+                            substr($nameParts[0], 0, 1) .
+                            (
+                                count($nameParts) > 1
+                                ? substr($nameParts[count($nameParts) - 1], 0, 1)
+                                : ''
+                            )
+                        );
+                        ?>
                         <tr>
-                            <th class="book">WORKER</th>
-                            <th>SKILL</th>
-                            <th>LOCATION</th>
-                            <th>RATING</th>
-                            <th>STATUS</th>
-                            <th class="book_left">ACTIONS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($user as $worker) { ?>
-                            <tr>
-                                <td>
-                                    <div class="worker_profile">
-                                        <?php
-                                        $name = explode(' ', $worker['name']);
-                                        $initials = strtoupper($name[0][0] . $name[count($name) - 1][0]);
-                                        ?>
-                                        <div class="avatar navy">
-                                            <?php echo $initials; ?>
-                                        </div>
-                                        <div>
-                                            <h4><?php echo $worker['name']; ?></h4>
-                                        </div>
+                            <td data-order="<?php echo htmlspecialchars($name); ?>">
+                                <div class="worker_profile">
+                                    <div class="avatar navy">
+                                        <?php echo $initials; ?>
                                     </div>
-                                </td>
-                                <td><?php echo $worker['category_name']; ?></td>
-                                <td>
-                                    <?php echo $worker['address']; ?>
-                                </td>
-                                <td> <span class="rating">
-                                        <img src="../assets/logo/star.png" alt="" class="rate">
-                                        <?php echo $worker['rating']  ?>
-                                    </span></td>
-                                <td><span style="text-transform: capitalize;" class="<?php echo $worker['validation_status']; ?>">
-                                        <?php echo $worker['validation_status']; ?>
-                                    </span></td>
-                                <td>
-                                    <button class="btn_view">View</button>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-            </div>
+                                    <div>
+                                        <h4>
+                                            <?php echo htmlspecialchars($name); ?>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-order="<?php echo htmlspecialchars($worker['category_name']); ?>">
+                                <?php echo htmlspecialchars($worker['category_name']); ?>
+                            </td>
+                            <td data-order="<?php echo htmlspecialchars($worker['address']); ?>">
+                                <?php echo htmlspecialchars($worker['address']); ?>
+                            </td>
+                            <td data-order="<?php echo $worker['rating']; ?>">
+                                <span class="rating">
+                                    <img src="../assets/logo/star.png" alt="" class="rate">
+                                    <?php echo $worker['rating']; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="status_badge <?php echo strtolower($worker['validation_status']); ?>">
+                                    <?php echo $worker['validation_status']; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn_view"
+                                    onclick="document.getElementById('documentDialog<?php echo $worker['user_id']; ?>').showModal();">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+                        <dialog class="document_dialog" id="documentDialog<?php echo $worker['user_id']; ?>">
+                            <div class="document_popup">
+                                <h2>Worker Documents</h2>
+                                <p class="document_worker_name">
+                                    <?php echo htmlspecialchars($name); ?>
+                                </p>
+                                <?php
+                                $worker_id = $worker['user_id'];
+                                $documentSql = "SELECT id_front_photo, id_back_photo, past_work_photo FROM worker WHERE user_id = '$worker_id'";
+                                $documentResult = mysqli_query($conn, $documentSql);
+                                $documents = mysqli_fetch_assoc($documentResult);
+                                ?>
+                                <?php if ($documents) { ?>
+                                    <div class="document_item">
+                                        <span>ID Front</span>
+                                        <?php if (!empty($documents['id_front_photo'])) { ?>
+                                            <a href="../<?php echo htmlspecialchars($documents['id_front_photo']); ?>"
+                                                target="_blank" class="btn_view">
+                                                View
+                                            </a>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="document_item">
+                                        <span>ID Back</span>
+                                        <?php if (!empty($documents['id_back_photo'])) { ?>
+                                            <a href="../<?php echo htmlspecialchars($documents['id_back_photo']); ?>"
+                                                target="_blank" class="btn_view">
+                                                View
+                                            </a>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="document_item">
+                                        <span>Past Work</span>
+                                        <?php if (!empty($documents['past_work_photo'])) { ?>
+                                            <a href="../<?php echo htmlspecialchars($documents['past_work_photo']); ?>"
+                                                target="_blank" class="btn_view">
+                                                View
+                                            </a>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?>
+                                <div class="document_buttons">
+                                    <button type="button" class="document_accept">
+                                        Accept
+                                    </button>
+                                    <button type="button" class="document_reject">
+                                        Reject
+                                    </button>
+                                </div>
+                                <button type="button" class="document_close"
+                                    onclick="document.getElementById('documentDialog<?php echo $worker['user_id']; ?>').close();">
+                                    ×
+                                </button>
+                            </div>
+                        </dialog>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#workersTable').DataTable({
+                pageLength: 10,
+                lengthMenu: [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                order: [
+                    [0, 'asc']
+                ],
+                columnDefs: [
+                    {
+                        targets: 5,
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+        });
+    </script>
 </body>
 
 </html>

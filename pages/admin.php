@@ -6,7 +6,7 @@ $bookings = [];
 $sql = "SELECT 
             b.Booking_id,
             b.Booking_detail,
-            b.Booking_date,
+            b.Booking_date,b.address,
             b.pricing,
             b.status,
             customer.name AS customer_name,
@@ -132,11 +132,18 @@ if ($result) {
                                 </span>
                             </td>
                             <td>
-                                <a href="bookingDetail.php?id=<?php echo $booking['Booking_id']; ?>">
-                                    <button type="button" class="view_btn">
-                                        View
-                                    </button>
-                                </a>
+                                <button type="button" class="view_btn" onclick="openBooking(
+                                        '<?php echo $booking['Booking_id']; ?>',
+                                        '<?php echo htmlspecialchars($booking['Booking_detail'] ?? '', ENT_QUOTES); ?>',
+                                        '<?php echo htmlspecialchars($booking['customer_name'] ?? '', ENT_QUOTES); ?>',
+                                        '<?php echo htmlspecialchars($booking['worker_name'] ?? '', ENT_QUOTES); ?>',
+                                        '<?php echo htmlspecialchars($booking['Booking_date'] ?? '', ENT_QUOTES); ?>',
+                                        '<?php echo htmlspecialchars($booking['address'] ?? '', ENT_QUOTES); ?>',
+                                        '<?php echo number_format($booking['pricing'] ?? 0); ?>',
+                                        '<?php echo htmlspecialchars($booking['status'] ?? '', ENT_QUOTES); ?>'
+                                    )">
+                                    View
+                                </button>
                             </td>
                         </tr>
                     <?php } ?>
@@ -144,6 +151,49 @@ if ($result) {
             </table>
         </div>
     </div>
+    <dialog id="bookingDialog" class="booking_dialog">
+        <div class="booking_popup">
+            <button type="button" class="booking_close" onclick="closeBooking()">
+                &times;
+            </button>
+            <h2>Booking Details</h2>
+            <p class="booking_subtitle">Complete information about this booking</p>
+            <div class="booking_details">
+                <div class="detail_item">
+                    <span>Booking ID</span>
+                    <strong id="detail_id"></strong>
+                </div>
+                <div class="detail_item">
+                    <span>Service</span>
+                    <strong id="detail_service"></strong>
+                </div>
+                <div class="detail_item">
+                    <span>Customer</span>
+                    <strong id="detail_customer"></strong>
+                </div>
+                <div class="detail_item">
+                    <span>Worker</span>
+                    <strong id="detail_worker"></strong>
+                </div>
+                <div class="detail_item">
+                    <span>Date & Time</span>
+                    <strong id="detail_date"></strong>
+                </div>
+                <div class="detail_item">
+                    <span>Address</span>
+                    <strong id="detail_address"></strong>
+                </div>
+                <div class="detail_item">
+                    <span>Amount</span>
+                    <strong>NPR <span id="detail_amount"></span></strong>
+                </div>
+                <div class="detail_item">
+                    <span>Status</span>
+                    <span id="detail_status" class="status_badge"></span>
+                </div>
+            </div>
+        </div>
+    </dialog>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
     <script>
@@ -156,6 +206,35 @@ if ($result) {
                 columnDefs: [{ targets: [7], orderable: false, searchable: false }]
             });
         }); 
+    </script>
+    <script>
+        function openBooking(id, service, customer, worker, date, address, amount, status) {
+            document.getElementById('detail_id').textContent = id;
+            document.getElementById('detail_service').textContent = service;
+            document.getElementById('detail_customer').textContent = customer;
+            document.getElementById('detail_worker').textContent = worker;
+            document.getElementById('detail_address').textContent = address;
+            document.getElementById('detail_amount').textContent = amount;
+            let bookingDate = new Date(date);
+            document.getElementById('detail_date').textContent =
+                bookingDate.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                }) + ' ' +
+                bookingDate.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            let statusElement = document.getElementById('detail_status');
+            statusElement.textContent =
+                status.charAt(0).toUpperCase() + status.slice(1);
+            statusElement.className = 'status_badge ' + status;
+            document.getElementById('bookingDialog').showModal();
+        }
+        function closeBooking() {
+            document.getElementById('bookingDialog').close();
+        }
     </script>
 </body>
 

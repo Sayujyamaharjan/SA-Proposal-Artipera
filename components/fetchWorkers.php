@@ -1,8 +1,8 @@
 <?php
 include '../php/connect.php';
-function fetchWorkers($conn, $limit)
+function fetchWorkers($conn, $limit = null)
 {
-    $limit = (int) $limit;
+
     $sql = "SELECT u.*, w.*, c.*
             FROM users u
             JOIN worker w ON w.user_id = u.user_id
@@ -12,9 +12,11 @@ function fetchWorkers($conn, $limit)
                 SELECT 1
                 FROM worker_service ws
                 WHERE ws.worker_id = w.worker_id
-            )
-            LIMIT $limit";
-
+            )";
+    if ($limit !== null) {
+        $limit = (int) $limit;
+        $sql .= " LIMIT $limit";
+    }
     $result = mysqli_query($conn, $sql);
     $workers = [];
 
