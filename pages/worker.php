@@ -37,7 +37,6 @@ WHERE w.user_id = $user_id
 $result = mysqli_query($conn, $sql);
 $stats = mysqli_fetch_assoc($result);
 
-$user_id = $_SESSION['user_id'];
 $sql = "SELECT Worker_id FROM `worker` where user_id = '$user_id'";
 $res = mysqli_query($conn, $sql);
 $myBookings = [];

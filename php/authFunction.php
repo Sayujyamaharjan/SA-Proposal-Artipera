@@ -80,21 +80,22 @@ function process_pending_user($conn, $signup)
 
     if ($res) {
 
-        // Remove temporary signup data after successful account creation
+        $user_id = mysqli_insert_id($conn);
+
+        if ($role == 'worker') {
+
+            $workerSql = "INSERT INTO worker (user_id) VALUES (?)";
+            $workerStmt = mysqli_prepare($conn, $workerSql);
+            mysqli_stmt_bind_param($workerStmt, "i", $user_id);
+            mysqli_stmt_execute($workerStmt);
+        }
+
         unset($_SESSION['pending_signup']);
 
         return [
             "error" => false,
             "message" => "Account Created successfully",
             "status" => 200
-        ];
-
-    } else {
-
-        return [
-            "error" => true,
-            "message" => "Failed To Create An Account",
-            "status" => 400
         ];
     }
 }

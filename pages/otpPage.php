@@ -20,6 +20,12 @@ if (isset($_POST['resend_otp'])) {
         $otp_expires,
         $_GET['request_id']
     );
+
+    $request_id = $_GET['request_id'];
+    $email = $_SESSION['pending_signup']['email'];
+
+    header("Location: otpPage.php?expires_on=$otp_expires&request_id=$request_id&email=$email&resent=1");
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -29,6 +35,7 @@ if (isset($_POST['resend_otp'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artipera - Verify OTP</title>
+
     <style>
         * {
             box-sizing: border-box;
@@ -280,6 +287,7 @@ if (isset($_POST['resend_otp'])) {
             <button type="button" id="submit_otp" class="submit-btn"> Submit Code </button>
         </div>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="../js/otpPage.js"></script>
 </body>
 

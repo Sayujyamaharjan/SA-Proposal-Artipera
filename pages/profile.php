@@ -124,6 +124,7 @@ if (isset($_POST['change_password'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/worker.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -146,11 +147,11 @@ if (isset($_POST['change_password'])) {
                     </div>
                     <div class="input_group">
                         <label>Email</label>
-                        <input type="email" name="email" value="<?php echo $user['email'] ?>">
+                        <input type="email" name="email" value="<?php echo $user['email'] ?> " disabled>
                     </div>
                     <div class="input_group">
                         <label>Phone</label>
-                        <input type="tel" name="phone" value="<?php echo $user['phone'] ?>">
+                        <input type="tel" name="phone" value="<?php echo $user['phone'] ?>" disabled>
                     </div>
                     <div class="input_group">
                         <label for="locate">Address</label>
@@ -207,7 +208,8 @@ if (isset($_POST['change_password'])) {
                                 <option value="2" <?php echo $user['category_id'] == 2 ? 'selected' : '' ?>>Plumber</option>
                                 <option value="3" <?php echo $user['category_id'] == 3 ? 'selected' : '' ?>>Painter</option>
                                 <option value="4" <?php echo $user['category_id'] == 4 ? 'selected' : '' ?>>Mechanic</option>
-                                <option value="5" <?php echo $user['category_id'] == 5 ? 'selected' : '' ?>>Carpenter</option>
+                                <option value="5" <?php echo $user['category_id'] == 5 ? 'selected' : '' ?>>Carpenter
+                                </option>
                             </select>
                         </div>
                         <div class="input_group">
@@ -252,19 +254,19 @@ if (isset($_POST['change_password'])) {
                     </div>
                     <label for="documentUpload1" class="upload_box">
                         <div class="upload_content">
-                            <p>1 document</p>
+                            <p>ID front photo</p>
                         </div>
                     </label>
                     <input type="file" id="documentUpload1" accept="image/*,.pdf" hidden name="id_front_photo">
                     <label for="documentUpload2" class="upload_box">
                         <div class="upload_content">
-                            <p>2 document</p>
+                            <p>ID back photo</p>
                         </div>
                     </label>
                     <input type="file" id="documentUpload2" accept="image/*,.pdf" hidden name="id_back_photo">
                     <label for="documentUpload3" class="upload_box">
                         <div class="upload_content">
-                            <p>3 document</p>
+                            <p>Past work photo</p>
                         </div>
                     </label>
                     <input type="file" id="documentUpload3" accept="image/*,.pdf" hidden name="past_work_photo">

@@ -55,9 +55,9 @@ $user = fetchWorkers($conn);
                                         <?php echo $initials; ?>
                                     </div>
                                     <div>
-                                        <h4>
+                                        <span>
                                             <?php echo htmlspecialchars($name); ?>
-                                        </h4>
+                                        </span>
                                     </div>
                                 </div>
                             </td>

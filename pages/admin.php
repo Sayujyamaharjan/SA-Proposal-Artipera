@@ -21,13 +21,10 @@ $sql = "SELECT
         ORDER BY b.Booking_id DESC";
 
 $result = mysqli_query($conn, $sql);
-
 if ($result) {
-
     while ($row = mysqli_fetch_assoc($result)) {
         $bookings[] = $row;
     }
-
 }
 ?>
 <!DOCTYPE html>

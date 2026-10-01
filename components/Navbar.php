@@ -3,7 +3,7 @@ include '../php/connect.php';
 
 function Navbar($active)
 {
-?>
+    ?>
     <style>
         a {
             text-decoration: none;
@@ -90,7 +90,7 @@ function Navbar($active)
             <div class="main_contents">
                 <?php
                 if (isset($_SESSION['role']) && $_SESSION['role'] == "customer") {
-                ?>
+                    ?>
                     <div class="main_tab <?php echo $active === 'dashboard' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/home.svg" alt="" class="tab_img">
                         <a href="customer.php" class="tab_text">Home</a>
@@ -107,11 +107,11 @@ function Navbar($active)
                         <img src="../assets/svg/heart.svg" alt="" class="tab_img">
                         <a href="customerSaved.php" class="tab_text">Saved Workers</a>
                     </div>
-                <?php
+                    <?php
                 }
 
                 if (isset($_SESSION['role']) && $_SESSION['role'] == "worker") {
-                ?>
+                    ?>
                     <div class="main_tab <?php echo $active === 'workerDashboard' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/home.svg" alt="" class="tab_img">
                         <a href="worker.php" class="tab_text">Home</a>
@@ -124,10 +124,10 @@ function Navbar($active)
                         <img src="../assets/svg/service.svg" alt="" class="tab_img">
                         <a href="workerSchedule.php" class="tab_text">Services</a>
                     </div>
-                <?php
+                    <?php
                 }
                 if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") {
-                ?>
+                    ?>
                     <div class="main_tab <?php echo $active === 'admin' ? 'activeNav' : '' ?>">
                         <img src="../assets/svg/calendar-week.svg" alt="" class="tab_img">
                         <a href="workerBooking.php" class="tab_text">All Bookings</a>
@@ -141,7 +141,7 @@ function Navbar($active)
                         <img src="../assets/svg/usersmany.svg" alt="" class="tab_img">
                         <a href="adminCustomer.php" class="tab_text">Customer</a>
                     </div>
-                <?php
+                    <?php
                 }
                 ?>
             </div>
@@ -157,7 +157,7 @@ function Navbar($active)
     </div>
 
 
-<?php
+    <?php
 }
 
 
